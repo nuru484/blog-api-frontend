@@ -1,5 +1,4 @@
 // src/api/index.js
-
 const serverURL = import.meta.env.VITE_SERVER_URL;
 
 const backendFetch = async (apiEndpointURL, options = {}) => {
