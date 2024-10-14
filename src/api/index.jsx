@@ -1,7 +1,9 @@
 // src/api/index.js
 
-const backendFetch = async (url, options = {}) => {
-  const response = await fetch(url, {
+const serverURL = import.meta.env.VITE_SERVER_URL;
+
+const backendFetch = async (apiEndpointURL, options = {}) => {
+  const response = await fetch(`${serverURL}${apiEndpointURL}`, {
     mode: 'cors',
     ...options,
   });
@@ -10,7 +12,11 @@ const backendFetch = async (url, options = {}) => {
     throw new Error(`Error: ${response.status} - ${response.statusText}`);
   }
 
-  return await response.json();
+  try {
+    return await response.json();
+  } catch (error) {
+    throw new Error('Failed to parse response as JSON');
+  }
 };
 
 export default backendFetch;
