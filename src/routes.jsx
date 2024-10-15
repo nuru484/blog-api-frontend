@@ -1,5 +1,5 @@
 import App from './App';
-import LoginForm from './components/LoginForm';
+import LoginPage from './pages/LoginPage';
 
 const routes = [
   {
@@ -9,7 +9,7 @@ const routes = [
   },
   {
     path: 'login',
-    element: <LoginForm />,
+    element: <LoginPage />,
   },
 ];
 
