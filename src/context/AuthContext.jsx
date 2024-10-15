@@ -53,15 +53,18 @@ export const AuthContextProvider = ({ children }) => {
       setLoading(true);
       try {
         const response = await backendFetch(`/api/v1/user-token`, {
-          method: 'GET',
+          method: 'POST',
           headers: {
             'Content-Type': 'application/json',
             Authorization: accessToken ? `Bearer ${accessToken}` : '',
           },
         });
 
+        // Check for failure and handle token refresh if necessary
         if (!response.ok) {
           if (response.status === 401 && refreshToken) {
+            console.log('Access token expired, attempting to refresh token...');
+
             // Attempt to refresh token using refresh token
             const refreshResponse = await backendFetch(`/api/v1/refreshToken`, {
               method: 'POST',
@@ -70,18 +73,18 @@ export const AuthContextProvider = ({ children }) => {
             });
 
             if (!refreshResponse.ok) {
+              console.error('Token refresh failed:', refreshResponse.status);
               throw new Error('Token refresh failed');
             }
 
             const { accessToken: newAccessToken, user } =
               await refreshResponse.json();
-            setAccessToken(newAccessToken);
+            setAccessToken(newAccessToken); // Update token immediately
             setAuthUser(user);
             setIsAuth(true);
-          } else {
-            throw new Error('Error fetching user details');
           }
         } else {
+          // If access token is valid, set the user data
           const userData = await response.json();
           setAuthUser(userData);
           setIsAuth(true);

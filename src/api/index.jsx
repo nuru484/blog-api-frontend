@@ -8,7 +8,8 @@ const backendFetch = async (apiEndpointURL, options = {}) => {
   });
 
   if (!response.ok) {
-    throw new Error(`Error: ${response.status} - ${response.statusText}`);
+    const errorData = await response.json();
+    throw new Error(errorData.message || 'Failed to fetch!');
   }
 
   try {
