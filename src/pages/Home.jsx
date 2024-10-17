@@ -1,9 +1,33 @@
-import React from 'react';
 import { Search, ChevronDown } from 'lucide-react';
 import BlogCard from '../components/BlogCard';
 import { Link } from 'react-router-dom';
+import { useState, useEffect } from 'react';
+
+import fetchPublishedPosts from '@/api/postsFetch';
+import { handleAPIError } from '@/lib/errorHandler';
 
 const Home = () => {
+  const [error, setError] = useState(null);
+  const [loading, setLoading] = useState(false);
+  const [posts, setPosts] = useState([]);
+
+  useEffect(() => {
+    const fetchPosts = async () => {
+      setLoading(true);
+      setError(null);
+      try {
+        const response = await fetchPublishedPosts();
+        setPosts(response);
+      } catch (error) {
+        handleAPIError(error, setError);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchPosts();
+  }, []);
+
   return (
     <div className="max-w-md mx-auto bg-gray-100 min-h-screen font-sans pb-16">
       <header className="bg-white shadow-sm p-4 sticky top-0 z-10">
@@ -24,15 +48,24 @@ const Home = () => {
       </header>
 
       <main className="p-4">
-        {['Technology', 'Lifestyle', 'Travel'].map((tag, index) => (
-          <BlogCard
-            key={index}
-            date="Oct 12, 2024"
-            title={`The Future of ${tag}`}
-            excerpt="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."
-            tag={tag}
-          />
-        ))}
+        {loading && <p>Loading...</p>}
+
+        {error && <p className="text-red-500">{error.message}</p>}
+
+        {posts.length > 0 ? (
+          posts.map((post, index) => (
+            <BlogCard
+              key={index}
+              date={post.date}
+              title={post.title}
+              excerpt={post.excerpt}
+              tag={post.tag}
+            />
+          ))
+        ) : (
+          <p>No articles available.</p>
+        )}
+
         <button className="w-full py-3 text-blue-600 font-medium flex items-center justify-center">
           Load more <ChevronDown size={20} className="ml-1" />
         </button>
