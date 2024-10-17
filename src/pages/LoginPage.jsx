@@ -1,9 +1,10 @@
+// src/pages/LoginPage.jsx
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import loginFetch from '../api/loginFetch';
 import useAuth from '../hooks/useAuth';
 import LoginForm from '../components/LoginForm';
-import { APIError } from '../api';
+import { handleAPIError } from '@/utils/lib/errorHandler';
 
 const LoginPage = () => {
   const { setAccessToken, setRefreshToken, isAuth } = useAuth();
@@ -35,28 +36,7 @@ const LoginPage = () => {
 
       navigate('/admin-page');
     } catch (error) {
-      if (error instanceof APIError) {
-        switch (error.type) {
-          case 'NETWORK_ERROR':
-            setError(
-              'Unable to connect to the server. Please check your internet connection.'
-            );
-            break;
-          case 'ABORT_ERROR':
-            setError('The request was aborted. Please try again.');
-            break;
-          case 'PARSE_ERROR':
-            setError(
-              'There was a problem processing the server response. Please try again.'
-            );
-            break;
-          default:
-            setError(`${error.message}`);
-        }
-      } else {
-        setError('An unexpected error occurred. Please try again.');
-      }
-      console.error(`An error occurred: ${error.message}`);
+      handleAPIError(error, setError);
     } finally {
       setLoading(false);
     }

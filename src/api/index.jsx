@@ -1,5 +1,6 @@
 // src/api/index.js
 
+// Instance of Error
 class APIError extends Error {
   constructor(message, status, type) {
     super(message);

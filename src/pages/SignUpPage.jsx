@@ -1,8 +1,9 @@
+// src/pages/SignUpPage.jsx
 import React, { useState } from 'react';
 import signupFetch from '@/api/signupFetch';
 import SignUpForm from '@/components/SignUpForm';
-import { APIError } from '../api';
 import useLoginAfterSignup from '@/hooks/loginAfterSignup';
+import { handleAPIError } from '@/utils/lib/errorHandler';
 
 const SignUpPage = () => {
   const [credentials, setCredentials] = useState({
@@ -28,31 +29,10 @@ const SignUpPage = () => {
 
       console.log('Signup successful');
 
-      // Login function after successful signup
+      // Login after successful signup
       await loginAfterSignup(credentials);
     } catch (error) {
-      if (error instanceof APIError) {
-        switch (error.type) {
-          case 'NETWORK_ERROR':
-            setError(
-              'Unable to connect to the server. Please check your internet connection.'
-            );
-            break;
-          case 'ABORT_ERROR':
-            setError('The request was aborted. Please try again.');
-            break;
-          case 'PARSE_ERROR':
-            setError(
-              'There was a problem processing the server response. Please try again.'
-            );
-            break;
-          default:
-            setError(`${error.message}`);
-        }
-      } else {
-        setError('An unexpected error occurred. Please try again.');
-      }
-      console.error(`An error occurred: ${error.message}`);
+      handleAPIError(error, setError);
     } finally {
       setLoading(false);
     }
