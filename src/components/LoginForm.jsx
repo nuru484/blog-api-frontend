@@ -1,6 +1,7 @@
 import { ArrowRight, User, Lock, Eye } from 'lucide-react';
 import { Alert, AlertDescription } from '@/components/ui/alert';
 import Loading from './ui/loading';
+import { Link } from 'react-router-dom';
 
 const LoginForm = ({
   credentials,
@@ -110,6 +111,13 @@ const LoginForm = ({
             </Alert>
           )}
         </form>
+
+        <p className="text-center my-4 text-gray-600">
+          Don’t have an account?{' '}
+          <Link to="/signup" className="text-blue-600">
+            Sign up
+          </Link>
+        </p>
       </div>
     </div>
   );
