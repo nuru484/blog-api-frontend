@@ -52,7 +52,7 @@ const LoginPage = () => {
             );
             break;
           default:
-            setError(`Login failed: ${error.message}`);
+            setError(`${error.message}`);
         }
       } else {
         setError('An unexpected error occurred. Please try again.');

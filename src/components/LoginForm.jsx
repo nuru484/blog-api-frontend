@@ -1,5 +1,7 @@
 import { ArrowRight, User, Lock, Eye } from 'lucide-react';
-import { Link } from 'react-router-dom';
+
+import { Alert, AlertDescription } from '@/components/ui/alert';
+import Loading from './ui/loading';
 
 const LoginForm = ({
   credentials,
@@ -85,13 +87,27 @@ const LoginForm = ({
           <button
             type="submit"
             disabled={loading}
-            className="w-full bg-blue-600 text-white py-2 rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-opacity-50"
+            className="w-full bg-blue-600 text-white text-center py-2 rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-opacity-50 flex justify-center items-center"
           >
-            {loading ? 'Logging In...' : 'Login'}{' '}
-            <ArrowRight className="inline-block ml-1" size={18} />
+            {loading ? (
+              <>
+                <p className="inline-block mr-2"> Logging In</p>
+
+                <Loading className="inline-block ml-2" height={24} width={24} />
+              </>
+            ) : (
+              <>
+                Login
+                <ArrowRight className="inline-block ml-1" size={18} />
+              </>
+            )}
           </button>
 
-          {error && <p className="text-red-500 mt-4">{error}</p>}
+          {error && (
+            <Alert className="border-red-600 my-4">
+              <AlertDescription>{error}</AlertDescription>
+            </Alert>
+          )}
         </form>
       </div>
     </div>
