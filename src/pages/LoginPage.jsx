@@ -33,7 +33,6 @@ const LoginPage = () => {
 
       console.log('Logged in successfully');
 
-      // Navigate to admin page immediately after successful login
       navigate('/admin-page');
     } catch (error) {
       if (error instanceof APIError) {

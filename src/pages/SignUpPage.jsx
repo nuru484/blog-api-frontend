@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import signupFetch from '@/api/signupFetch';
 import SignUpForm from '@/components/SignUpForm';
 import { APIError } from '../api';
+import useLoginAfterSignup from '@/hooks/loginAfterSignup';
 
 const SignUpPage = () => {
   const [credentials, setCredentials] = useState({
@@ -15,6 +16,7 @@ const SignUpPage = () => {
 
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(false);
+  const loginAfterSignup = useLoginAfterSignup();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -25,6 +27,9 @@ const SignUpPage = () => {
       const response = await signupFetch(credentials);
 
       console.log('Signup successful');
+
+      // Login function after successful signup
+      await loginAfterSignup(credentials);
     } catch (error) {
       if (error instanceof APIError) {
         switch (error.type) {
