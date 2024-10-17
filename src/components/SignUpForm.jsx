@@ -153,7 +153,9 @@ const SignUpForm = ({
 
           {error && (
             <Alert className="border-red-600 my-4">
-              <AlertDescription>{error}</AlertDescription>
+              <AlertDescription className="text-red-600">
+                {error}
+              </AlertDescription>
             </Alert>
           )}
         </form>

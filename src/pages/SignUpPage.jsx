@@ -43,6 +43,7 @@ const SignUpPage = () => {
       setIsDialogOpen(true);
     } catch (error) {
       handleAPIError(error, setError);
+      console.log(error);
     } finally {
       setLoading(false);
     }
@@ -54,6 +55,7 @@ const SignUpPage = () => {
       setIsDialogOpen(false);
     } catch (error) {
       console.error('Login after signup failed:', error);
+      handleAPIError(error, setError);
     }
   };
 

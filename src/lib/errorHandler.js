@@ -1,7 +1,6 @@
 // src/utils/lib/errorHandler.js
 import { APIError } from '@/api';
 
-// Custom error handler for API errors
 export const handleAPIError = async (error, setError) => {
   if (error instanceof APIError) {
     switch (error.type) {
@@ -18,6 +17,15 @@ export const handleAPIError = async (error, setError) => {
           'There was a problem processing the server response. Please try again.'
         );
         break;
+      case 'VALIDATION_ERROR':
+        // Handle validation errors
+        if (Array.isArray(error.details)) {
+          const errorMessages = error.details.map((err) => err.msg).join('. ');
+          setError(errorMessages);
+        } else {
+          setError('Validation failed. Please check your input and try again.');
+        }
+        break;
       default:
         setError(`${error.message}`);
     }
@@ -25,16 +33,4 @@ export const handleAPIError = async (error, setError) => {
     setError('An unexpected error occurred. Please try again.');
   }
   console.error(`An error occurred: ${error.message}`);
-};
-
-// Validation error handler
-export const handleValidationError = (field, message) => {
-  console.error(`Validation error on ${field}: ${message}`);
-  return { field, message };
-};
-
-// General error handler
-export const handleError = (error) => {
-  console.error('An error occurred:', error.message);
-  return { message: 'Something went wrong. Please try again later.' };
 };

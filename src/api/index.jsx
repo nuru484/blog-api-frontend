@@ -1,12 +1,12 @@
 // src/api/index.js
 
-// Instance of Error
 class APIError extends Error {
-  constructor(message, status, type) {
+  constructor(message, status, type, details = null) {
     super(message);
     this.name = 'APIError';
     this.status = status;
     this.type = type;
+    this.details = details;
   }
 }
 
@@ -22,16 +22,26 @@ const backendFetch = async (apiEndpointURL, options = {}) => {
     if (!response.ok) {
       let errorMessage = 'An error occurred';
       let errorType = 'UNKNOWN_ERROR';
+      let errorDetails = null;
 
       try {
         const errorData = await response.json();
+
         errorMessage = errorData.message || errorMessage;
         errorType = errorData.type || errorType;
-      } catch (parseError) {
-        // If parsing fails, use default error message
-      }
 
-      throw new APIError(errorMessage, response.status, errorType);
+        if (response.status === 400 || response.status === 422) {
+          errorType = 'VALIDATION_ERROR';
+          errorDetails = errorData.errors || null;
+        }
+      } catch (parseError) {}
+
+      throw new APIError(
+        errorMessage,
+        response.status,
+        errorType,
+        errorDetails
+      );
     }
 
     try {
