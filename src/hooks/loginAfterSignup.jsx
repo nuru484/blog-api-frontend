@@ -1,6 +1,6 @@
 import { useNavigate } from 'react-router-dom';
 import useAuth from '../hooks/useAuth';
-import loginFetch from '../api/login';
+import loginFetch from '../api/loginFetch';
 
 const useLoginAfterSignup = () => {
   const { setAccessToken, setRefreshToken } = useAuth();

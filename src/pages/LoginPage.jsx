@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import loginFetch from '../api/login';
+import loginFetch from '../api/loginFetch';
 import useAuth from '../hooks/useAuth';
 import LoginForm from '../components/LoginForm';
 import { APIError } from '../api';
