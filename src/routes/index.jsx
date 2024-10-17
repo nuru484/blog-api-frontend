@@ -4,6 +4,7 @@ import ProtectedRoute from './ProtectedRoute';
 import Home from '../pages/Home';
 import AdminPage from '../pages/AdminPage';
 import LoginPage from '../pages/LoginPage';
+import SignUpPage from '@/pages/SignUpPage';
 
 const Routes = () => {
   const { token } = useAuth();
@@ -17,6 +18,10 @@ const Routes = () => {
     {
       path: '/about-us',
       element: <div>About Us</div>,
+    },
+    {
+      path: '/signup',
+      element: <SignUpPage />,
     },
   ];
 
