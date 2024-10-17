@@ -1,6 +1,7 @@
 import React from 'react';
 import { Search, ChevronDown } from 'lucide-react';
 import BlogCard from '../components/BlogCard';
+import { Link } from 'react-router-dom';
 
 const Home = () => {
   return (
@@ -47,9 +48,12 @@ const Home = () => {
         </div>
       </nav>
 
-      <button className="fixed bottom-16 right-4 bg-blue-600 text-white px-6 py-2 rounded-full shadow-lg font-medium hover:bg-blue-700">
+      <Link
+        to="login"
+        className="fixed bottom-16 right-4 bg-blue-600 text-white px-6 py-2 rounded-full shadow-lg font-medium hover:bg-blue-700"
+      >
         Log In
-      </button>
+      </Link>
     </div>
   );
 };

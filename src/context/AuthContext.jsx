@@ -1,6 +1,6 @@
 import React, { createContext, useEffect, useState } from 'react';
 import { encryptStorage } from '../utils/encryptedStorage';
-import backendFetch from '../api';
+import { backendFetch } from '../api';
 
 const AuthContext = createContext({
   accessToken: null,

@@ -1,5 +1,6 @@
 // src/api/login.jsx
-import backendFetch from '.';
+
+import { backendFetch } from '.';
 
 const loginFetch = async (credentials) => {
   return await backendFetch('/api/v1/login', {
