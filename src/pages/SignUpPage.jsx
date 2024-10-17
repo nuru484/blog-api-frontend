@@ -1,9 +1,19 @@
-// src/pages/SignUpPage.jsx
 import React, { useState } from 'react';
 import signupFetch from '@/api/signupFetch';
 import SignUpForm from '@/components/SignUpForm';
 import useLoginAfterSignup from '@/hooks/loginAfterSignup';
-import { handleAPIError } from '@/utils/lib/errorHandler';
+import { handleAPIError } from '@/lib/errorHandler';
+
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+} from '@/components/ui/alert-dialog';
 
 const SignUpPage = () => {
   const [credentials, setCredentials] = useState({
@@ -17,6 +27,7 @@ const SignUpPage = () => {
 
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(false);
+  const [isDialogOpen, setIsDialogOpen] = useState(false);
   const loginAfterSignup = useLoginAfterSignup();
 
   const handleSubmit = async (e) => {
@@ -29,8 +40,7 @@ const SignUpPage = () => {
 
       console.log('Signup successful');
 
-      // Login after successful signup
-      await loginAfterSignup(credentials);
+      setIsDialogOpen(true);
     } catch (error) {
       handleAPIError(error, setError);
     } finally {
@@ -38,14 +48,50 @@ const SignUpPage = () => {
     }
   };
 
+  const handleLogin = async () => {
+    try {
+      await loginAfterSignup(credentials);
+      setIsDialogOpen(false);
+    } catch (error) {
+      console.error('Login after signup failed:', error);
+    }
+  };
+
   return (
-    <SignUpForm
-      credentials={credentials}
-      setCredentials={setCredentials}
-      handleSubmit={handleSubmit}
-      loading={loading}
-      error={error}
-    />
+    <>
+      <SignUpForm
+        credentials={credentials}
+        setCredentials={setCredentials}
+        handleSubmit={handleSubmit}
+        loading={loading}
+        error={error}
+      />
+
+      <AlertDialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
+        <AlertDialogContent className="bg-blue-600 text-white">
+          <AlertDialogHeader>
+            <AlertDialogTitle className="text-white">
+              Sign Up Successful
+            </AlertDialogTitle>
+            <AlertDialogDescription className="text-blue-100">
+              Click Login to log in automatically or Cancel to stay on this
+              page.
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter>
+            <AlertDialogCancel className="bg-blue-500 text-white hover:bg-blue-600">
+              Cancel
+            </AlertDialogCancel>
+            <AlertDialogAction
+              onClick={handleLogin}
+              className="bg-white text-blue-600 hover:bg-blue-100"
+            >
+              Login
+            </AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
+    </>
   );
 };
 

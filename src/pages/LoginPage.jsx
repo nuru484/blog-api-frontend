@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import loginFetch from '../api/loginFetch';
 import useAuth from '../hooks/useAuth';
 import LoginForm from '../components/LoginForm';
-import { handleAPIError } from '@/utils/lib/errorHandler';
+import { handleAPIError } from '@/lib/errorHandler';
 
 const LoginPage = () => {
   const { setAccessToken, setRefreshToken, isAuth } = useAuth();

@@ -21,4 +21,6 @@ const initializeEncryptStorage = async () => {
   return new EncryptStorage(encryptionKey);
 };
 
-export const encryptStorage = await initializeEncryptStorage();
+const encryptStorage = await initializeEncryptStorage();
+
+export default encryptStorage;
