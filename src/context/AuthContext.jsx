@@ -105,12 +105,14 @@ export const AuthContextProvider = ({ children }) => {
     }
   }, [accessToken, refreshToken]);
 
-  // Logout function to clear tokens and reset state
   const logout = () => {
+    // Clear tokens and reset authentication state
     setAccessToken(null);
     setRefreshToken(null);
     setAuthUser(null);
     setIsAuth(false);
+
+    // Remove tokens from encrypted storage
     encryptStorage.removeItem('jwtAccessToken');
     encryptStorage.removeItem('jwtRefreshToken');
   };

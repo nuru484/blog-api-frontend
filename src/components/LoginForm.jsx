@@ -1,4 +1,5 @@
 import { ArrowRight, User, Lock, Eye } from 'lucide-react';
+import { Link } from 'react-router-dom';
 
 const LoginForm = ({
   credentials,
@@ -80,6 +81,7 @@ const LoginForm = ({
               forgot password?
             </a>
           </div>
+
           <button
             type="submit"
             disabled={loading}
@@ -88,6 +90,7 @@ const LoginForm = ({
             {loading ? 'Logging In...' : 'Login'}{' '}
             <ArrowRight className="inline-block ml-1" size={18} />
           </button>
+
           {error && <p className="text-red-500 mt-4">{error}</p>}
         </form>
       </div>
