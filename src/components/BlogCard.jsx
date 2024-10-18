@@ -1,4 +1,4 @@
-import { ArrowRight } from 'lucide-react';
+import { ArrowRight, MessageSquare, ThumbsUp } from 'lucide-react';
 
 const BlogCard = ({ date, title, excerpt, tag }) => (
   <div className="bg-white rounded-lg shadow-md p-4 mb-4">
@@ -18,6 +18,16 @@ const BlogCard = ({ date, title, excerpt, tag }) => (
       <button className="text-blue-600 text-sm font-medium flex items-center">
         Read more <ArrowRight size={16} className="ml-1" />
       </button>
+      <div className="flex justify-center items-center space-x-4">
+        <div className="flex items-center space-x-1">
+          <MessageSquare className="w-4 h-4 cursor-pointer" />
+          <span className="text-sm">34</span>
+        </div>
+        <div className="flex items-center space-x-1">
+          <ThumbsUp className="w-4 h-4 cursor-pointer" />
+          <span className="text-sm">34</span>
+        </div>
+      </div>
     </div>
   </div>
 );
