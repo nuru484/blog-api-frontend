@@ -1,17 +1,32 @@
 import { ArrowRight, MessageSquare, ThumbsUp } from 'lucide-react';
 
-const BlogDetail = ({ date, title, content, tag, handleViewBlogCard }) => {
+const BlogDetail = ({
+  date,
+  title,
+  content,
+  tags,
+  author,
+  handleViewBlogCard,
+}) => {
   return (
     <div className="bg-white rounded-lg shadow-md p-4 mb-4">
-      <div className="mb-2 flex justify-between items-center">
-        <span
-          className={`text-xs font-medium px-2 py-1 rounded bg-blue-100 text-blue-800`}
-        >
-          {tag}
-        </span>
-        <span className="text-xs text-gray-500">{date}</span>
+      <div className="mb-2 flex justify-between ">
+        <div className="flex flex-col">
+          {tags.map((tag) => (
+            <span
+              key={tag.id}
+              className={`text-xs font-medium px-2 my-1 py-1 rounded bg-blue-100 text-blue-800`}
+            >
+              {tag.name}
+            </span>
+          ))}
+        </div>
+        <div className="flex flex-col items-end">
+          <span className="text-xs text-gray-500 mb-2">{date}</span>
+          <span className="text-xs text-gray-500 ">By {author}</span>
+        </div>
       </div>
-      <h2 className="text-xl font-bold mb-2 leading-tight text-gray-800">
+      <h2 className="text-2xl font-bold mb-2 leading-tight text-gray-800">
         {title}
       </h2>
       <p className="text-sm mb-4 text-gray-600 leading-relaxed">{content}</p>

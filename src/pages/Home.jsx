@@ -24,6 +24,10 @@ const Home = () => {
         const fetchedPosts = response.publishPosts;
         setPosts(fetchedPosts);
 
+        // fetchedPosts.map((post) => {
+        //   console.log(post.author);
+        // });
+
         // Check if a post is saved in localStorage to maintain detail view
         const savedPost = JSON.parse(localStorage.getItem('selectedPost'));
         if (savedPost) {
@@ -86,10 +90,13 @@ const Home = () => {
             handleViewBlogCard={handleViewBlogCard}
             title={selectedPost.title}
             content={selectedPost.content}
-            tag={
-              selectedPost.tags.length === 0
-                ? 'Default'
-                : selectedPost.tags.map((tag) => tag.name).join(', ')
+            author={
+              selectedPost.author
+                ? `${selectedPost.author.firstname} ${selectedPost.author.lastname}`
+                : 'Unknown'
+            }
+            tags={
+              selectedPost.tags.length === 0 ? ['Default'] : selectedPost.tags
             }
           />
         ) : posts.length > 0 ? (
@@ -99,11 +106,7 @@ const Home = () => {
               date={new Date(post.createdAt).toLocaleString('en-US')}
               title={post.title}
               excerpt={post.content.slice(0, 100)}
-              tag={
-                post.tags.length === 0
-                  ? 'Default'
-                  : post.tags.map((tag) => tag.name).join(', ')
-              }
+              tag={post.tags.length === 0 ? 'Default' : post.tags[0].name}
               handleViewBlogDetail={() => handleViewBlogDetail(post)}
             />
           ))
@@ -139,7 +142,7 @@ const Home = () => {
 
       <Link
         to="login"
-        className="fixed bottom-16 right-4 bg-blue-600 text-white px-6 py-2 rounded-full shadow-lg font-medium hover:bg-blue-700"
+        className="fixed bottom-12 right-4 bg-blue-600 text-white px-6 py-2 rounded-full shadow-lg font-medium hover:bg-blue-700"
       >
         Log In
       </Link>
