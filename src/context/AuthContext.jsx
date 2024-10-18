@@ -1,6 +1,6 @@
 import React, { createContext, useEffect, useState } from 'react';
 import encryptStorage from '../lib/encryptedStorage';
-
+import Loading from '@/components/ui/loading';
 import { backendFetch } from '../api';
 
 const AuthContext = createContext({
@@ -80,7 +80,7 @@ export const AuthContextProvider = ({ children }) => {
 
             const { accessToken: newAccessToken, user } =
               await refreshResponse.json();
-            setAccessToken(newAccessToken); // Update token immediately
+            setAccessToken(newAccessToken);
             setAuthUser(user);
             setIsAuth(true);
           }
@@ -132,7 +132,15 @@ export const AuthContextProvider = ({ children }) => {
         logout,
       }}
     >
-      {loading ? 'Loading...' : children}
+      {loading ? (
+        <div className="flex items-center justify-center my-5">
+          <Loading height={24} width={24} color="#1D4ED8" />
+        </div>
+      ) : (
+        children
+      )}
+
+      {/* {loading ? 'Loading...' : children} */}
     </AuthContext.Provider>
   );
 };

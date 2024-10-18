@@ -2,6 +2,7 @@ import { Search, ChevronDown } from 'lucide-react';
 import BlogCard from '../components/BlogCard';
 import { Link } from 'react-router-dom';
 import { useState, useEffect } from 'react';
+import Loading from '@/components/ui/loading';
 import { fetchPublishedPosts } from '@/api/postsFetch';
 import { handleAPIError } from '@/lib/errorHandler';
 import BlogDetail from '@/components/BlogDetail';
@@ -39,18 +40,16 @@ const Home = () => {
     fetchPosts();
   }, []);
 
-  // Handle viewing a specific blog post
   const handleViewBlogDetail = (post) => {
     setSelectedPost(post);
     setViewBlogDetail(true);
-    localStorage.setItem('selectedPost', JSON.stringify(post)); // Save selected post in local storage
+    localStorage.setItem('selectedPost', JSON.stringify(post));
   };
 
-  // Handle going back to the blog list
   const handleViewBlogCard = () => {
     setViewBlogDetail(false);
     setSelectedPost(null);
-    localStorage.removeItem('selectedPost'); // Remove the selected post from local storage
+    localStorage.removeItem('selectedPost');
   };
 
   return (
@@ -73,11 +72,14 @@ const Home = () => {
       </header>
 
       <main className="p-4">
-        {loading && <p>Loading...</p>}
+        {loading && (
+          <div className="flex items-center justify-center">
+            <Loading height={24} width={24} color="#000020" />
+          </div>
+        )}
 
         {error && <p className="text-red-500">{error.message}</p>}
 
-        {/* Conditional Rendering: BlogDetail or BlogCard */}
         {viewBlogDetail && selectedPost ? (
           <BlogDetail
             date={new Date(selectedPost.createdAt).toLocaleString('en-US')}
@@ -106,18 +108,21 @@ const Home = () => {
             />
           ))
         ) : (
-          <p>No articles available.</p>
+          <div className="flex items-center justify-center">
+            <p>No articles available.</p>
+          </div>
         )}
-        {viewBlogDetail ? (
-          ''
-        ) : (
+
+        {/* "Load more" button */}
+        {!viewBlogDetail && posts.length > 0 && !loading && (
           <button
-            className={`w-full py-3 text-blue-600 font-medium flex items-center justify-center ${
-              loading ? 'cursor-not-allowed opacity-50' : ''
-            }`}
-            disabled={loading}
+            className="w-full py-3 text-blue-600 font-medium flex items-center justify-center"
+            onClick={() => {
+              /* Load more functionality */
+            }}
           >
-            Load more <ChevronDown size={20} className="ml-1" />
+            {posts.length === 0 ? 'Load Posts' : 'Load More'}{' '}
+            <ChevronDown size={20} className="ml-1" />
           </button>
         )}
       </main>
