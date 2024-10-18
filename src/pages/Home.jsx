@@ -16,7 +16,10 @@ const Home = () => {
       setError(null);
       try {
         const response = await fetchPublishedPosts();
-        setPosts(response);
+        const fetchedPosts = response.publishPosts;
+
+        setPosts(fetchedPosts);
+        console.log(fetchedPosts);
       } catch (error) {
         handleAPIError(error, setError);
       } finally {
@@ -26,6 +29,14 @@ const Home = () => {
 
     fetchPosts();
   }, []);
+
+  const dateFormat = {
+    year: 'numeric',
+    month: 'long',
+    day: 'numeric',
+    hour: '2-digit',
+    minute: '2-digit',
+  };
 
   return (
     <div className="max-w-md mx-auto bg-gray-100 min-h-screen font-sans pb-16">
@@ -52,20 +63,28 @@ const Home = () => {
         {error && <p className="text-red-500">{error.message}</p>}
 
         {posts.length > 0 ? (
-          posts.map((post, index) => (
+          posts.map((post) => (
             <BlogCard
-              key={index}
-              date={post.date}
+              key={post.id}
+              date={new Date(post.createdAt).toLocaleString(
+                'en-US',
+                dateFormat
+              )}
               title={post.title}
-              excerpt={post.excerpt}
-              tag={post.tag}
+              excerpt={post.content.slice(0, 100)}
+              tag={post.tags.length === 0 ? 'Default' : post.tags.join(', ')}
             />
           ))
         ) : (
           <p>No articles available.</p>
         )}
 
-        <button className="w-full py-3 text-blue-600 font-medium flex items-center justify-center">
+        <button
+          className={`w-full py-3 text-blue-600 font-medium flex items-center justify-center ${
+            loading ? 'cursor-not-allowed opacity-50' : ''
+          }`}
+          disabled={loading}
+        >
           Load more <ChevronDown size={20} className="ml-1" />
         </button>
       </main>

@@ -6,6 +6,8 @@ export const fetchPublishedPosts = async () => {
     method: 'GET',
     headers: {
       'Content-Type': 'application/json',
+      'Cache-Control': 'no-cache',
+      Pragma: 'no-cache',
     },
   });
 };
