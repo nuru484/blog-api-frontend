@@ -34,7 +34,7 @@ const LoginPage = () => {
 
       console.log('Logged in successfully');
 
-      navigate('/admin-page');
+      navigate('/profile');
     } catch (error) {
       handleAPIError(error, setError);
     } finally {

@@ -16,7 +16,7 @@ const useLoginAfterSignup = () => {
 
       console.log('Logged in successfully');
 
-      navigate('/admin-page');
+      navigate('/profile');
     } catch (error) {
       console.error('Login failed after signup:', error);
     }

@@ -2,8 +2,7 @@ import { Search, ChevronDown } from 'lucide-react';
 import BlogCard from '../components/BlogCard';
 import { Link } from 'react-router-dom';
 import { useState, useEffect } from 'react';
-
-import fetchPublishedPosts from '@/api/postsFetch';
+import { fetchPublishedPosts } from '@/api/postsFetch';
 import { handleAPIError } from '@/lib/errorHandler';
 
 const Home = () => {
