@@ -4,12 +4,16 @@ import { Link } from 'react-router-dom';
 import { useState, useEffect } from 'react';
 import { fetchPublishedPosts } from '@/api/postsFetch';
 import { handleAPIError } from '@/lib/errorHandler';
+import BlogDetail from '@/components/BlogDetail';
 
 const Home = () => {
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(false);
   const [posts, setPosts] = useState([]);
+  const [viewBlogDetail, setViewBlogDetail] = useState(false);
+  const [selectedPost, setSelectedPost] = useState(null);
 
+  // Fetch posts on mount
   useEffect(() => {
     const fetchPosts = async () => {
       setLoading(true);
@@ -17,8 +21,14 @@ const Home = () => {
       try {
         const response = await fetchPublishedPosts();
         const fetchedPosts = response.publishPosts;
-
         setPosts(fetchedPosts);
+
+        // Check if a post is saved in localStorage to maintain detail view
+        const savedPost = JSON.parse(localStorage.getItem('selectedPost'));
+        if (savedPost) {
+          setSelectedPost(savedPost);
+          setViewBlogDetail(true); // If a post is stored, show detail view
+        }
       } catch (error) {
         handleAPIError(error, setError);
       } finally {
@@ -29,12 +39,18 @@ const Home = () => {
     fetchPosts();
   }, []);
 
-  const dateFormat = {
-    year: 'numeric',
-    month: 'long',
-    day: 'numeric',
-    hour: '2-digit',
-    minute: '2-digit',
+  // Handle viewing a specific blog post
+  const handleViewBlogDetail = (post) => {
+    setSelectedPost(post);
+    setViewBlogDetail(true);
+    localStorage.setItem('selectedPost', JSON.stringify(post)); // Save selected post in local storage
+  };
+
+  // Handle going back to the blog list
+  const handleViewBlogCard = () => {
+    setViewBlogDetail(false);
+    setSelectedPost(null);
+    localStorage.removeItem('selectedPost'); // Remove the selected post from local storage
   };
 
   return (
@@ -61,35 +77,49 @@ const Home = () => {
 
         {error && <p className="text-red-500">{error.message}</p>}
 
-        {posts.length > 0 ? (
+        {/* Conditional Rendering: BlogDetail or BlogCard */}
+        {viewBlogDetail && selectedPost ? (
+          <BlogDetail
+            date={new Date(selectedPost.createdAt).toLocaleString('en-US')}
+            handleViewBlogCard={handleViewBlogCard}
+            title={selectedPost.title}
+            content={selectedPost.content}
+            tag={
+              selectedPost.tags.length === 0
+                ? 'Default'
+                : selectedPost.tags.map((tag) => tag.name).join(', ')
+            }
+          />
+        ) : posts.length > 0 ? (
           posts.map((post) => (
             <BlogCard
               key={post.id}
-              date={new Date(post.createdAt).toLocaleString(
-                'en-US',
-                dateFormat
-              )}
+              date={new Date(post.createdAt).toLocaleString('en-US')}
               title={post.title}
               excerpt={post.content.slice(0, 100)}
               tag={
                 post.tags.length === 0
                   ? 'Default'
-                  : post.tags.map((tag) => tag.name)
+                  : post.tags.map((tag) => tag.name).join(', ')
               }
+              handleViewBlogDetail={() => handleViewBlogDetail(post)}
             />
           ))
         ) : (
           <p>No articles available.</p>
         )}
-
-        <button
-          className={`w-full py-3 text-blue-600 font-medium flex items-center justify-center ${
-            loading ? 'cursor-not-allowed opacity-50' : ''
-          }`}
-          disabled={loading}
-        >
-          Load more <ChevronDown size={20} className="ml-1" />
-        </button>
+        {viewBlogDetail ? (
+          ''
+        ) : (
+          <button
+            className={`w-full py-3 text-blue-600 font-medium flex items-center justify-center ${
+              loading ? 'cursor-not-allowed opacity-50' : ''
+            }`}
+            disabled={loading}
+          >
+            Load more <ChevronDown size={20} className="ml-1" />
+          </button>
+        )}
       </main>
 
       <nav className="fixed bottom-0 left-0 right-0 bg-white border-t border-gray-200 p-2">

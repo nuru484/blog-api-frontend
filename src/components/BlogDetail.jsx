@@ -1,6 +1,6 @@
 import { ArrowRight, MessageSquare, ThumbsUp } from 'lucide-react';
 
-const BlogCard = ({ date, title, excerpt, tag, handleViewBlogDetail }) => {
+const BlogDetail = ({ date, title, content, tag, handleViewBlogCard }) => {
   return (
     <div className="bg-white rounded-lg shadow-md p-4 mb-4">
       <div className="mb-2 flex justify-between items-center">
@@ -14,13 +14,13 @@ const BlogCard = ({ date, title, excerpt, tag, handleViewBlogDetail }) => {
       <h2 className="text-xl font-bold mb-2 leading-tight text-gray-800">
         {title}
       </h2>
-      <p className="text-sm mb-4 text-gray-600 leading-relaxed">{excerpt}...</p>
+      <p className="text-sm mb-4 text-gray-600 leading-relaxed">{content}</p>
       <div className="flex justify-between items-center">
         <button
-          onClick={handleViewBlogDetail}
+          onClick={handleViewBlogCard}
           className="text-blue-600 text-sm font-medium flex items-center"
         >
-          Read more <ArrowRight size={16} className="ml-1" />
+          Show less <ArrowRight size={16} className="ml-1" />
         </button>
         <div className="flex justify-center items-center space-x-4">
           <div className="flex items-center space-x-1">
@@ -37,4 +37,4 @@ const BlogCard = ({ date, title, excerpt, tag, handleViewBlogDetail }) => {
   );
 };
 
-export default BlogCard;
+export default BlogDetail;
