@@ -19,7 +19,6 @@ const Home = () => {
         const fetchedPosts = response.publishPosts;
 
         setPosts(fetchedPosts);
-        console.log(fetchedPosts);
       } catch (error) {
         handleAPIError(error, setError);
       } finally {
@@ -72,7 +71,11 @@ const Home = () => {
               )}
               title={post.title}
               excerpt={post.content.slice(0, 100)}
-              tag={post.tags.length === 0 ? 'Default' : post.tags.join(', ')}
+              tag={
+                post.tags.length === 0
+                  ? 'Default'
+                  : post.tags.map((tag) => tag.name)
+              }
             />
           ))
         ) : (

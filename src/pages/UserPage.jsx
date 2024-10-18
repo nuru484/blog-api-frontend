@@ -2,19 +2,25 @@ import CreatePostForm from '@/components/CreatePostForm';
 import { createPost } from '@/api/postsFetch';
 import { handleAPIError } from '@/lib/errorHandler';
 import useAuth from '@/hooks/useAuth';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 
 const UserPage = () => {
   const [post, setPost] = useState({
     title: '',
     content: '',
     published: false,
-    tags: [],
+    tagIDs: [],
   });
-
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
-  const availableTags = ['Tag1', 'Tag2', 'Tag3'];
+  const [selectedTags, setSelectedTags] = useState([]);
+
+  const availableTags = [
+    { name: 'Astronomy', id: 3 },
+    { name: 'Technology', id: 2 },
+    { name: 'Science', id: 4 },
+    { name: 'Programming', id: 5 },
+  ];
 
   const { accessToken } = useAuth();
 
@@ -42,28 +48,31 @@ const UserPage = () => {
     }));
   };
 
-  const handleTagChange = (e) => {
+  useEffect(() => {
+    setPost((prevPost) => ({
+      ...prevPost,
+      tagIDs: selectedTags,
+    }));
+  }, [selectedTags, setPost]);
+
+  const handleTagSelection = (e) => {
     const options = e.target.options;
-    const selectedTags = [];
+    const newSelectedTags = [];
     for (let i = 0; i < options.length; i++) {
       if (options[i].selected) {
-        selectedTags.push(options[i].value);
+        newSelectedTags.push(parseInt(options[i].value, 10));
       }
     }
-    setPost((prev) => ({
-      ...prev,
-      tags: selectedTags,
-    }));
+    setSelectedTags(newSelectedTags);
   };
 
   return (
     <CreatePostForm
-      onSubmit={handleSubmit}
       loading={loading}
       error={error}
       handleSubmit={handleSubmit}
       handleChange={handleChange}
-      handleTagChange={handleTagChange}
+      handleTagSelection={handleTagSelection}
       post={post}
       setPost={setPost}
       availableTags={availableTags}

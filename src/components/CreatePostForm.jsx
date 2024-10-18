@@ -7,7 +7,7 @@ const CreatePostForm = ({
   error,
   handleSubmit,
   handleChange,
-  handleTagChange,
+  handleTagSelection,
   post,
   setPost,
   availableTags,
@@ -90,13 +90,13 @@ const CreatePostForm = ({
             <select
               multiple
               name="tagIDs"
+              onChange={handleTagSelection}
               value={post.tags}
-              onChange={handleTagChange}
               className="w-full pl-10 pr-3 py-2 rounded-md border border-gray-300 focus:outline-none focus:ring-1 focus:ring-indigo-500"
             >
               {availableTags.map((tag) => (
-                <option key={tag} value={tag.id}>
-                  {tag}
+                <option key={tag.id} value={tag.id} name="tagIDs">
+                  {tag.name}
                 </option>
               ))}
             </select>
