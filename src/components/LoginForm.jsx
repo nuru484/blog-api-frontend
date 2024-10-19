@@ -1,4 +1,4 @@
-import { ArrowRight, User, Lock, Eye } from 'lucide-react';
+import { ArrowRight, Mail, Lock, Eye } from 'lucide-react';
 import { Alert, AlertDescription } from '@/components/ui/alert';
 import Loading from './ui/loading';
 import { Link } from 'react-router-dom';
@@ -39,7 +39,7 @@ const LoginForm = ({
         </p>
         <form onSubmit={handleSubmit}>
           <div className="mb-4 relative">
-            <User className="absolute top-3 left-3 text-gray-400" size={20} />
+            <Mail className="absolute top-3 left-3 text-gray-400" size={20} />
             <input
               type="email"
               placeholder="Email"

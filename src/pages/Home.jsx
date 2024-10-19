@@ -13,8 +13,6 @@ const Home = () => {
 
   const { posts, loading, error, updatePostLikes } = useBlogContext();
 
-  console.log(posts);
-
   useEffect(() => {
     const savedPost = JSON.parse(localStorage.getItem('selectedPost'));
     if (savedPost) {
