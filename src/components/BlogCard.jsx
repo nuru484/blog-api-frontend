@@ -1,8 +1,20 @@
-import { ArrowRight, MessageSquare, ThumbsUp } from 'lucide-react';
+import { ArrowRight } from 'lucide-react';
+import LikeButton from './LikeButton';
+import CommentButton from './CommentButton';
 
-const BlogCard = ({ date, title, excerpt, tag, handleViewBlogDetail }) => {
+const BlogCard = ({
+  date,
+  title,
+  excerpt,
+  tag,
+  handleViewBlogDetail,
+  post,
+}) => {
   return (
-    <div className="bg-white rounded-lg shadow-md p-4 mb-4">
+    <div
+      onClick={handleViewBlogDetail}
+      className="bg-white rounded-lg shadow-md p-4 mb-4 cursor-pointer"
+    >
       <div className="mb-2 flex justify-between items-center">
         <span
           className={`text-xs font-medium px-2 py-1 rounded bg-blue-100 text-blue-800`}
@@ -16,21 +28,12 @@ const BlogCard = ({ date, title, excerpt, tag, handleViewBlogDetail }) => {
       </h2>
       <p className="text-sm mb-4 text-gray-600 leading-relaxed">{excerpt}...</p>
       <div className="flex justify-between items-center">
-        <button
-          onClick={handleViewBlogDetail}
-          className="text-blue-600 text-sm font-medium flex items-center"
-        >
+        <button className="text-blue-600 text-sm font-medium flex items-center">
           Read more <ArrowRight size={16} className="ml-1" />
         </button>
         <div className="flex justify-center items-center space-x-4">
-          <div className="flex items-center space-x-1">
-            <MessageSquare className="w-4 h-4 cursor-pointer" />
-            <span className="text-sm">34</span>
-          </div>
-          <div className="flex items-center space-x-1">
-            <ThumbsUp className="w-4 h-4 cursor-pointer" />
-            <span className="text-sm">34</span>
-          </div>
+          <CommentButton />
+          <LikeButton likes={post.likes.length} />
         </div>
       </div>
     </div>

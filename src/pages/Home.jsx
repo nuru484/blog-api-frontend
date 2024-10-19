@@ -3,46 +3,32 @@ import BlogCard from '../components/BlogCard';
 import { Link } from 'react-router-dom';
 import { useState, useEffect } from 'react';
 import Loading from '@/components/ui/loading';
-import { fetchPublishedPosts } from '@/api/postsFetch';
-import { handleAPIError } from '@/lib/errorHandler';
 import BlogDetail from '@/components/BlogDetail';
 
+import { useBlogContext } from '@/context/BlogContext';
+
 const Home = () => {
-  const [error, setError] = useState(null);
-  const [loading, setLoading] = useState(false);
-  const [posts, setPosts] = useState([]);
   const [viewBlogDetail, setViewBlogDetail] = useState(false);
   const [selectedPost, setSelectedPost] = useState(null);
 
-  // Fetch posts on mount
+  const { posts, loading, error, updatePostLikes } = useBlogContext();
+
+  console.log(posts);
+
   useEffect(() => {
-    const fetchPosts = async () => {
-      setLoading(true);
-      setError(null);
-      try {
-        const response = await fetchPublishedPosts();
-        const fetchedPosts = response.publishPosts;
-        setPosts(fetchedPosts);
+    const savedPost = JSON.parse(localStorage.getItem('selectedPost'));
+    if (savedPost) {
+      const updatedPost = posts.find((post) => post.id === savedPost.id);
+      if (updatedPost) {
+        setSelectedPost(updatedPost);
 
-        // fetchedPosts.map((post) => {
-        //   console.log(post.author);
-        // });
-
-        // Check if a post is saved in localStorage to maintain detail view
-        const savedPost = JSON.parse(localStorage.getItem('selectedPost'));
-        if (savedPost) {
-          setSelectedPost(savedPost);
-          setViewBlogDetail(true); // If a post is stored, show detail view
-        }
-      } catch (error) {
-        handleAPIError(error, setError);
-      } finally {
-        setLoading(false);
+        localStorage.setItem('selectedPost', JSON.stringify(updatedPost));
+      } else {
+        setSelectedPost(savedPost);
       }
-    };
-
-    fetchPosts();
-  }, []);
+      setViewBlogDetail(true);
+    }
+  }, [posts, updatePostLikes, selectedPost]);
 
   const handleViewBlogDetail = (post) => {
     setSelectedPost(post);
@@ -95,6 +81,8 @@ const Home = () => {
                 ? `${selectedPost.author.firstname} ${selectedPost.author.lastname}`
                 : 'Unknown'
             }
+            post={selectedPost}
+            updatePostLikes={updatePostLikes}
             tags={
               selectedPost.tags.length === 0 ? ['Default'] : selectedPost.tags
             }
@@ -105,6 +93,7 @@ const Home = () => {
               key={post.id}
               date={new Date(post.createdAt).toLocaleString('en-US')}
               title={post.title}
+              post={post}
               excerpt={post.content.slice(0, 100)}
               tag={post.tags.length === 0 ? 'Default' : post.tags[0].name}
               handleViewBlogDetail={() => handleViewBlogDetail(post)}
@@ -124,7 +113,7 @@ const Home = () => {
               /* Load more functionality */
             }}
           >
-            {posts.length === 0 ? 'Load Posts' : 'Load More'}{' '}
+            {posts.length === 0 ? 'Load Posts' : 'Load More'}
             <ChevronDown size={20} className="ml-1" />
           </button>
         )}

@@ -1,4 +1,6 @@
-import { ArrowRight, MessageSquare, ThumbsUp } from 'lucide-react';
+import { ArrowRight } from 'lucide-react';
+import LikeButton from './LikeButton';
+import CommentButton from './CommentButton';
 
 const BlogDetail = ({
   date,
@@ -7,14 +9,16 @@ const BlogDetail = ({
   tags,
   author,
   handleViewBlogCard,
+  post,
+  updatePostLikes,
 }) => {
   return (
     <div className="bg-white rounded-lg shadow-md p-4 mb-4">
-      <div className="mb-2 flex justify-between ">
+      <div className="mb-2 flex justify-between">
         <div className="flex flex-col">
-          {tags.map((tag) => (
+          {tags.map((tag, index) => (
             <span
-              key={tag.id}
+              key={index}
               className={`text-xs font-medium px-2 my-1 py-1 rounded bg-blue-100 text-blue-800`}
             >
               {tag.name}
@@ -23,7 +27,7 @@ const BlogDetail = ({
         </div>
         <div className="flex flex-col items-end">
           <span className="text-xs text-gray-500 mb-2">{date}</span>
-          <span className="text-xs text-gray-500 ">By {author}</span>
+          <span className="text-xs text-gray-500">By {author}</span>
         </div>
       </div>
       <h2 className="text-2xl font-bold mb-2 leading-tight text-gray-800">
@@ -38,14 +42,11 @@ const BlogDetail = ({
           Show less <ArrowRight size={16} className="ml-1" />
         </button>
         <div className="flex justify-center items-center space-x-4">
-          <div className="flex items-center space-x-1">
-            <MessageSquare className="w-4 h-4 cursor-pointer" />
-            <span className="text-sm">34</span>
-          </div>
-          <div className="flex items-center space-x-1">
-            <ThumbsUp className="w-4 h-4 cursor-pointer" />
-            <span className="text-sm">34</span>
-          </div>
+          <CommentButton />
+          <LikeButton
+            likes={post.likes.length}
+            handleLike={() => updatePostLikes(post.id)}
+          />
         </div>
       </div>
     </div>
