@@ -11,7 +11,8 @@ const Home = () => {
   const [viewBlogDetail, setViewBlogDetail] = useState(false);
   const [selectedPost, setSelectedPost] = useState(null);
 
-  const { posts, loading, error, updatePostLikes } = useBlogContext();
+  const { posts, loading, error, updatePostLikes, getPostComments } =
+    useBlogContext();
 
   useEffect(() => {
     const savedPost = JSON.parse(localStorage.getItem('selectedPost'));
@@ -26,7 +27,7 @@ const Home = () => {
       }
       setViewBlogDetail(true);
     }
-  }, [posts, updatePostLikes, setSelectedPost]);
+  }, [posts, updatePostLikes, setSelectedPost, getPostComments]);
 
   const handleViewBlogDetail = (post) => {
     setSelectedPost(post);

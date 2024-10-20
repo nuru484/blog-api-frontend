@@ -2,7 +2,8 @@ import { ArrowRight } from 'lucide-react';
 import LikeButton from './LikeButton';
 import CommentButton from './CommentButton';
 import useCreateComment from '@/hooks/createComment';
-import { useState } from 'react';
+import Comments from './Comments';
+import { useEffect, useState } from 'react';
 
 const BlogDetail = ({
   date,
@@ -65,6 +66,7 @@ const BlogDetail = ({
       </div>
 
       {displayCommentForm ? CreateComment : ''}
+      <Comments comments={post.comments} />
     </div>
   );
 };
