@@ -15,7 +15,7 @@ const BlogDetail = ({
   updatePostLikes,
 }) => {
   const [displayCommentForm, setDisplayCommentForm] = useState(false);
-  const CreateComment = useCreateComment();
+  const CreateComment = useCreateComment(post.id);
 
   const handleDisplayCommentForm = () => {
     displayCommentForm

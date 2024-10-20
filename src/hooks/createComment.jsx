@@ -3,9 +3,8 @@ import CreateCommentForm from '@/components/CreateCommentForm';
 import { handleAPIError } from '@/lib/errorHandler';
 import { createComment } from '@/api/commentFetch';
 
-const useCreateComment = () => {
-  const [comment, setComment] = useState({
-    title: '',
+const useCreateComment = (postId) => {
+  const [commentContent, setCommentContent] = useState({
     content: '',
   });
   const [loading, setLoading] = useState(false);
@@ -18,21 +17,22 @@ const useCreateComment = () => {
       setError('');
 
       try {
-        await createComment(comment);
+        await createComment(postId, commentContent);
         console.log('Comment created successfully');
+        setCommentContent({ content: '' });
       } catch (error) {
         handleAPIError(error, setError);
       } finally {
         setLoading(false);
       }
     },
-    [comment]
+    [commentContent]
   );
 
   const handleChange = useCallback((e) => {
     const { name, value } = e.target;
-    setComment((prevPost) => ({
-      ...prevPost,
+    setCommentContent((prevComment) => ({
+      ...prevComment,
       [name]: value,
     }));
   }, []);
@@ -43,7 +43,7 @@ const useCreateComment = () => {
       error={error}
       handleSubmit={handleSubmit}
       handleChange={handleChange}
-      comment={comment}
+      comment={commentContent}
     />
   );
 };

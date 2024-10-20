@@ -26,7 +26,7 @@ const Home = () => {
       }
       setViewBlogDetail(true);
     }
-  }, [posts, updatePostLikes, selectedPost]);
+  }, [posts, updatePostLikes, setSelectedPost]);
 
   const handleViewBlogDetail = (post) => {
     setSelectedPost(post);

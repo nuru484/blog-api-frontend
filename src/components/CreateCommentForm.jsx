@@ -17,22 +17,6 @@ const CreateCommentForm = ({
         </h2>
 
         <form onSubmit={handleSubmit}>
-          <div className="mb-4 relative">
-            <FileText
-              className="absolute top-3 left-3 text-gray-400"
-              size={20}
-            />
-            <input
-              type="text"
-              name="title"
-              placeholder="Comment Title"
-              value={comment.title}
-              onChange={handleChange}
-              required
-              className="w-full pl-10 pr-3 py-2 rounded-md border border-gray-300 focus:outline-none focus:ring-1 focus:ring-indigo-500"
-            />
-          </div>
-
           <div className="mb-4">
             <textarea
               type="text"

@@ -1,7 +1,7 @@
 // src/api/likesFetch.jsx
 import { backendFetch } from '.';
 
-function setCookie(name, value, days) {
+export function setCookie(name, value, days) {
   const date = new Date();
   date.setTime(date.getTime() + days * 24 * 60 * 60 * 1000);
   const expires = `; expires=${date.toUTCString()}`;
