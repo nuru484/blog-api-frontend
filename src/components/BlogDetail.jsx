@@ -1,9 +1,9 @@
-import { ArrowRight } from 'lucide-react';
+import { ArrowLeft } from 'lucide-react';
 import LikeButton from './LikeButton';
 import CommentButton from './CommentButton';
 import useCreateComment from '@/hooks/createComment';
 import Comments from './Comments';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 
 const BlogDetail = ({
   date,
@@ -51,7 +51,7 @@ const BlogDetail = ({
           onClick={handleViewBlogCard}
           className="text-blue-600 text-sm font-medium flex items-center"
         >
-          Show less <ArrowRight size={16} className="ml-1" />
+          <ArrowLeft size={16} className="mr-1" /> Show less
         </button>
         <div className="flex justify-center items-center space-x-4">
           <CommentButton

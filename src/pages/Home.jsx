@@ -4,7 +4,6 @@ import { Link } from 'react-router-dom';
 import { useState, useEffect } from 'react';
 import Loading from '@/components/ui/loading';
 import BlogDetail from '@/components/BlogDetail';
-
 import { useBlogContext } from '@/context/BlogContext';
 
 const Home = () => {
