@@ -2,11 +2,14 @@ import { useState, useCallback } from 'react';
 import CreateCommentForm from '@/components/CreateCommentForm';
 import { handleAPIError } from '@/lib/errorHandler';
 import { createComment } from '@/api/commentFetch';
+import { useBlogContext } from '@/context/BlogContext';
 
 const useCreateComment = (postId) => {
   const [commentContent, setCommentContent] = useState('');
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
+
+  const { setPosts } = useBlogContext();
 
   const handleSubmit = useCallback(
     async (e) => {
@@ -15,9 +18,23 @@ const useCreateComment = (postId) => {
       setError('');
 
       try {
-        await createComment(postId, commentContent);
-        console.log('Comment created successfully');
+        const response = await createComment(postId, commentContent);
+
         setCommentContent('');
+
+        if (response && response.comment) {
+          setPosts((prevPosts) =>
+            prevPosts.map((post) => {
+              if (post.id === postId) {
+                return {
+                  ...post,
+                  comments: [...post.comments, response.comment],
+                };
+              }
+              return post;
+            })
+          );
+        }
       } catch (error) {
         handleAPIError(error, setError);
       } finally {

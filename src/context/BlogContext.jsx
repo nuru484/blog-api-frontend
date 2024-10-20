@@ -98,7 +98,9 @@ export const BlogContextProvider = ({ children }) => {
   );
 
   return (
-    <BlogContext.Provider value={{ posts, loading, error, updatePostLikes }}>
+    <BlogContext.Provider
+      value={{ posts, setPosts, loading, error, updatePostLikes }}
+    >
       {children}
     </BlogContext.Provider>
   );
