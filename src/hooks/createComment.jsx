@@ -4,9 +4,7 @@ import { handleAPIError } from '@/lib/errorHandler';
 import { createComment } from '@/api/commentFetch';
 
 const useCreateComment = (postId) => {
-  const [commentContent, setCommentContent] = useState({
-    content: '',
-  });
+  const [commentContent, setCommentContent] = useState('');
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
 
@@ -19,22 +17,18 @@ const useCreateComment = (postId) => {
       try {
         await createComment(postId, commentContent);
         console.log('Comment created successfully');
-        setCommentContent({ content: '' });
+        setCommentContent('');
       } catch (error) {
         handleAPIError(error, setError);
       } finally {
         setLoading(false);
       }
     },
-    [commentContent]
+    [postId, commentContent]
   );
 
   const handleChange = useCallback((e) => {
-    const { name, value } = e.target;
-    setCommentContent((prevComment) => ({
-      ...prevComment,
-      [name]: value,
-    }));
+    setCommentContent(e.target.value);
   }, []);
 
   return (

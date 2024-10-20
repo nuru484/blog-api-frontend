@@ -22,7 +22,7 @@ const CreateCommentForm = ({
               type="text"
               name="content"
               placeholder="Comment Content"
-              value={comment.content}
+              value={comment}
               onChange={handleChange}
               required
               rows={5}
