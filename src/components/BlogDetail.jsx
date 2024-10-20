@@ -1,6 +1,8 @@
 import { ArrowRight } from 'lucide-react';
 import LikeButton from './LikeButton';
 import CommentButton from './CommentButton';
+import useCreateComment from '@/hooks/createComment';
+import { useState } from 'react';
 
 const BlogDetail = ({
   date,
@@ -12,6 +14,15 @@ const BlogDetail = ({
   post,
   updatePostLikes,
 }) => {
+  const [displayCommentForm, setDisplayCommentForm] = useState(false);
+  const CreateComment = useCreateComment();
+
+  const handleDisplayCommentForm = () => {
+    displayCommentForm
+      ? setDisplayCommentForm(false)
+      : setDisplayCommentForm(true);
+  };
+
   return (
     <div className="bg-white rounded-lg shadow-md p-4 mb-4">
       <div className="mb-2 flex justify-between">
@@ -42,13 +53,18 @@ const BlogDetail = ({
           Show less <ArrowRight size={16} className="ml-1" />
         </button>
         <div className="flex justify-center items-center space-x-4">
-          <CommentButton comments={post.comments.length} />
+          <CommentButton
+            comments={post.comments.length}
+            handleCommentForm={handleDisplayCommentForm}
+          />
           <LikeButton
             likes={post.likes.length}
             handleLike={() => updatePostLikes(post.id)}
           />
         </div>
       </div>
+
+      {displayCommentForm ? CreateComment : ''}
     </div>
   );
 };

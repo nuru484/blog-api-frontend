@@ -1,8 +1,8 @@
 import { MessageSquare } from 'lucide-react';
 
-const CommentButton = ({ comments, handleComment }) => {
+const CommentButton = ({ comments, handleCommentForm }) => {
   return (
-    <div onClick={handleComment} className="flex items-center space-x-1">
+    <div onClick={handleCommentForm} className="flex items-center space-x-1">
       <MessageSquare className="w-4 h-4 cursor-pointer" />
       <span className="text-sm">{comments}</span>
     </div>
