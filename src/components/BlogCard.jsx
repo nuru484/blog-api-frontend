@@ -32,7 +32,7 @@ const BlogCard = ({
           Read more <ArrowRight size={16} className="ml-1" />
         </button>
         <div className="flex justify-center items-center space-x-4">
-          <CommentButton />
+          <CommentButton comments={post.comments.length} />
           <LikeButton likes={post.likes.length} />
         </div>
       </div>

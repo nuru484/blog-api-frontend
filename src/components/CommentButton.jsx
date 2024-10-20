@@ -1,10 +1,10 @@
 import { MessageSquare } from 'lucide-react';
 
-const CommentButton = () => {
+const CommentButton = ({ comments, handleComment }) => {
   return (
-    <div className="flex items-center space-x-1">
+    <div onClick={handleComment} className="flex items-center space-x-1">
       <MessageSquare className="w-4 h-4 cursor-pointer" />
-      <span className="text-sm">34</span>
+      <span className="text-sm">{comments}</span>
     </div>
   );
 };
