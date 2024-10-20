@@ -8,7 +8,7 @@ function setCookie(name, value, days) {
   document.cookie = `${name}=${value || ''}${expires}; path=/`;
 }
 
-function getCookie(name) {
+export function getCookie(name) {
   const nameEQ = `${name}=`;
   const ca = document.cookie.split(';');
   for (let i = 0; i < ca.length; i++) {
@@ -35,6 +35,27 @@ export const likePost = async (postId, userId) => {
       guestName = `guest${randomNumber}`;
 
       setCookie('guestName', guestName, 365);
+    }
+
+    options.body = JSON.stringify({ guestName });
+  }
+
+  return await backendFetch(`/api/v1/like/${postId}/`, options);
+};
+
+export const unlikePost = async (postId, userId) => {
+  const options = {
+    method: 'DELETE',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+  };
+
+  if (!userId) {
+    let guestName = getCookie('guestName');
+
+    if (!guestName) {
+      return;
     }
 
     options.body = JSON.stringify({ guestName });
