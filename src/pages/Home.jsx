@@ -10,7 +10,7 @@ const Home = () => {
   const [viewBlogDetail, setViewBlogDetail] = useState(false);
   const [selectedPost, setSelectedPost] = useState(null);
 
-  const { posts, loading, error } = usePostContext();
+  const { posts, loading, error, handleApiToFetch } = usePostContext();
 
   useEffect(() => {
     const savedPost = JSON.parse(localStorage.getItem('selectedPost'));
@@ -83,7 +83,7 @@ const Home = () => {
               selectedPost.tags.length === 0 ? ['Default'] : selectedPost.tags
             }
           />
-        ) : posts.length > 0 ? (
+        ) : posts && posts.length > 0 ? (
           posts.map((post) => (
             <BlogCard
               key={post.id}
@@ -102,7 +102,7 @@ const Home = () => {
         )}
 
         {/* "Load more" button */}
-        {!viewBlogDetail && posts.length > 0 && !loading && (
+        {!viewBlogDetail && posts && posts.length > 0 && !loading && (
           <button
             className="w-full py-3 text-blue-600 font-medium flex items-center justify-center"
             onClick={() => {

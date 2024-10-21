@@ -57,7 +57,7 @@ const useLikes = () => {
                 (like) => like.id === response.like.id
               );
               if (alreadyLiked) {
-                // unlikePost(postId);
+                unlikePost(postId);
                 return post;
               }
 
@@ -76,7 +76,7 @@ const useLikes = () => {
     }
   };
 
-  return { likePost, unlikePost };
+  return likePost;
 };
 
 export default useLikes;

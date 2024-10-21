@@ -1,6 +1,6 @@
 // src/api/commentFetch.jsx
 import { backendFetch } from '.';
-import { getCookie, setCookie } from './likesFetch';
+import { getCookie, setCookie } from '@/lib/cookies';
 
 export const createComment = async (postId, content, userId) => {
   let bodyData = { content };
