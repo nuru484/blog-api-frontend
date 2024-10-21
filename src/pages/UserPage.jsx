@@ -1,8 +1,8 @@
-import useCreatePost from '@/hooks/createPost';
+import useCreatePost from '@/hooks/useCreatePost';
 
 const UserPage = () => {
-  const CreatePost = useCreatePost();
-  return CreatePost;
+  const creatPost = useCreatePost();
+  return creatPost;
 };
 
 export default UserPage;

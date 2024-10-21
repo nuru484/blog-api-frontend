@@ -4,14 +4,13 @@ import { Link } from 'react-router-dom';
 import { useState, useEffect } from 'react';
 import Loading from '@/components/ui/loading';
 import BlogDetail from '@/components/BlogDetail';
-import { useBlogContext } from '@/context/BlogContext';
+import usePostContext from '@/hooks/usePostContext';
 
 const Home = () => {
   const [viewBlogDetail, setViewBlogDetail] = useState(false);
   const [selectedPost, setSelectedPost] = useState(null);
 
-  const { posts, loading, error, updatePostLikes, getPostComments } =
-    useBlogContext();
+  const { posts, loading, error } = usePostContext();
 
   useEffect(() => {
     const savedPost = JSON.parse(localStorage.getItem('selectedPost'));
@@ -26,7 +25,7 @@ const Home = () => {
       }
       setViewBlogDetail(true);
     }
-  }, [posts, updatePostLikes, setSelectedPost, getPostComments]);
+  }, [posts, setSelectedPost]);
 
   const handleViewBlogDetail = (post) => {
     setSelectedPost(post);
@@ -80,7 +79,6 @@ const Home = () => {
                 : 'Unknown'
             }
             post={selectedPost}
-            updatePostLikes={updatePostLikes}
             tags={
               selectedPost.tags.length === 0 ? ['Default'] : selectedPost.tags
             }

@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import signupFetch from '@/api/signupFetch';
 import SignUpForm from '@/components/SignUpForm';
-import useLoginAfterSignup from '@/hooks/loginAfterSignup';
+import useLoginAfterSignup from '@/hooks/useLoginAfterSignup';
 import { handleAPIError } from '@/lib/errorHandler';
 
 import {

@@ -1,8 +1,7 @@
-import { useState, useEffect, useCallback } from 'react';
-import { createPost } from '@/api/postsFetch';
 import useAuth from './useAuth';
 import CreatePostForm from '@/components/CreatePostForm';
-import { handleAPIError } from '@/lib/errorHandler';
+import { createPost } from '@/api/postsFetch';
+import { useState, useCallback, useEffect } from 'react';
 
 const useCreatePost = () => {
   const [post, setPost] = useState({
@@ -32,7 +31,6 @@ const useCreatePost = () => {
 
       try {
         await createPost(post, accessToken);
-        console.log('Post created successfully');
       } catch (error) {
         handleAPIError(error, setError);
       } finally {

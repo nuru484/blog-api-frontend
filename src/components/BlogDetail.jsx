@@ -1,8 +1,9 @@
 import { ArrowLeft } from 'lucide-react';
 import LikeButton from './LikeButton';
 import CommentButton from './CommentButton';
-import useCreateComment from '@/hooks/createComment';
+import useCreateComment from '@/hooks/useCreateComment';
 import Comments from './Comments';
+import useLikes from '@/hooks/useLikes';
 import { useState } from 'react';
 
 const BlogDetail = ({
@@ -13,10 +14,11 @@ const BlogDetail = ({
   author,
   handleViewBlogCard,
   post,
-  updatePostLikes,
 }) => {
   const [displayCommentForm, setDisplayCommentForm] = useState(false);
   const CreateComment = useCreateComment(post.id);
+
+  const likePost = useLikes();
 
   const handleDisplayCommentForm = () => {
     displayCommentForm
@@ -60,7 +62,7 @@ const BlogDetail = ({
           />
           <LikeButton
             likes={post.likes.length}
-            handleLike={() => updatePostLikes(post.id)}
+            handleLike={() => likePost(post.id)}
           />
         </div>
       </div>

@@ -1,5 +1,5 @@
 import { useNavigate } from 'react-router-dom';
-import useAuth from '../hooks/useAuth';
+import useAuth from './useAuth';
 import loginFetch from '../api/loginFetch';
 
 const useLoginAfterSignup = () => {
