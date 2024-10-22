@@ -2,7 +2,7 @@ import { useState } from 'react';
 import usePostContext from '@/hooks/usePostContext';
 import { Home, Clock, Tag, Info } from 'lucide-react';
 
-const NavBar = ({ handleViewBlogCard }) => {
+const NavBar = ({ handleViewBlogCard, showBlogAbout }) => {
   const { handleApiToFetch } = usePostContext();
   const [showTags, setShowTags] = useState(false);
   const [activeItem, setActiveItem] = useState('Home');
@@ -25,10 +25,16 @@ const NavBar = ({ handleViewBlogCard }) => {
       case 'Tags':
         setShowTags(!showTags);
         break;
-      default:
-        handleApiToFetch(`posts/${section}`);
+      case 'About Blog':
+        showBlogAbout();
         setShowTags(false);
-        handleViewBlogCard();
+        break;
+      default:
+        if (tags.includes(section)) {
+          handleApiToFetch(`posts/${section}`);
+          setShowTags(false);
+          handleViewBlogCard();
+        }
         break;
     }
   };
