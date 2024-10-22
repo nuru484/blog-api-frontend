@@ -1,6 +1,6 @@
 import { ThumbsUp } from 'lucide-react';
 
-const LikeButton = ({ likes, handleLike }) => {
+const LikeIcon = ({ likes, handleLike }) => {
   return (
     <div onClick={handleLike} className="flex items-center space-x-1">
       <ThumbsUp className="w-4 h-4 cursor-pointer" />
@@ -9,4 +9,4 @@ const LikeButton = ({ likes, handleLike }) => {
   );
 };
 
-export default LikeButton;
+export default LikeIcon;

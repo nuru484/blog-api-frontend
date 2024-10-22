@@ -1,6 +1,6 @@
 import { MessageSquare } from 'lucide-react';
 
-const CommentButton = ({ comments, handleCommentForm }) => {
+const CommentIcon = ({ comments, handleCommentForm }) => {
   return (
     <div onClick={handleCommentForm} className="flex items-center space-x-1">
       <MessageSquare className="w-4 h-4 cursor-pointer" />
@@ -9,4 +9,4 @@ const CommentButton = ({ comments, handleCommentForm }) => {
   );
 };
 
-export default CommentButton;
+export default CommentIcon;

@@ -1,6 +1,6 @@
 import { ArrowLeft } from 'lucide-react';
-import LikeButton from './LikeButton';
-import CommentButton from './CommentButton';
+import LikeIcon from './LikeIcon';
+import CommentIcon from './CommentIcon';
 import useCreateComment from '@/hooks/useCreateComment';
 import Comments from './Comments';
 import useLikes from '@/hooks/useLikes';
@@ -56,11 +56,11 @@ const BlogDetail = ({
           <ArrowLeft size={16} className="mr-1" /> Show less
         </button>
         <div className="flex justify-center items-center space-x-4">
-          <CommentButton
+          <CommentIcon
             comments={post.comments.length}
             handleCommentForm={handleDisplayCommentForm}
           />
-          <LikeButton
+          <LikeIcon
             likes={post.likes.length}
             handleLike={() => likePost(post.id)}
           />

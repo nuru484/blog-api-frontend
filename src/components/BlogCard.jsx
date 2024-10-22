@@ -1,7 +1,6 @@
 import { ArrowRight } from 'lucide-react';
-import LikeButton from './LikeButton';
-import CommentButton from './CommentButton';
-import { Home, Clock, Tag, Info } from 'lucide-react';
+import LikeIcon from './LikeIcon';
+import CommentIcon from './CommentIcon';
 
 const BlogCard = ({
   date,
@@ -33,8 +32,8 @@ const BlogCard = ({
           Read more <ArrowRight size={16} className="ml-1" />
         </button>
         <div className="flex justify-center items-center space-x-4">
-          <CommentButton comments={post.comments.length} />
-          <LikeButton likes={post.likes.length} />
+          <CommentIcon comments={post.comments.length} />
+          <LikeIcon likes={post.likes.length} />
         </div>
       </div>
     </div>
