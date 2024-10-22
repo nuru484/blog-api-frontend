@@ -1,6 +1,5 @@
 import { ChevronDown } from 'lucide-react';
 import BlogCard from '../components/BlogCard';
-import { Link } from 'react-router-dom';
 import { useState, useEffect } from 'react';
 import Loading from '@/components/ui/loading';
 import BlogDetail from '@/components/BlogDetail';
@@ -8,6 +7,7 @@ import usePostContext from '@/hooks/usePostContext';
 import NabBar from '@/components/NabBar';
 import About from '@/components/About';
 import Header from '@/components/Header';
+import LoginButton from '@/components/LoginButton';
 
 const Home = () => {
   const [viewBlogDetail, setViewBlogDetail] = useState(false);
@@ -125,22 +125,21 @@ const Home = () => {
   };
 
   return (
-    <div className="max-w-md mx-auto bg-gray-100 min-h-screen font-sans pb-16">
+    <div className="max-w-md mx-auto relative bg-gray-100 min-h-screen font-sans pb-16">
       {!aboutBlog && <Header />}
 
       <main className="p-4">{renderContent()}</main>
+
+      <div className="sticky bottom-24 w-full max-w-md mx-auto">
+        <div className="absolute right-4">
+          <LoginButton />
+        </div>
+      </div>
 
       <NabBar
         handleViewBlogCard={handleViewBlogCard}
         showBlogAbout={handleAboutBlog}
       />
-
-      <Link
-        to="login"
-        className="fixed bottom-12 right-4 bg-blue-600 text-white px-6 py-2 rounded-full shadow-lg font-medium hover:bg-blue-700"
-      >
-        Log In
-      </Link>
     </div>
   );
 };
