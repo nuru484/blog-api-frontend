@@ -1,4 +1,4 @@
-import { Search, ChevronDown } from 'lucide-react';
+import { ChevronDown } from 'lucide-react';
 import BlogCard from '../components/BlogCard';
 import { Link } from 'react-router-dom';
 import { useState, useEffect } from 'react';
@@ -7,6 +7,7 @@ import BlogDetail from '@/components/BlogDetail';
 import usePostContext from '@/hooks/usePostContext';
 import NabBar from '@/components/NabBar';
 import About from '@/components/About';
+import Header from '@/components/Header';
 
 const Home = () => {
   const [viewBlogDetail, setViewBlogDetail] = useState(false);
@@ -125,24 +126,7 @@ const Home = () => {
 
   return (
     <div className="max-w-md mx-auto bg-gray-100 min-h-screen font-sans pb-16">
-      <header className="bg-white shadow-sm p-4 sticky top-0 z-10">
-        <h1 className="text-2xl font-bold text-center text-blue-600">
-          Afatech Blog
-        </h1>
-        {!aboutBlog && (
-          <div className="mt-4 relative">
-            <input
-              type="text"
-              placeholder="Search articles..."
-              className="w-full p-2 pl-10 pr-4 border border-gray-300 rounded-full"
-            />
-            <Search
-              className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400"
-              size={20}
-            />
-          </div>
-        )}
-      </header>
+      {!aboutBlog && <Header />}
 
       <main className="p-4">{renderContent()}</main>
 
