@@ -5,6 +5,7 @@ import { useState, useEffect } from 'react';
 import Loading from '@/components/ui/loading';
 import BlogDetail from '@/components/BlogDetail';
 import usePostContext from '@/hooks/usePostContext';
+import NabBar from '@/components/NabBar';
 
 const Home = () => {
   const [viewBlogDetail, setViewBlogDetail] = useState(false);
@@ -114,16 +115,7 @@ const Home = () => {
           </button>
         )}
       </main>
-
-      <nav className="fixed bottom-0 left-0 right-0 bg-white border-t border-gray-200 p-2">
-        <div className="flex justify-around">
-          {['Home', 'Latest', 'Tags', 'About Blog'].map((item, index) => (
-            <button key={index} className="text-xs font-medium text-gray-600">
-              {item}
-            </button>
-          ))}
-        </div>
-      </nav>
+      <NabBar handleViewBlogCard={handleViewBlogCard} />
 
       <Link
         to="login"

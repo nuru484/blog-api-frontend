@@ -1,6 +1,7 @@
 import { ArrowRight } from 'lucide-react';
 import LikeButton from './LikeButton';
 import CommentButton from './CommentButton';
+import { Home, Clock, Tag, Info } from 'lucide-react';
 
 const BlogCard = ({
   date,
