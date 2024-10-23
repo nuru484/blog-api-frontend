@@ -13,10 +13,10 @@ const BlogCard = ({
   return (
     <div
       onClick={handleViewBlogDetail}
-      className="bg-white rounded-md shadow-md p-4 md:p-8 cursor-pointer flex flex-col justify-between min-h-96 "
+      className="bg-white rounded-md shadow-md p-4 cursor-pointer flex flex-col justify-between min-h-96 "
     >
       <div>
-        <div className="mb-4 flex justify-between items-center">
+        <div className="mb-4 flex justify-between items-center flex-wrap gap-3">
           <span
             className={`text-xs font-medium px-2 py-1 rounded bg-blue-100 text-blue-800`}
           >
@@ -31,7 +31,7 @@ const BlogCard = ({
           {excerpt}...
         </p>
       </div>
-      <div className="flex justify-between items-center">
+      <div className="flex justify-between items-center flex-wrap gap-3">
         <button className="text-blue-600 text-sm font-medium flex items-center">
           Read more <ArrowRight size={16} className="ml-1" />
         </button>

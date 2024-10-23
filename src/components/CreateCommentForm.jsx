@@ -10,7 +10,7 @@ const CreateCommentForm = ({
   comment,
 }) => {
   return (
-    <div className="flex items-center justify-center rounded-md border-2 my-4 bg-gray-100">
+    <div className="flex items-center justify-center rounded-md border-2 my-4  ">
       <div className="bg-white p-8  w-full max-w-md">
         <h2 className="text-2xl font-semibold text-center text-gray-700 mb-6">
           Add Comment

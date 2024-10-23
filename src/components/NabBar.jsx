@@ -1,13 +1,19 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import usePostContext from '@/hooks/usePostContext';
 import { Home, Clock, Tag, Info } from 'lucide-react';
+import useTagContext from '@/hooks/useTagsContext';
 
 const NavBar = ({ handleViewBlogCard, showBlogAbout }) => {
   const { handleApiToFetch } = usePostContext();
   const [showTags, setShowTags] = useState(false);
   const [activeItem, setActiveItem] = useState('Home');
 
-  const tags = ['Tech', 'Science', 'Agric', 'Stats'];
+  // const tags = ['Tech', 'Science', 'Agric', 'Stats'];
+  const { tags } = useTagContext();
+
+  // tags.map((tag) => {
+  //   console.log(tag.name);
+  // });
 
   const handleNavigation = (section) => {
     setActiveItem(section);
@@ -31,7 +37,7 @@ const NavBar = ({ handleViewBlogCard, showBlogAbout }) => {
         break;
       default:
         if (tags.includes(section)) {
-          handleApiToFetch(`posts/${section}`);
+          handleApiToFetch(`posts/${section.name}`);
           setShowTags(false);
           handleViewBlogCard();
         }
@@ -94,13 +100,13 @@ const NavBar = ({ handleViewBlogCard, showBlogAbout }) => {
               <div className="grid grid-cols-2 gap-3">
                 {tags.map((tag) => (
                   <button
-                    key={tag}
+                    key={tag.id}
                     onClick={() => handleNavigation(tag)}
                     className="px-4 py-2 text-sm font-medium rounded-lg
                              bg-blue-50 text-blue-600 hover:bg-blue-100
                              transition-colors duration-200"
                   >
-                    {tag}
+                    {tag.name}
                   </button>
                 ))}
               </div>
@@ -140,13 +146,13 @@ const NavBar = ({ handleViewBlogCard, showBlogAbout }) => {
           <div className="flex flex-wrap gap-2">
             {tags.map((tag) => (
               <button
-                key={tag}
+                key={tag.id}
                 onClick={() => handleNavigation(tag)}
                 className="px-3 py-1.5 text-sm font-medium rounded-md
                          bg-blue-50 text-blue-600 hover:bg-blue-100
                          transition-colors duration-200"
               >
-                {tag}
+                {tag.name}
               </button>
             ))}
           </div>
