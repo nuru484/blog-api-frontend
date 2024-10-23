@@ -13,20 +13,24 @@ const BlogCard = ({
   return (
     <div
       onClick={handleViewBlogDetail}
-      className="bg-white rounded-md shadow-md p-4 mb-4 cursor-pointer"
+      className="bg-white rounded-md shadow-md p-4 md:p-8 cursor-pointer flex flex-col justify-between min-h-96 "
     >
-      <div className="mb-2 flex justify-between items-center">
-        <span
-          className={`text-xs font-medium px-2 py-1 rounded bg-blue-100 text-blue-800`}
-        >
-          {tag}
-        </span>
-        <span className="text-xs text-gray-500">{date}</span>
+      <div>
+        <div className="mb-4 flex justify-between items-center">
+          <span
+            className={`text-xs font-medium px-2 py-1 rounded bg-blue-100 text-blue-800`}
+          >
+            {tag}
+          </span>
+          <span className="text-xs text-gray-500">{date}</span>
+        </div>
+        <h2 className="text-xl font-bold mb-2 leading-tight text-gray-800">
+          {title}
+        </h2>
+        <p className="text-sm mb-4 text-gray-600 leading-relaxed">
+          {excerpt}...
+        </p>
       </div>
-      <h2 className="text-xl font-bold mb-2 leading-tight text-gray-800">
-        {title}
-      </h2>
-      <p className="text-sm mb-4 text-gray-600 leading-relaxed">{excerpt}...</p>
       <div className="flex justify-between items-center">
         <button className="text-blue-600 text-sm font-medium flex items-center">
           Read more <ArrowRight size={16} className="ml-1" />

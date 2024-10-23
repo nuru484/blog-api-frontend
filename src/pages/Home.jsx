@@ -95,20 +95,23 @@ const Home = () => {
     if (posts && posts.length > 0) {
       return (
         <div>
-          {posts.map((post) => (
-            <BlogCard
-              key={post.id}
-              date={new Date(post.createdAt).toLocaleString('en-US')}
-              title={post.title}
-              post={post}
-              excerpt={post.content.slice(0, 100)}
-              tag={post.tags.length === 0 ? 'Default' : post.tags[0].name}
-              handleViewBlogDetail={() => handleViewBlogDetail(post)}
-            />
-          ))}
+          <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
+            {posts.map((post) => (
+              <BlogCard
+                key={post.id}
+                date={new Date(post.createdAt).toLocaleString('en-US')}
+                title={post.title}
+                post={post}
+                excerpt={post.content.slice(0, 250)}
+                tag={post.tags.length === 0 ? 'Default' : post.tags[0].name}
+                handleViewBlogDetail={() => handleViewBlogDetail(post)}
+              />
+            ))}
+          </div>
+
           {!loading && (
             <button
-              className="w-full py-3 text-blue-600 font-medium flex items-center justify-center"
+              className="w-full py-3 text-blue-600 font-medium flex items-center justify-center mt-4"
               onClick={() => {}}
             >
               {posts.length === 0 ? 'Load Posts' : 'Load More'}
@@ -127,16 +130,39 @@ const Home = () => {
   };
 
   return (
-    <div className="mx-auto bg-gray-100 min-h-screen font-sans pb-16">
-      <div className="sticky top-0 z-10">{!aboutBlog && <Header />}</div>
+    <div className="mx-auto bg-gray-100 min-h-screen font-sans pb-16 lg:flex lg:pb-0">
+      <div className="sticky top-0 z-10">
+        <div className="hidden lg:block sticky top-0">
+          <NabBar
+            handleViewBlogCard={handleViewBlogCard}
+            showBlogAbout={handleAboutBlog}
+          />
+        </div>
 
-      <main className="p-4">{renderContent()}</main>
+        <div className="lg:hidden flex justify-center items-center bg-white shadow-sm">
+          {!aboutBlog && <Header />}
+          <div className="hidden lg:block">
+            <LoginButton />
+          </div>
+        </div>
+      </div>
 
-      <div className="fixed right-5 bottom-20">
+      <div className="flex-1">
+        <div className="hidden lg:flex justify-between items-center sticky top-0 pr-6 bg-white shadow-sm">
+          <Header />
+          <div className="hidden lg:block">
+            <LoginButton />
+          </div>
+        </div>
+
+        <main className="p-4 lg:px-8">{renderContent()}</main>
+      </div>
+
+      <div className="fixed right-5 bottom-20 lg:hidden">
         <LoginButton />
       </div>
 
-      <div className="fixed bottom-0 w-full">
+      <div className="fixed bottom-0 w-full lg:hidden">
         <NabBar
           handleViewBlogCard={handleViewBlogCard}
           showBlogAbout={handleAboutBlog}

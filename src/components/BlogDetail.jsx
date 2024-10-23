@@ -27,7 +27,7 @@ const BlogDetail = ({
   };
 
   return (
-    <div className="bg-white rounded-md shadow-md p-4 mb-4">
+    <div className="bg-white rounded-md shadow-md p-4 md:p-8 lg:p-12 mb-4">
       <div className="mb-2 flex justify-between">
         <div className="flex flex-col">
           {tags.map((tag, index) => (
