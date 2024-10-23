@@ -13,7 +13,7 @@ const BlogCard = ({
   return (
     <div
       onClick={handleViewBlogDetail}
-      className="bg-white rounded-lg shadow-md p-4 mb-4 cursor-pointer"
+      className="bg-white rounded-md shadow-md p-4 mb-4 cursor-pointer"
     >
       <div className="mb-2 flex justify-between items-center">
         <span

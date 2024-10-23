@@ -47,10 +47,9 @@ const NavBar = ({ handleViewBlogCard, showBlogAbout }) => {
   ];
 
   return (
-    <div>
-      {/* Tags Popup */}
+    <>
       {showTags && (
-        <div className="lg:max-w-screen-lg fixed mx-auto bottom-16 left-0 right-0 bg-white shadow-lg border-t border-gray-100 p-4 transition-all duration-300 ease-in-out">
+        <div className="mx-auto bg-white shadow-lg border-t border-gray-100 p-4 transition-all duration-300 ease-in-out">
           <div className="">
             <h3 className="text-sm font-semibold text-gray-700 mb-3">
               Select a tag
@@ -72,30 +71,27 @@ const NavBar = ({ handleViewBlogCard, showBlogAbout }) => {
         </div>
       )}
 
-      {/* Navigation Bar */}
-      <nav className="lg:max-w-screen-lg fixed mx-auto bottom-0 left-0 right-0 bg-white border-t border-gray-200 shadow-lg px-4 py-2">
-        <div className=" ">
-          <div className="flex justify-around items-center">
-            {navItems.map((item) => (
-              <button
-                key={item.name}
-                onClick={() => handleNavigation(item.name)}
-                className={`flex flex-col items-center space-y-1 px-3 py-1 rounded-md
+      <nav className="mx-auto bg-white border-t border-gray-200 shadow-lg px-4 py-2 w-full">
+        <div className="flex justify-around items-center">
+          {navItems.map((item) => (
+            <button
+              key={item.name}
+              onClick={() => handleNavigation(item.name)}
+              className={`flex flex-col items-center space-y-1 px-3 py-1 rounded-md
                           transition-colors duration-200
                           ${
                             activeItem === item.name
                               ? 'text-blue-600'
                               : 'text-gray-600 hover:text-blue-600'
                           }`}
-              >
-                <item.icon size={18} />
-                <span className="text-xs font-medium">{item.name}</span>
-              </button>
-            ))}
-          </div>
+            >
+              <item.icon size={18} />
+              <span className="text-xs font-medium">{item.name}</span>
+            </button>
+          ))}
         </div>
       </nav>
-    </div>
+    </>
   );
 };
 

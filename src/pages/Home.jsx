@@ -72,27 +72,29 @@ const Home = () => {
 
     if (viewBlogDetail && selectedPost) {
       return (
-        <BlogDetail
-          date={new Date(selectedPost.createdAt).toLocaleString('en-US')}
-          handleViewBlogCard={handleViewBlogCard}
-          title={selectedPost.title}
-          content={selectedPost.content}
-          author={
-            selectedPost.author
-              ? `${selectedPost.author.firstname} ${selectedPost.author.lastname}`
-              : 'Unknown'
-          }
-          post={selectedPost}
-          tags={
-            selectedPost.tags.length === 0 ? ['Default'] : selectedPost.tags
-          }
-        />
+        <div>
+          <BlogDetail
+            date={new Date(selectedPost.createdAt).toLocaleString('en-US')}
+            handleViewBlogCard={handleViewBlogCard}
+            title={selectedPost.title}
+            content={selectedPost.content}
+            author={
+              selectedPost.author
+                ? `${selectedPost.author.firstname} ${selectedPost.author.lastname}`
+                : 'Unknown'
+            }
+            post={selectedPost}
+            tags={
+              selectedPost.tags.length === 0 ? ['Default'] : selectedPost.tags
+            }
+          />
+        </div>
       );
     }
 
     if (posts && posts.length > 0) {
       return (
-        <>
+        <div>
           {posts.map((post) => (
             <BlogCard
               key={post.id}
@@ -113,7 +115,7 @@ const Home = () => {
               <ChevronDown size={20} className="ml-1" />
             </button>
           )}
-        </>
+        </div>
       );
     }
 
@@ -125,19 +127,21 @@ const Home = () => {
   };
 
   return (
-    <div className="lg:max-w-screen-lg mx-auto relative bg-gray-100 min-h-screen font-sans pb-16">
-      {!aboutBlog && <Header />}
+    <div className="mx-auto bg-gray-100 min-h-screen font-sans pb-16">
+      <div className="sticky top-0 z-10">{!aboutBlog && <Header />}</div>
 
       <main className="p-4">{renderContent()}</main>
 
-      <div className="sticky bottom-20 mr-5 flex justify-end">
+      <div className="fixed right-5 bottom-20">
         <LoginButton />
       </div>
 
-      <NabBar
-        handleViewBlogCard={handleViewBlogCard}
-        showBlogAbout={handleAboutBlog}
-      />
+      <div className="fixed bottom-0 w-full">
+        <NabBar
+          handleViewBlogCard={handleViewBlogCard}
+          showBlogAbout={handleAboutBlog}
+        />
+      </div>
     </div>
   );
 };

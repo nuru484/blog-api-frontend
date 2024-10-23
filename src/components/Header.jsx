@@ -2,12 +2,12 @@ import { Search } from 'lucide-react';
 
 const Header = () => {
   return (
-    <div>
-      <header className=" bg-white shadow-sm p-4 sticky top-0 z-10">
+    <>
+      <header className="bg-white shadow-sm p-4 md:flex justify-center items-center gap-4">
         <h1 className="text-2xl font-bold text-center text-blue-600">
           Afatech Blog
         </h1>
-        <div className="mt-4 relative">
+        <div className="mt-4 relative md:mt-0">
           <input
             type="text"
             placeholder="Search articles..."
@@ -19,7 +19,7 @@ const Header = () => {
           />
         </div>
       </header>
-    </div>
+    </>
   );
 };
 
