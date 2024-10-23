@@ -2,6 +2,7 @@ import useAuth from './useAuth';
 import CreatePostForm from '@/components/CreatePostForm';
 import { createPost } from '@/api/postsFetch';
 import { useState, useCallback, useEffect } from 'react';
+import useTagContext from './useTagsContext';
 
 const useCreatePost = () => {
   const [post, setPost] = useState({
@@ -14,13 +15,7 @@ const useCreatePost = () => {
   const [error, setError] = useState('');
   const [selectedTags, setSelectedTags] = useState([]);
 
-  const availableTags = [
-    { name: 'Astronomy', id: 3 },
-    { name: 'Technology', id: 2 },
-    { name: 'Science', id: 4 },
-    { name: 'Programming', id: 5 },
-  ];
-
+  const { tags } = useTagContext();
   const { accessToken } = useAuth();
 
   const handleSubmit = useCallback(
@@ -71,7 +66,7 @@ const useCreatePost = () => {
       handleTagSelection={handleTagSelection}
       post={post}
       setPost={setPost}
-      availableTags={availableTags}
+      availableTags={tags}
     />
   );
 };
