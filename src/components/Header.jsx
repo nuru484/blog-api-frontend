@@ -3,7 +3,7 @@ import { Search } from 'lucide-react';
 const Header = () => {
   return (
     <div>
-      <header className="bg-white shadow-sm p-4 sticky top-0 z-10">
+      <header className=" bg-white shadow-sm p-4 sticky top-0 z-10">
         <h1 className="text-2xl font-bold text-center text-blue-600">
           Afatech Blog
         </h1>

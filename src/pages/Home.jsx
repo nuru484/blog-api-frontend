@@ -125,15 +125,13 @@ const Home = () => {
   };
 
   return (
-    <div className="max-w-md mx-auto relative bg-gray-100 min-h-screen font-sans pb-16">
+    <div className="lg:max-w-screen-lg mx-auto relative bg-gray-100 min-h-screen font-sans pb-16">
       {!aboutBlog && <Header />}
 
       <main className="p-4">{renderContent()}</main>
 
-      <div className="sticky bottom-24 w-full max-w-md mx-auto">
-        <div className="absolute right-4">
-          <LoginButton />
-        </div>
+      <div className="sticky bottom-20 mr-5 flex justify-end">
+        <LoginButton />
       </div>
 
       <NabBar

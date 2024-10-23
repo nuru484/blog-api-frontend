@@ -47,10 +47,10 @@ const NavBar = ({ handleViewBlogCard, showBlogAbout }) => {
   ];
 
   return (
-    <div className="relative">
+    <div>
       {/* Tags Popup */}
       {showTags && (
-        <div className="fixed max-w-md mx-auto bottom-16 left-0 right-0 bg-white shadow-lg border-t border-gray-100 p-4 transition-all duration-300 ease-in-out">
+        <div className="lg:max-w-screen-lg fixed mx-auto bottom-16 left-0 right-0 bg-white shadow-lg border-t border-gray-100 p-4 transition-all duration-300 ease-in-out">
           <div className="">
             <h3 className="text-sm font-semibold text-gray-700 mb-3">
               Select a tag
@@ -73,7 +73,7 @@ const NavBar = ({ handleViewBlogCard, showBlogAbout }) => {
       )}
 
       {/* Navigation Bar */}
-      <nav className="fixed max-w-md mx-auto bottom-0 left-0 right-0 bg-white border-t border-gray-200 shadow-lg px-4 py-2">
+      <nav className="lg:max-w-screen-lg fixed mx-auto bottom-0 left-0 right-0 bg-white border-t border-gray-200 shadow-lg px-4 py-2">
         <div className=" ">
           <div className="flex justify-around items-center">
             {navItems.map((item) => (
