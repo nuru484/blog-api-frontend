@@ -1,14 +1,38 @@
 import { Search } from 'lucide-react';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import usePostContext from '@/hooks/usePostContext';
+import { handleAPIError } from '@/lib/errorHandler';
+import { fetchPosts } from '@/api/postsFetch';
 
 const Header = ({ handleViewBlogCard }) => {
   const [searchQuery, setSearchQuery] = useState('');
+  const [postsToSearch, setPostsToSearch] = useState([]);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
 
-  const { posts, setPosts } = usePostContext();
+  const { setPosts } = usePostContext();
+
+  // Fetch posts to be searched from on mount
+  useEffect(() => {
+    const fetchPostsFunction = async () => {
+      setLoading(true);
+      setError(null);
+
+      try {
+        const response = await fetchPosts('posts/published');
+        setPostsToSearch(response.posts);
+      } catch (error) {
+        handleAPIError(error, setError);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchPostsFunction();
+  }, []);
 
   const handleSearchQuery = () => {
-    const filtered = posts.filter(
+    const filtered = postsToSearch.filter(
       (post) =>
         post.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
         post.content.toLowerCase().includes(searchQuery.toLowerCase())

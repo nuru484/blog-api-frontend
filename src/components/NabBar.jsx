@@ -8,12 +8,7 @@ const NavBar = ({ handleViewBlogCard, showBlogAbout }) => {
   const [showTags, setShowTags] = useState(false);
   const [activeItem, setActiveItem] = useState('Home');
 
-  // const tags = ['Tech', 'Science', 'Agric', 'Stats'];
   const { tags } = useTagContext();
-
-  // tags.map((tag) => {
-  //   console.log(tag.name);
-  // });
 
   const handleNavigation = (section) => {
     setActiveItem(section);
