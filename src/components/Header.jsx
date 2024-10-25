@@ -4,6 +4,7 @@ import usePostContext from '@/hooks/usePostContext';
 import { handleAPIError } from '@/lib/errorHandler';
 import { fetchPosts } from '@/api/postsFetch';
 import useAuth from '@/hooks/useAuth';
+import PostManagementMenu from './PostManagementMenu';
 
 const Header = ({ handleViewBlogCard }) => {
   const [searchQuery, setSearchQuery] = useState('');
@@ -61,11 +62,19 @@ const Header = ({ handleViewBlogCard }) => {
           <h1 className="text-2xl font-bold text-center text-blue-600 lg:hidden">
             Afatech Blog
           </h1>
-          {isAuth && (
-            <button className="px-4 py-2 bg-blue-600 text-white rounded-3xl hover:bg-blue-700">
-              <span>Manage Posts</span>
-            </button>
-          )}
+          <div className="relative">
+            {isAuth && (
+              <button
+                onClick={console.log('Open menu')}
+                className="px-4 py-2 bg-blue-600 text-white rounded-3xl hover:bg-blue-700"
+              >
+                <span>Manage Posts</span>
+              </button>
+            )}
+            <div className="absolute top-12 right-0 lg:left-0 z-10">
+              <PostManagementMenu />
+            </div>
+          </div>
         </div>
 
         <div className="mt-4 lg:mt-0 relative ">
