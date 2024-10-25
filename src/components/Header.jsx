@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react';
 import usePostContext from '@/hooks/usePostContext';
 import { handleAPIError } from '@/lib/errorHandler';
 import { fetchPosts } from '@/api/postsFetch';
-import PostManagementMenu from './PostManagementMenu';
+import useAuth from '@/hooks/useAuth';
 
 const Header = ({ handleViewBlogCard }) => {
   const [searchQuery, setSearchQuery] = useState('');
@@ -12,6 +12,8 @@ const Header = ({ handleViewBlogCard }) => {
   const [error, setError] = useState(null);
 
   const { setPosts } = usePostContext();
+
+  const { authUser, isAuth, logout } = useAuth();
 
   // Fetch posts to be searched from on mount
   useEffect(() => {
@@ -54,18 +56,19 @@ const Header = ({ handleViewBlogCard }) => {
 
   return (
     <>
-      <header className="bg-white shadow-sm p-4 md:p-6 lg:p-8 w-full lg:flex ">
+      <header className="w-full bg-white shadow-sm p-4 md:p-6 lg:p-8 lg:flex items-center gap-4  lg:w-auto  ">
         <div className="flex justify-between gap-5">
           <h1 className="text-2xl font-bold text-center text-blue-600 lg:hidden">
             Afatech Blog
           </h1>
-
-          <button className="px-4 py-2 bg-blue-600 text-white rounded-3xl hover:bg-blue-700 lg:py-1">
-            <span>Manage Posts</span>
-          </button>
+          {isAuth && (
+            <button className="px-4 py-2 bg-blue-600 text-white rounded-3xl hover:bg-blue-700">
+              <span>Manage Posts</span>
+            </button>
+          )}
         </div>
 
-        <div className="mt-4 relative ">
+        <div className="mt-4 lg:mt-0 relative ">
           <input
             type="text"
             value={searchQuery}

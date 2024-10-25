@@ -8,6 +8,7 @@ import NabBar from '@/components/NabBar';
 import About from '@/components/About';
 import Header from '@/components/Header';
 import LoginButton from '@/components/LoginButton';
+import useAuth from '@/hooks/useAuth';
 
 const Home = () => {
   const [viewBlogDetail, setViewBlogDetail] = useState(false);
@@ -15,6 +16,8 @@ const Home = () => {
   const [aboutBlog, setAboutBlog] = useState(false);
 
   const { posts, loading, error } = usePostContext();
+
+  const { authUser, isAuth, logout } = useAuth();
 
   const handleAboutBlog = () => {
     setAboutBlog(true);
@@ -147,17 +150,21 @@ const Home = () => {
       <div className="flex-1">
         <div className="hidden lg:flex justify-between items-center sticky top-0 pr-6 bg-white shadow-sm">
           <Header handleViewBlogCard={handleViewBlogCard} />
-          {/* <div className="hidden lg:block">
-            <LoginButton />
-          </div> */}
+          {!isAuth && (
+            <div className="hidden lg:block">
+              <LoginButton />
+            </div>
+          )}
         </div>
 
         <main className="p-4 lg:px-8">{renderContent()}</main>
       </div>
 
-      <div className="fixed right-5 bottom-20 lg:hidden">
-        <LoginButton />
-      </div>
+      {!isAuth && (
+        <div className="fixed right-5 bottom-20 lg:hidden">
+          <LoginButton />
+        </div>
+      )}
 
       <div className="fixed bottom-0 w-full lg:hidden">
         <NabBar
