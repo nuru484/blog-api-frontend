@@ -3,7 +3,8 @@ import { Plus, FileText, FileX, MoreVertical } from 'lucide-react';
 
 const PostManagementMenu = () => {
   return (
-    <div className="flex flex-col bg-white rounded-lg shadow-lg p-2 min-w-[200px]">
+    <div className="flex flex-col bg-white rounded-lg shadow-lg p-2 min-w-64">
+      {/* Create Post Button - Most prominent action */}
       <button className="flex items-center gap-2 w-full p-3 text-left text-blue-600 hover:bg-blue-50 rounded-md mb-2 font-medium">
         <Plus className="w-5 h-5" />
         <span>Create Post</span>
