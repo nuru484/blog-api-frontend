@@ -141,18 +141,15 @@ const Home = () => {
 
         <div className="lg:hidden flex justify-center items-center bg-white shadow-sm">
           {!aboutBlog && <Header handleViewBlogCard={handleViewBlogCard} />}
-          <div className="hidden lg:block">
-            <LoginButton />
-          </div>
         </div>
       </div>
 
       <div className="flex-1">
         <div className="hidden lg:flex justify-between items-center sticky top-0 pr-6 bg-white shadow-sm">
           <Header handleViewBlogCard={handleViewBlogCard} />
-          <div className="hidden lg:block">
+          {/* <div className="hidden lg:block">
             <LoginButton />
-          </div>
+          </div> */}
         </div>
 
         <main className="p-4 lg:px-8">{renderContent()}</main>

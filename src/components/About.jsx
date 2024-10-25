@@ -29,16 +29,14 @@ const About = () => {
             Technical Stack
           </h2>
           <div className="flex flex-wrap gap-2">
-            {['React', 'Express', 'PostgreSQL', 'REST API', 'CMS'].map(
-              (tech) => (
-                <span
-                  key={tech}
-                  className="text-xs font-medium px-2 py-1 rounded bg-blue-100 text-blue-800"
-                >
-                  {tech}
-                </span>
-              )
-            )}
+            {['React', 'Express', 'PostgreSQL', 'REST API'].map((tech) => (
+              <span
+                key={tech}
+                className="text-xs font-medium px-2 py-1 rounded bg-blue-100 text-blue-800"
+              >
+                {tech}
+              </span>
+            ))}
           </div>
         </div>
 

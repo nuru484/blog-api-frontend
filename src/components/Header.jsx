@@ -1,8 +1,9 @@
-import { Search } from 'lucide-react';
+import { Search, Plus } from 'lucide-react';
 import { useEffect, useState } from 'react';
 import usePostContext from '@/hooks/usePostContext';
 import { handleAPIError } from '@/lib/errorHandler';
 import { fetchPosts } from '@/api/postsFetch';
+import PostManagementMenu from './PostManagementMenu';
 
 const Header = ({ handleViewBlogCard }) => {
   const [searchQuery, setSearchQuery] = useState('');
@@ -53,18 +54,25 @@ const Header = ({ handleViewBlogCard }) => {
 
   return (
     <>
-      <header className="bg-white shadow-sm p-4 md:flex gap-4 md:p-6 lg:p-8">
-        <h1 className="text-2xl font-bold text-center text-blue-600 lg:hidden">
-          Afatech Blog
-        </h1>
-        <div className="mt-4 relative md:mt-0">
+      <header className="bg-white shadow-sm p-4 md:p-6 lg:p-8 w-full lg:flex ">
+        <div className="flex justify-between gap-5">
+          <h1 className="text-2xl font-bold text-center text-blue-600 lg:hidden">
+            Afatech Blog
+          </h1>
+
+          <button className="px-4 py-2 bg-blue-600 text-white rounded-3xl hover:bg-blue-700 lg:py-1">
+            <span>Manage Posts</span>
+          </button>
+        </div>
+
+        <div className="mt-4 relative ">
           <input
             type="text"
             value={searchQuery}
             onChange={handleInputChange}
             onKeyDown={handleKeyDown}
             placeholder="Search articles..."
-            className="w-full py-2 px-10 border border-gray-300 rounded-full"
+            className="py-2 px-10 border border-gray-300 rounded-full w-full"
           />
           <Search
             className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 cursor-pointer"
