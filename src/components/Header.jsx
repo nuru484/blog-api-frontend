@@ -11,12 +11,11 @@ const Header = ({ handleViewBlogCard }) => {
   const [postsToSearch, setPostsToSearch] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
+  const [postManagement, setPostManagement] = useState(false);
 
   const { setPosts } = usePostContext();
-
   const { authUser, isAuth, logout } = useAuth();
 
-  // Fetch posts to be searched from on mount
   useEffect(() => {
     const fetchPostsFunction = async () => {
       setLoading(true);
@@ -33,7 +32,7 @@ const Header = ({ handleViewBlogCard }) => {
     };
 
     fetchPostsFunction();
-  }, []);
+  }, [isAuth]);
 
   const handleSearchQuery = () => {
     const filtered = postsToSearch.filter(
@@ -55,9 +54,13 @@ const Header = ({ handleViewBlogCard }) => {
     }
   };
 
+  const handleOpenMenu = () => {
+    setPostManagement(!postManagement);
+  };
+
   return (
     <>
-      <header className="w-full bg-white shadow-sm p-4 md:p-6 lg:p-8 lg:flex items-center gap-4  lg:w-auto  ">
+      <header className="w-full bg-white shadow-sm p-4 md:p-6 lg:p-8 lg:flex items-center gap-4  lg:w-auto">
         <div className="flex justify-between gap-5">
           <h1 className="text-2xl font-bold text-center text-blue-600 lg:hidden">
             Afatech Blog
@@ -65,19 +68,21 @@ const Header = ({ handleViewBlogCard }) => {
           <div className="relative">
             {isAuth && (
               <button
-                onClick={console.log('Open menu')}
+                onClick={handleOpenMenu}
                 className="px-4 py-2 bg-blue-600 text-white rounded-3xl hover:bg-blue-700"
               >
                 <span>Manage Posts</span>
               </button>
             )}
-            <div className="absolute top-12 right-0 lg:left-0 z-10">
-              <PostManagementMenu />
-            </div>
+            {postManagement && (
+              <div className="absolute top-12 right-0 lg:left-0 z-10">
+                <PostManagementMenu />
+              </div>
+            )}
           </div>
         </div>
 
-        <div className="mt-4 lg:mt-0 relative ">
+        <div className="mt-4 lg:mt-0 relative">
           <input
             type="text"
             value={searchQuery}
