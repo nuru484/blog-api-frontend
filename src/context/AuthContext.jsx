@@ -48,11 +48,16 @@ export const AuthContextProvider = ({ children }) => {
     }
   }, [accessToken, refreshToken]);
 
-  // Fetch user details based on token
   useEffect(() => {
     const getUserFromToken = async () => {
       setLoading(true);
       try {
+        console.log(
+          'Attempting to retrieve user data with access token:',
+          accessToken
+        );
+
+        // Initial fetch for user data using access token
         const response = await backendFetch(`/api/v1/user-token`, {
           method: 'POST',
           headers: {
@@ -61,30 +66,27 @@ export const AuthContextProvider = ({ children }) => {
           },
         });
 
-        // Check for failure and handle token refresh if necessary
-        if (!response.ok) {
-          if (response.status === 401 && refreshToken) {
-            console.log('Access token expired, attempting to refresh token...');
+        if (!response.ok && response.status === 401 && refreshToken) {
+          console.log('Access token expired, attempting to refresh token...');
 
-            // Attempt to refresh token using refresh token
-            const refreshResponse = await backendFetch(`/api/v1/refreshToken`, {
-              method: 'POST',
-              headers: { 'Content-Type': 'application/json' },
-              body: JSON.stringify({ refreshToken }),
-            });
+          const refreshResponse = await backendFetch(`/api/v1/refreshToken`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ refreshToken }),
+          });
 
-            if (!refreshResponse.ok) {
-              console.error('Token refresh failed:', refreshResponse.status);
-              throw new Error('Token refresh failed');
-            }
-
-            const { accessToken: newAccessToken, user } =
-              await refreshResponse.json();
-            setAccessToken(newAccessToken);
-            setAuthUser(user);
-            setIsAuth(true);
+          if (!refreshResponse.ok) {
+            console.error('Refresh token invalid or expired. Logging out...');
+            logout(); // Log out if refresh fails
+            return;
           }
-        } else {
+
+          const { accessToken: newAccessToken, user } =
+            await refreshResponse.json();
+          setAccessToken(newAccessToken);
+          setAuthUser(user);
+          setIsAuth(true);
+        } else if (response.ok) {
           // If access token is valid, set the user data
           const userData = await response.json();
           setAuthUser(userData);
@@ -92,8 +94,7 @@ export const AuthContextProvider = ({ children }) => {
         }
       } catch (error) {
         console.error('Authentication error:', error);
-        setAuthUser(null);
-        setIsAuth(false);
+        logout(); // Log out on any error during authentication
       } finally {
         setLoading(false);
       }
@@ -139,8 +140,6 @@ export const AuthContextProvider = ({ children }) => {
       ) : (
         children
       )}
-
-      {/* {loading ? 'Loading...' : children} */}
     </AuthContext.Provider>
   );
 };
