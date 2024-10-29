@@ -9,6 +9,7 @@ import About from '@/components/About';
 import Header from '@/components/Header';
 import LoginButton from '@/components/LoginButton';
 import useAuth from '@/hooks/useAuth';
+import UserProfileMenu from '@/components/UserProfile';
 
 const Home = () => {
   const [viewBlogDetail, setViewBlogDetail] = useState(false);
@@ -17,7 +18,7 @@ const Home = () => {
 
   const { posts, loading, error } = usePostContext();
 
-  const { isAuth } = useAuth();
+  const { isAuth, logout } = useAuth();
 
   const handleAboutBlog = () => {
     setAboutBlog(true);
@@ -143,7 +144,7 @@ const Home = () => {
         </div>
 
         <div className="lg:hidden flex justify-center items-center bg-white shadow-sm">
-          {!aboutBlog && <Header handleViewBlogCard={handleViewBlogCard} />}
+          <Header handleViewBlogCard={handleViewBlogCard} />
         </div>
       </div>
 
@@ -155,6 +156,8 @@ const Home = () => {
               <LoginButton />
             </div>
           )}
+
+          {isAuth && <UserProfileMenu onLogout={logout} />}
         </div>
 
         <main className="p-4 lg:px-8">{renderContent()}</main>

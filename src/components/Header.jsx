@@ -3,6 +3,8 @@ import { useEffect, useState } from 'react';
 import usePostContext from '@/hooks/usePostContext';
 import { handleAPIError } from '@/lib/errorHandler';
 import { fetchPosts } from '@/api/postsFetch';
+import useAuth from '@/hooks/useAuth';
+import UserProfileMenu from './UserProfile';
 
 const Header = ({ handleViewBlogCard }) => {
   const [searchQuery, setSearchQuery] = useState('');
@@ -11,6 +13,7 @@ const Header = ({ handleViewBlogCard }) => {
   const [error, setError] = useState(null);
 
   const { setPosts } = usePostContext();
+  const { logout, isAuth } = useAuth();
 
   useEffect(() => {
     const fetchPostsFunction = async () => {
@@ -53,10 +56,12 @@ const Header = ({ handleViewBlogCard }) => {
   return (
     <>
       <header className="w-full bg-white shadow-sm p-4 md:p-6 lg:p-8 lg:flex items-center gap-4  lg:w-auto">
-        <div className="flex justify-between gap-5">
-          <h1 className="text-2xl font-bold text-center text-blue-600 lg:hidden">
+        <div className="flex justify-between gap-5 lg:hidden">
+          <h1 className="text-2xl font-bold text-center text-blue-600 ">
             Afatech Blog
           </h1>
+
+          {isAuth && <UserProfileMenu onLogout={logout} />}
         </div>
 
         <div className="mt-4 lg:mt-0 relative">
