@@ -2,6 +2,7 @@ import React, { createContext, useEffect, useState } from 'react';
 import encryptStorage from '../lib/encryptedStorage';
 import Loading from '@/components/ui/loading';
 import { backendFetch } from '../api';
+import { handleAPIError } from '@/lib/errorHandler';
 
 const AuthContext = createContext({
   accessToken: null,
@@ -36,6 +37,7 @@ export const AuthContextProvider = ({ children }) => {
   const [authUser, setAuthUser] = useState(null);
   const [isAuth, setIsAuth] = useState(!!initialAccessToken);
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
 
   // Effect to store tokens in encrypted storage
   useEffect(() => {
@@ -48,16 +50,36 @@ export const AuthContextProvider = ({ children }) => {
     }
   }, [accessToken, refreshToken]);
 
+  const tokenRefresh = async () => {
+    setLoading(true);
+    setError(null);
+
+    try {
+      console.log('Access token expired, attempting to refresh token...');
+
+      const refreshResponse = await backendFetch(`/api/v1/refreshToken`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ refreshToken }),
+      });
+
+      setAccessToken(refreshResponse.newAccessToken);
+    } catch (error) {
+      handleAPIError(error, setError);
+      logout();
+    } finally {
+      setLoading(false);
+    }
+  };
+
   useEffect(() => {
     const getUserFromToken = async () => {
       setLoading(true);
-      try {
-        console.log(
-          'Attempting to retrieve user data with access token:',
-          accessToken
-        );
+      setError(null);
 
-        // Initial fetch for user data using access token
+      try {
+        console.log('Attempting to retrieve user data with access token:');
+
         const response = await backendFetch(`/api/v1/user-token`, {
           method: 'POST',
           headers: {
@@ -66,35 +88,13 @@ export const AuthContextProvider = ({ children }) => {
           },
         });
 
-        if (!response.ok && response.status === 401 && refreshToken) {
-          console.log('Access token expired, attempting to refresh token...');
-
-          const refreshResponse = await backendFetch(`/api/v1/refreshToken`, {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ refreshToken }),
-          });
-
-          if (!refreshResponse.ok) {
-            console.error('Refresh token invalid or expired. Logging out...');
-            logout(); // Log out if refresh fails
-            return;
-          }
-
-          const { accessToken: newAccessToken, user } =
-            await refreshResponse.json();
-          setAccessToken(newAccessToken);
-          setAuthUser(user);
-          setIsAuth(true);
-        } else if (response.ok) {
-          // If access token is valid, set the user data
-          const userData = await response.json();
-          setAuthUser(userData);
+        if (response && response.user) {
+          setAuthUser(response);
           setIsAuth(true);
         }
       } catch (error) {
-        console.error('Authentication error:', error);
-        logout(); // Log out on any error during authentication
+        handleAPIError(error, setError);
+        tokenRefresh();
       } finally {
         setLoading(false);
       }
@@ -108,7 +108,6 @@ export const AuthContextProvider = ({ children }) => {
   }, [accessToken, refreshToken]);
 
   const logout = () => {
-    // Clear tokens and reset authentication state
     setAccessToken(null);
     setRefreshToken(null);
     setAuthUser(null);
