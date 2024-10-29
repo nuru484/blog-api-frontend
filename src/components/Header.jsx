@@ -1,20 +1,16 @@
-import { Search, Plus } from 'lucide-react';
+import { Search } from 'lucide-react';
 import { useEffect, useState } from 'react';
 import usePostContext from '@/hooks/usePostContext';
 import { handleAPIError } from '@/lib/errorHandler';
 import { fetchPosts } from '@/api/postsFetch';
-import useAuth from '@/hooks/useAuth';
-import PostManagementMenu from './PostManagementMenu';
 
 const Header = ({ handleViewBlogCard }) => {
   const [searchQuery, setSearchQuery] = useState('');
   const [postsToSearch, setPostsToSearch] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
-  const [postManagement, setPostManagement] = useState(false);
 
   const { setPosts } = usePostContext();
-  const { authUser, isAuth, logout } = useAuth();
 
   useEffect(() => {
     const fetchPostsFunction = async () => {
@@ -32,7 +28,7 @@ const Header = ({ handleViewBlogCard }) => {
     };
 
     fetchPostsFunction();
-  }, [isAuth]);
+  }, []);
 
   const handleSearchQuery = () => {
     const filtered = postsToSearch.filter(
@@ -54,10 +50,6 @@ const Header = ({ handleViewBlogCard }) => {
     }
   };
 
-  const handleOpenMenu = () => {
-    setPostManagement(!postManagement);
-  };
-
   return (
     <>
       <header className="w-full bg-white shadow-sm p-4 md:p-6 lg:p-8 lg:flex items-center gap-4  lg:w-auto">
@@ -65,21 +57,6 @@ const Header = ({ handleViewBlogCard }) => {
           <h1 className="text-2xl font-bold text-center text-blue-600 lg:hidden">
             Afatech Blog
           </h1>
-          <div className="relative">
-            {isAuth && (
-              <button
-                onClick={handleOpenMenu}
-                className="px-4 py-2 bg-blue-600 text-white rounded-3xl hover:bg-blue-700"
-              >
-                <span>Manage Posts</span>
-              </button>
-            )}
-            {postManagement && (
-              <div className="absolute top-12 right-0 lg:left-0 z-10">
-                <PostManagementMenu />
-              </div>
-            )}
-          </div>
         </div>
 
         <div className="mt-4 lg:mt-0 relative">

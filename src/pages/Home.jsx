@@ -17,7 +17,7 @@ const Home = () => {
 
   const { posts, loading, error } = usePostContext();
 
-  const { authUser, isAuth, logout } = useAuth();
+  const { isAuth } = useAuth();
 
   const handleAboutBlog = () => {
     setAboutBlog(true);

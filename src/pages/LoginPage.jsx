@@ -7,7 +7,7 @@ import LoginForm from '../components/LoginForm';
 import { handleAPIError } from '@/lib/errorHandler';
 
 const LoginPage = () => {
-  const { setAccessToken, setRefreshToken, isAuth } = useAuth();
+  const { setAccessToken, setRefreshToken, isAuth, setIsAuth } = useAuth();
   const [credentials, setCredentials] = useState({ email: '', password: '' });
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(false);
@@ -15,9 +15,9 @@ const LoginPage = () => {
 
   useEffect(() => {
     if (isAuth) {
-      navigate('/admin-page');
+      navigate('/');
     }
-  }, [isAuth, navigate]);
+  }, [setIsAuth]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -32,9 +32,7 @@ const LoginPage = () => {
       setAccessToken(response.accessToken);
       setRefreshToken(response.refreshToken);
 
-      console.log('Logged in successfully');
-
-      navigate('/profile');
+      setIsAuth(true);
     } catch (error) {
       handleAPIError(error, setError);
     } finally {

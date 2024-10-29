@@ -5,21 +5,12 @@ import Home from '../pages/Home';
 import AdminPage from '../pages/AdminPage';
 import LoginPage from '../pages/LoginPage';
 import SignUpPage from '@/pages/SignUpPage';
-import UserPage from '@/pages/UserPage';
 
 const Routes = () => {
   const { token } = useAuth();
 
   // Public routes accessible to all users
   const routesForPublic = [
-    {
-      path: '/service',
-      element: <div>Service Page</div>,
-    },
-    {
-      path: '/about-us',
-      element: <div>About Us</div>,
-    },
     {
       path: '/signup',
       element: <SignUpPage />,
@@ -37,8 +28,8 @@ const Routes = () => {
           element: <AdminPage />,
         },
         {
-          path: '/profile',
-          element: <UserPage />,
+          path: '/',
+          element: <Home />,
         },
         {
           path: '/logout',
