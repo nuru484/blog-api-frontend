@@ -30,7 +30,7 @@ const Home = () => {
   useEffect(() => {
     if (!aboutBlog) {
       const savedPost = JSON.parse(localStorage.getItem('selectedPost'));
-      if (savedPost) {
+      if (savedPost && posts) {
         const updatedPost = posts.find((post) => post.id === savedPost.id);
         if (updatedPost) {
           setSelectedPost(updatedPost);

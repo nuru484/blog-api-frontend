@@ -3,6 +3,7 @@ import { createComment } from '@/api/commentFetch';
 import { useState, useCallback } from 'react';
 import { handleAPIError } from '@/lib/errorHandler';
 import usePostContext from './usePostContext';
+import useAuth from './useAuth';
 
 const useCreateComment = (postId) => {
   const [commentContent, setCommentContent] = useState('');
@@ -10,14 +11,18 @@ const useCreateComment = (postId) => {
   const [error, setError] = useState('');
   const { setPosts } = usePostContext();
 
+  const { authUser } = useAuth();
+
   const handleSubmit = useCallback(
     async (e) => {
       e.preventDefault();
       setLoading(true);
       setError('');
 
+      const userId = authUser.user.id || null;
+
       try {
-        const response = await createComment(postId, commentContent);
+        const response = await createComment(postId, commentContent, userId);
 
         setCommentContent('');
 
@@ -30,6 +35,7 @@ const useCreateComment = (postId) => {
                   comments: [...post.comments, response.comment],
                 };
               }
+
               return post;
             })
           );

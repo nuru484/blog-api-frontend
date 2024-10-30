@@ -5,6 +5,19 @@ import useCreateComment from '@/hooks/useCreateComment';
 import Comments from './Comments';
 import useLikes from '@/hooks/useLikes';
 import { useState } from 'react';
+import useAuth from '@/hooks/useAuth';
+import { useNavigate } from 'react-router-dom';
+
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+} from '@/components/ui/alert-dialog';
 
 const BlogDetail = ({
   date,
@@ -18,12 +31,19 @@ const BlogDetail = ({
   const [displayCommentForm, setDisplayCommentForm] = useState(false);
   const CreateComment = useCreateComment(post.id);
 
+  const [isDialogOpen, setIsDialogOpen] = useState(false);
+
   const likePost = useLikes();
+  const { isAuth } = useAuth();
+  const navigate = useNavigate();
+
+  const handleLoginNavigate = () => {
+    navigate('/login');
+    setDisplayCommentForm(true);
+  };
 
   const handleDisplayCommentForm = () => {
-    displayCommentForm
-      ? setDisplayCommentForm(false)
-      : setDisplayCommentForm(true);
+    isAuth ? setDisplayCommentForm(!displayCommentForm) : setIsDialogOpen(true);
   };
 
   return (
@@ -68,6 +88,31 @@ const BlogDetail = ({
       </div>
 
       {displayCommentForm ? CreateComment : ''}
+
+      <AlertDialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
+        <AlertDialogContent className="bg-blue-600 text-white">
+          <AlertDialogHeader>
+            <AlertDialogTitle className="text-white">
+              You are not logged in!
+            </AlertDialogTitle>
+            <AlertDialogDescription className="text-blue-100">
+              Please login to comment on articles.
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter>
+            <AlertDialogCancel className="bg-blue-500 text-white hover:bg-blue-600">
+              Cancel
+            </AlertDialogCancel>
+            <AlertDialogAction
+              onClick={handleLoginNavigate}
+              className="bg-white text-blue-600 hover:bg-blue-100"
+            >
+              Login
+            </AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
+
       <Comments comments={post.comments} />
     </div>
   );

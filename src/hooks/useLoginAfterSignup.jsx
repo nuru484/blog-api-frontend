@@ -10,13 +10,12 @@ const useLoginAfterSignup = () => {
     try {
       const response = await loginFetch(credentials);
 
-      // Set tokens using useAuth hook
       setAccessToken(response.accessToken);
       setRefreshToken(response.refreshToken);
 
       console.log('Logged in successfully');
 
-      navigate('/profile');
+      navigate('/');
     } catch (error) {
       console.error('Login failed after signup:', error);
     }
