@@ -92,12 +92,12 @@ const NavBar = ({ handleViewBlogCard, showBlogAbout }) => {
               <h3 className="text-lg font-semibold text-gray-800 mb-4">
                 Select a tag
               </h3>
-              <div className="grid grid-cols-2 gap-3">
+              <div>
                 {tags.map((tag) => (
                   <button
                     key={tag.id}
                     onClick={() => handleNavigation(tag)}
-                    className="px-4 py-2 text-sm font-medium rounded-lg
+                    className="px-4 py-2 my-1 text-sm font-medium rounded-lg
                              bg-blue-50 text-blue-600 hover:bg-blue-100
                              transition-colors duration-200"
                   >
