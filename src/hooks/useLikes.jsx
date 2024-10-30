@@ -1,6 +1,5 @@
 import { handleAPIError } from '@/lib/errorHandler';
-import { likePostRequest } from '@/api/likesFetch';
-import { unlikePostRequest } from '@/api/likesFetch';
+import { likePostRequest, unlikePostRequest } from '@/api/likesFetch';
 import usePostContext from './usePostContext';
 import { getCookie } from '@/lib/cookies';
 import { useState } from 'react';
@@ -20,7 +19,7 @@ const useLikes = () => {
           like.userId === userId ? userId : getCookie('guestName')
         )
       ) {
-        const response = await unlikePostRequest(postId);
+        const response = await unlikePostRequest(postId, userId);
 
         if (response) {
           setPosts((prevPosts) =>
@@ -29,6 +28,7 @@ const useLikes = () => {
                 const updatedLikes = post.likes.filter(
                   (like) => like.id !== response.like.id
                 );
+
                 return { ...post, likes: updatedLikes };
               }
               return post;
@@ -43,11 +43,11 @@ const useLikes = () => {
     }
   };
 
-  const likePost = async (postId) => {
+  const likePost = async (postId, userId) => {
     setError('');
     setLoading(true);
     try {
-      const response = await likePostRequest(postId);
+      const response = await likePostRequest(postId, userId);
 
       if (response && response.like) {
         setPosts((prevPosts) =>

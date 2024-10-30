@@ -23,7 +23,7 @@ export const likePostRequest = async (postId, userId) => {
     options.body = JSON.stringify({ guestName });
   }
 
-  return await backendFetch(`/api/v1/like/${postId}/`, options);
+  return await backendFetch(`/api/v1/like/${postId}/${userId}`, options);
 };
 
 export const unlikePostRequest = async (postId, userId) => {
@@ -44,5 +44,5 @@ export const unlikePostRequest = async (postId, userId) => {
     options.body = JSON.stringify({ guestName });
   }
 
-  return await backendFetch(`/api/v1/like/${postId}/`, options);
+  return await backendFetch(`/api/v1/like/${postId}/${userId}`, options);
 };

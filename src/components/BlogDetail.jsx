@@ -4,9 +4,10 @@ import CommentIcon from './CommentIcon';
 import useCreateComment from '@/hooks/useCreateComment';
 import Comments from './Comments';
 import useLikes from '@/hooks/useLikes';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import useAuth from '@/hooks/useAuth';
 import { useNavigate } from 'react-router-dom';
+import { getCookie } from '@/lib/cookies';
 
 import {
   AlertDialog,
@@ -35,15 +36,30 @@ const BlogDetail = ({
   const [postLiked, setPostLiked] = useState(false);
 
   const { likePost, unlikePost } = useLikes();
-  const { isAuth } = useAuth();
+  const { isAuth, authUser } = useAuth();
   const navigate = useNavigate();
 
+  useEffect(() => {
+    if (isAuth) {
+      const hasLiked = post.likes.some(
+        (like) => like.userId === authUser.user.id
+      );
+      setPostLiked(hasLiked);
+    } else {
+      const guestName = getCookie('guestName');
+      const hasLiked = post.likes.some((like) => like.guestName === guestName);
+      setPostLiked(hasLiked);
+    }
+  }, [post.likes, isAuth, authUser]);
+
   const handlePostLike = () => {
+    const userId = isAuth && authUser.user.id;
+
     if (postLiked) {
-      unlikePost(post.id);
+      isAuth ? unlikePost(post.id, userId) : unlikePost(post.id);
       setPostLiked(false);
     } else {
-      likePost(post.id);
+      isAuth ? likePost(post.id, userId) : likePost(post.id);
       setPostLiked(true);
     }
   };
