@@ -89,7 +89,9 @@ const Home = () => {
             }
             post={selectedPost}
             tags={
-              selectedPost.tags.length === 0 ? ['Default'] : selectedPost.tags
+              selectedPost.tags.length > 0
+                ? selectedPost.tags
+                : [{ name: 'Default' }]
             }
           />
         </div>

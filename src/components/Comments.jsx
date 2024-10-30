@@ -13,8 +13,7 @@ const Comments = ({ comments }) => {
             <p>
               By{' '}
               <span className="text-xs">
-                {`${comment.user.firstname} ${comment.user.lastname}` ||
-                  comment.guestName}
+                {`${comment.user.firstname} ${comment.user.lastname}`}
               </span>{' '}
               on{' '}
               <span>{new Date(comment.createdAt).toLocaleString('en-US')}</span>
