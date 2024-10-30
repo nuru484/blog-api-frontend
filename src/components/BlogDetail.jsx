@@ -32,10 +32,21 @@ const BlogDetail = ({
   const CreateComment = useCreateComment(post.id);
 
   const [isDialogOpen, setIsDialogOpen] = useState(false);
+  const [postLiked, setPostLiked] = useState(false);
 
-  const likePost = useLikes();
+  const { likePost, unlikePost } = useLikes();
   const { isAuth } = useAuth();
   const navigate = useNavigate();
+
+  const handlePostLike = () => {
+    if (postLiked) {
+      unlikePost(post.id);
+      setPostLiked(false);
+    } else {
+      likePost(post.id);
+      setPostLiked(true);
+    }
+  };
 
   const handleLoginNavigate = () => {
     navigate('/login');
@@ -80,10 +91,7 @@ const BlogDetail = ({
             comments={post.comments.length}
             handleCommentForm={handleDisplayCommentForm}
           />
-          <LikeIcon
-            likes={post.likes.length}
-            handleLike={() => likePost(post.id)}
-          />
+          <LikeIcon likes={post.likes.length} handleLike={handlePostLike} />
         </div>
       </div>
 
