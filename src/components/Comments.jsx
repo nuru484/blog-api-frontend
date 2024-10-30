@@ -13,7 +13,9 @@ const Comments = ({ comments }) => {
             <p>
               By{' '}
               <span className="text-xs">
-                {`${comment.user.firstname} ${comment.user.lastname}`}
+                {`${comment.user?.firstname || 'Anonymous'} ${
+                  comment.user?.lastname || ''
+                }`.trim()}
               </span>{' '}
               on{' '}
               <span>{new Date(comment.createdAt).toLocaleString('en-US')}</span>

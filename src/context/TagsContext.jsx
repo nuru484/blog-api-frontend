@@ -18,7 +18,6 @@ export const TagsContextProvider = ({ children }) => {
 
       try {
         const response = await TagsFetch();
-        // console.log(response);
         setTags(response.tags);
       } catch (error) {
         handleAPIError(error, setError);
