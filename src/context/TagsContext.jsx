@@ -6,11 +6,13 @@ import { TagsFetch } from '@/api/tagsFetch';
 export const TagsContext = createContext();
 
 export const TagsContextProvider = ({ children }) => {
-  const [tags, setTags] = useState([]);
+  const [tags, setTags] = useState(() => {
+    const storedTags = localStorage.getItem('tags');
+    return storedTags ? JSON.parse(storedTags) : [];
+  });
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
 
-  // Fetch tags on mount
   useEffect(() => {
     const fetchTags = async () => {
       setLoading(true);
@@ -19,6 +21,7 @@ export const TagsContextProvider = ({ children }) => {
       try {
         const response = await TagsFetch();
         setTags(response.tags);
+        localStorage.setItem('tags', JSON.stringify(response.tags));
       } catch (error) {
         handleAPIError(error, setError);
       } finally {
