@@ -15,14 +15,14 @@ import {
   AlertDialogTitle,
 } from '@/components/ui/alert-dialog';
 
-const SignUpPage = () => {
+const SignUpPage = ({ role }) => {
   const [credentials, setCredentials] = useState({
     firstname: '',
     lastname: '',
     email: '',
     password: '',
     confirmPassword: '',
-    role: 'USER',
+    role,
   });
 
   const [error, setError] = useState(null);

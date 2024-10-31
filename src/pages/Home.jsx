@@ -215,7 +215,7 @@ const Home = () => {
         </div>
 
         <div className="flex justify-end mr-3 mt-3">
-          {isAuth && authUser.user.role !== 'USER' && (
+          {isAuth && authUser?.user?.role !== 'USER' && (
             <PostManagementMenu
               onCreatePost={handleCreatePost}
               onManageTags={handleTagsManager}
@@ -229,7 +229,7 @@ const Home = () => {
       <div className="flex-1">
         <div className="hidden lg:flex justify-between items-center sticky top-0 pr-6 bg-white shadow-sm">
           <div className="flex justify-center items-center pl-6 ">
-            {isAuth && authUser.user.role !== 'USER' && (
+            {isAuth && authUser?.user?.role !== 'USER' && (
               <PostManagementMenu
                 onCreatePost={handleCreatePost}
                 onManageTags={handleTagsManager}
@@ -247,7 +247,7 @@ const Home = () => {
             </div>
           )}
 
-          {isAuth && <UserProfileMenu onLogout={logout} />}
+          {isAuth && authUser?.user && <UserProfileMenu onLogout={logout} />}
         </div>
 
         <main className="p-4 lg:px-8">{renderContent()}</main>

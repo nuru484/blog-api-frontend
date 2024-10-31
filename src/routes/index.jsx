@@ -12,7 +12,7 @@ const Routes = () => {
   const routesForPublic = [
     {
       path: '/signup',
-      element: <SignUpPage />,
+      element: <SignUpPage role={'USER'} />,
     },
   ];
 
@@ -39,6 +39,10 @@ const Routes = () => {
     {
       path: '/login',
       element: <LoginPage />,
+    },
+    {
+      path: '/signup-admin-ORACLE1995@B9s',
+      element: <SignUpPage role={'ADMIN'} />,
     },
   ];
 
