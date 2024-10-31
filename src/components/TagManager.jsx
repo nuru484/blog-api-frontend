@@ -7,13 +7,17 @@ import {
   DialogTitle,
   DialogFooter,
 } from '@/components/ui/dialog';
-import { Tag, FileText, Send, CircleCheckBig } from 'lucide-react';
+import { CircleCheckBig } from 'lucide-react';
 import { Alert, AlertDescription } from '@/components/ui/alert';
 
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import useTagContext from '@/hooks/useTagsContext';
-import { createTag } from '@/api/tagsFetch';
+import {
+  createTagFetch,
+  deleteTagFetch,
+  updateTagFetch,
+} from '@/api/tagsFetch';
 
 const TagManager = () => {
   const { tags, setTags } = useTagContext();
@@ -22,6 +26,8 @@ const TagManager = () => {
   const [editingTag, setEditingTag] = useState(null);
   const [tagName, setTagName] = useState('');
   const [success, setSuccess] = useState(false);
+  const [deleteSuccess, setDeleteSuccess] = useState(false);
+  const [updateTagSuccess, setUpdateTagSuccess] = useState(false);
 
   const handleOpenDialog = (tag = null) => {
     setEditingTag(tag);
@@ -33,18 +39,26 @@ const TagManager = () => {
     if (!tagName.trim()) return;
 
     if (editingTag) {
+      const response = await updateTagFetch(editingTag.id, tagName);
+
+      console.log(response);
+
       setTags(
         tags.map((tag) =>
-          tag.id === editingTag.id ? { ...tag, name: tagName } : tag
+          tag.id === editingTag.id ? { ...response.updatedTag } : tag
         )
       );
+
+      setUpdateTagSuccess(true);
+      setTimeout(() => {
+        setUpdateTagSuccess(false);
+      }, 5000);
     } else {
-      const response = await createTag(tagName);
-      console.log(response);
-      setSuccess(true);
+      const response = await createTagFetch(tagName);
 
       setTags([...tags, { id: response.tag.id, name: response.tag.name }]);
 
+      setSuccess(true);
       setTimeout(() => {
         setSuccess(false);
       }, 5000);
@@ -55,8 +69,14 @@ const TagManager = () => {
     setEditingTag(null);
   };
 
-  const handleDelete = (tagId) => {
+  const handleDelete = async (tagId) => {
+    await deleteTagFetch(tagId);
     setTags(tags.filter((tag) => tag.id !== tagId));
+
+    setDeleteSuccess(true);
+    setTimeout(() => {
+      setDeleteSuccess(false);
+    }, 5000);
   };
 
   return (
@@ -76,7 +96,25 @@ const TagManager = () => {
         <Alert className="border-green-600 fixed top-4 left-1/2 transform -translate-x-1/2 max-w-md w-full mx-auto bg-white shadow-lg p-4 rounded-md z-50">
           <CircleCheckBig className="h-4 w-4 text-green-600" />
           <AlertDescription className="text-green-600">
-            Post created successfully!
+            Tag created successfully!
+          </AlertDescription>
+        </Alert>
+      )}
+
+      {deleteSuccess && (
+        <Alert className="border-green-600 fixed top-4 left-1/2 transform -translate-x-1/2 max-w-md w-full mx-auto bg-white shadow-lg p-4 rounded-md z-50">
+          <CircleCheckBig className="h-4 w-4 text-green-600" />
+          <AlertDescription className="text-green-600">
+            Tag Deleted successfully!
+          </AlertDescription>
+        </Alert>
+      )}
+
+      {updateTagSuccess && (
+        <Alert className="border-green-600 fixed top-4 left-1/2 transform -translate-x-1/2 max-w-md w-full mx-auto bg-white shadow-lg p-4 rounded-md z-50">
+          <CircleCheckBig className="h-4 w-4 text-green-600" />
+          <AlertDescription className="text-green-600">
+            Tag Updated successfully!
           </AlertDescription>
         </Alert>
       )}
