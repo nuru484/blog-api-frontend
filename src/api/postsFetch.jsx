@@ -35,7 +35,7 @@ export const fetchUnpublishedPosts = async (accessToken) => {
   });
 };
 
-export const updatePostRequest = async (postId, accessToken) => {
+export const publishPostRequest = async (postId, accessToken) => {
   return await backendFetch(`/api/v1/posts/${postId}/publish`, {
     method: 'PATCH',
     headers: {

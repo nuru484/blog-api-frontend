@@ -1,6 +1,6 @@
 import { Trash2, Edit, Eye, EyeOff } from 'lucide-react';
 import { useState } from 'react';
-import { deletePostRequest, updatePostRequest } from '@/api/postsFetch';
+import { deletePostRequest, publishPostRequest } from '@/api/postsFetch';
 import useAuth from '@/hooks/useAuth';
 import { SuccessAlert } from './SuccessAlert';
 
@@ -30,10 +30,16 @@ const PostsList = ({ posts, setPosts }) => {
     });
   };
 
-  const handlePostUpdate = async (postId) => {
-    console.log('Update Post');
-    const response = await updatePostRequest(postId, accessToken);
-    console.log(response);
+  const handlePostPublish = async (postId) => {
+    const response = await publishPostRequest(postId, accessToken);
+    setPosts((prevPosts) =>
+      prevPosts.filter((post) => post.id !== response.post.id)
+    );
+
+    setAlert({
+      show: true,
+      message: response.message,
+    });
   };
 
   return (
@@ -85,7 +91,7 @@ const PostsList = ({ posts, setPosts }) => {
                     <button
                       className="bg-green-500 text-white px-2 py-1 rounded text-xs hover:bg-green-600"
                       onClick={() => {
-                        handlePostUpdate(post.id);
+                        handlePostPublish(post.id);
                       }}
                     >
                       Publish
