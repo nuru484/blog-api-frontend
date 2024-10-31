@@ -1,43 +1,69 @@
 import React from 'react';
-import { Plus, FileText, FileX, MoreVertical } from 'lucide-react';
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from '@/components/ui/dropdown-menu';
+import { PlusCircle, FileText, FileX, Tags, ChevronDown } from 'lucide-react';
+import { Button } from '@/components/ui/button';
 
-const PostManagementMenu = () => {
+const PostManagementMenu = ({
+  onCreatePost,
+  onViewPublished,
+  onViewUnpublished,
+  onManageTags,
+}) => {
   return (
-    <div className="flex flex-col bg-white rounded-lg shadow-lg p-2 min-w-64">
-      {/* Create Post Button - Most prominent action */}
-      <button className="flex items-center gap-2 w-full p-3 text-left text-blue-600 hover:bg-blue-50 rounded-md mb-2 font-medium">
-        <Plus className="w-5 h-5" />
-        <span>Create Post</span>
-      </button>
+    <DropdownMenu>
+      <DropdownMenuTrigger asChild>
+        <Button
+          variant="default"
+          className="flex items-center gap-2 bg-blue-600 text-white hover:bg-blue-700"
+        >
+          Manage Posts
+          <ChevronDown className="h-4 w-4" />
+        </Button>
+      </DropdownMenuTrigger>
+      <DropdownMenuContent align="start" className="w-48 mt-2 bg-white">
+        <DropdownMenuItem
+          onClick={onCreatePost}
+          className="flex items-center gap-2 cursor-pointer hover:bg-gray-200"
+        >
+          <PlusCircle className="h-4 w-4" />
+          <span>Create Post</span>
+        </DropdownMenuItem>
 
-      {/* Divider */}
-      <div className="h-px bg-gray-200 my-1" />
+        <DropdownMenuSeparator className="bg-gray-200" />
 
-      {/* Post Management Options */}
-      <button className="flex items-center gap-2 w-full p-3 text-left hover:bg-gray-50 rounded-md">
-        <FileText className="w-5 h-5 text-gray-600" />
-        <div className="flex flex-col">
+        <DropdownMenuItem
+          onClick={onViewPublished}
+          className="flex items-center gap-2 cursor-pointer hover:bg-gray-200"
+        >
+          <FileText className="h-4 w-4" />
           <span>Published Posts</span>
-          <span className="text-sm text-gray-500">
-            View all your live posts
-          </span>
-        </div>
-      </button>
+        </DropdownMenuItem>
 
-      <button className="flex items-center gap-2 w-full p-3 text-left hover:bg-gray-50 rounded-md">
-        <FileX className="w-5 h-5 text-gray-600" />
-        <div className="flex flex-col">
+        <DropdownMenuItem
+          onClick={onViewUnpublished}
+          className="flex items-center gap-2 cursor-pointer hover:bg-gray-200"
+        >
+          <FileX className="h-4 w-4" />
           <span>Unpublished Posts</span>
-          <span className="text-sm text-gray-500">View your drafts</span>
-        </div>
-      </button>
+        </DropdownMenuItem>
 
-      {/* More Options */}
-      <button className="flex items-center gap-2 w-full p-3 text-left hover:bg-gray-50 rounded-md">
-        <MoreVertical className="w-5 h-5 text-gray-600" />
-        <span>More Options</span>
-      </button>
-    </div>
+        <DropdownMenuSeparator />
+
+        <DropdownMenuItem
+          onClick={onManageTags}
+          className="flex items-center gap-2 cursor-pointer hover:bg-gray-200"
+        >
+          <Tags className="h-4 w-4" />
+          <span>Manage Tags</span>
+        </DropdownMenuItem>
+      </DropdownMenuContent>
+    </DropdownMenu>
   );
 };
 

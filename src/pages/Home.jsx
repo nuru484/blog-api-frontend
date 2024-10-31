@@ -10,18 +10,30 @@ import Header from '@/components/Header';
 import LoginButton from '@/components/LoginButton';
 import useAuth from '@/hooks/useAuth';
 import UserProfileMenu from '@/components/UserProfile';
+import PostManagementMenu from '@/components/PostManagementMenu';
+import useCreatePost from '@/hooks/useCreatePost';
 
 const Home = () => {
   const [viewBlogDetail, setViewBlogDetail] = useState(false);
   const [selectedPost, setSelectedPost] = useState(null);
   const [aboutBlog, setAboutBlog] = useState(false);
+  const [postCreationMode, setPostCreationMode] = useState(false);
 
   const { posts, loading, error } = usePostContext();
-
-  const { isAuth, logout } = useAuth();
+  const createPost = useCreatePost();
+  const { isAuth, authUser, logout } = useAuth();
 
   const handleAboutBlog = () => {
     setAboutBlog(true);
+    setViewBlogDetail(false);
+    setPostCreationMode(false);
+    setSelectedPost(null);
+    localStorage.removeItem('selectedPost');
+  };
+
+  const handleCreatePost = () => {
+    setPostCreationMode(!postCreationMode);
+    setAboutBlog(false);
     setViewBlogDetail(false);
     setSelectedPost(null);
     localStorage.removeItem('selectedPost');
@@ -54,12 +66,17 @@ const Home = () => {
     setViewBlogDetail(false);
     setSelectedPost(null);
     setAboutBlog(false);
+    setPostCreationMode(false);
     localStorage.removeItem('selectedPost');
   };
 
   const renderContent = () => {
     if (aboutBlog) {
       return <About />;
+    }
+
+    if (postCreationMode) {
+      return <>{createPost}</>;
     }
 
     if (loading) {
@@ -151,8 +168,15 @@ const Home = () => {
       </div>
 
       <div className="flex-1">
-        <div className="hidden lg:flex justify-between items-center sticky top-0 pr-6 bg-white shadow-sm">
-          <Header handleViewBlogCard={handleViewBlogCard} />
+        <div className="hidden lg:flex justify-between items-center sticky top-0 pr-6 bg-white shadow-sm z-10">
+          <div className="flex justify-center items-center pl-6 ">
+            {isAuth && authUser.user.role !== 'USER' && (
+              <PostManagementMenu onCreatePost={handleCreatePost} />
+            )}
+
+            <Header handleViewBlogCard={handleViewBlogCard} />
+          </div>
+
           {!isAuth && (
             <div className="hidden lg:block">
               <LoginButton />
