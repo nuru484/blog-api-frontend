@@ -13,6 +13,7 @@ export const TagsContextProvider = ({ children }) => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
 
+  // Fetch tags on mount
   useEffect(() => {
     const fetchTags = async () => {
       setLoading(true);

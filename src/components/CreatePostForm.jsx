@@ -20,20 +20,19 @@ const CreatePostForm = ({
         </h2>
 
         <form onSubmit={handleSubmit}>
-          <div className="mb-4 relative">
-            <FileText
-              className="absolute top-3 left-3 text-gray-400"
-              size={20}
-            />
-            <input
-              type="text"
-              name="title"
-              placeholder="Post Title"
-              value={post.title}
-              onChange={handleChange}
-              required
-              className="w-full pl-10 pr-3 py-2 rounded-md border border-gray-300 focus:outline-none focus:ring-1 focus:ring-indigo-500"
-            />
+          <div className="mb-4">
+            <div className="flex items-center border border-gray-300 rounded-md focus-within:ring-1 focus-within:ring-indigo-500">
+              <FileText className="ml-3 text-gray-400" size={20} />
+              <input
+                type="text"
+                name="title"
+                placeholder="Post Title"
+                value={post.title}
+                onChange={handleChange}
+                required
+                className="w-full px-3 py-2 rounded-md focus:outline-none"
+              />
+            </div>
           </div>
 
           <div className="mb-4">

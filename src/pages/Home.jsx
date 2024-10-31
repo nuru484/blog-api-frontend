@@ -155,7 +155,7 @@ const Home = () => {
   return (
     <div className="mx-auto bg-gray-100 min-h-screen font-sans pb-16 lg:flex lg:pb-0">
       <div className="sticky top-0 z-10">
-        <div className="hidden lg:block sticky top-0">
+        <div className="hidden lg:block sticky top-0 z-20">
           <NabBar
             handleViewBlogCard={handleViewBlogCard}
             showBlogAbout={handleAboutBlog}
@@ -168,7 +168,7 @@ const Home = () => {
       </div>
 
       <div className="flex-1">
-        <div className="hidden lg:flex justify-between items-center sticky top-0 pr-6 bg-white shadow-sm z-10">
+        <div className="hidden lg:flex justify-between items-center sticky top-0 pr-6 bg-white shadow-sm">
           <div className="flex justify-center items-center pl-6 ">
             {isAuth && authUser.user.role !== 'USER' && (
               <PostManagementMenu onCreatePost={handleCreatePost} />

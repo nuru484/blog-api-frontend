@@ -10,6 +10,8 @@ const NavBar = ({ handleViewBlogCard, showBlogAbout }) => {
 
   const { tags } = useTagContext();
 
+  console.log(tags);
+
   const handleNavigation = (section) => {
     setActiveItem(section);
     switch (section) {
@@ -88,10 +90,11 @@ const NavBar = ({ handleViewBlogCard, showBlogAbout }) => {
 
           {/* Tags Panel - Desktop */}
           {showTags && (
-            <div className="absolute left-64 top-0 w-64 h-full bg-white border-r border-gray-200 shadow-lg p-6">
+            <div className="absolute left-64 top-0 w-64 h-full bg-white border-r border-gray-200 shadow-lg p-6 ">
               <h3 className="text-lg font-semibold text-gray-800 mb-4">
                 Select a tag
               </h3>
+
               <div>
                 {tags.map((tag) => (
                   <button
