@@ -2,7 +2,6 @@ import { RouterProvider, createBrowserRouter } from 'react-router-dom';
 import useAuth from '../hooks/useAuth';
 import ProtectedRoute from './ProtectedRoute';
 import Home from '../pages/Home';
-import AdminPage from '../pages/AdminPage';
 import LoginPage from '../pages/LoginPage';
 import SignUpPage from '@/pages/SignUpPage';
 
@@ -24,16 +23,8 @@ const Routes = () => {
       element: <ProtectedRoute />,
       children: [
         {
-          path: '/admin-page',
-          element: <AdminPage />,
-        },
-        {
           path: '/',
           element: <Home />,
-        },
-        {
-          path: '/logout',
-          element: <div>Logout</div>,
         },
       ],
     },

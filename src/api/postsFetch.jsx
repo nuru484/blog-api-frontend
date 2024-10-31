@@ -22,3 +22,13 @@ export const fetchPosts = async (apiRoute) => {
     },
   });
 };
+
+export const deletePostRequest = async (postId, accessToken) => {
+  return await backendFetch(`/api/v1/posts/${postId}`, {
+    method: 'DELETE',
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: accessToken ? `Bearer ${accessToken}` : '',
+    },
+  });
+};

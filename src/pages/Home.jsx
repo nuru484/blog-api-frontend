@@ -1,4 +1,4 @@
-import { ChevronDown, Flag } from 'lucide-react';
+import { ChevronDown } from 'lucide-react';
 import BlogCard from '../components/BlogCard';
 import { useState, useEffect } from 'react';
 import Loading from '@/components/ui/loading';
@@ -13,6 +13,7 @@ import UserProfileMenu from '@/components/UserProfile';
 import PostManagementMenu from '@/components/PostManagementMenu';
 import useCreatePost from '@/hooks/useCreatePost';
 import TagManager from '@/components/TagManager';
+import PostsList from '@/components/PostsList';
 
 const Home = () => {
   const [viewBlogDetail, setViewBlogDetail] = useState(false);
@@ -20,6 +21,7 @@ const Home = () => {
   const [aboutBlog, setAboutBlog] = useState(false);
   const [postCreationMode, setPostCreationMode] = useState(false);
   const [tagManagerMode, setTagManagerMode] = useState(false);
+  const [displayPublishedPost, setDisplayPublishedPost] = useState(false);
 
   const { posts, loading, error } = usePostContext();
   const createPost = useCreatePost();
@@ -29,9 +31,16 @@ const Home = () => {
     setPostCreationMode(!postCreationMode);
   };
 
+  const handlePublishedPostsList = () => {
+    setDisplayPublishedPost(!displayPublishedPost);
+    setPostCreationMode(false);
+    setTagManagerMode(false);
+  };
+
   const handleTagsManager = () => {
     setTagManagerMode(!tagManagerMode);
     setPostCreationMode(false);
+    setDisplayPublishedPost(false);
   };
 
   useEffect(() => {
@@ -54,6 +63,7 @@ const Home = () => {
     setAboutBlog(true);
     setViewBlogDetail(false);
     setPostCreationMode(false);
+    setDisplayPublishedPost(false);
     setTagManagerMode(false);
     setSelectedPost(null);
     localStorage.removeItem('selectedPost');
@@ -71,6 +81,7 @@ const Home = () => {
     setSelectedPost(null);
     setAboutBlog(false);
     setPostCreationMode(false);
+    setDisplayPublishedPost(false);
     setTagManagerMode(false);
     localStorage.removeItem('selectedPost');
   };
@@ -78,6 +89,10 @@ const Home = () => {
   const renderContent = () => {
     if (postCreationMode) {
       return <>{createPost}</>;
+    }
+
+    if (displayPublishedPost) {
+      return <PostsList />;
     }
 
     if (tagManagerMode) {
@@ -183,6 +198,7 @@ const Home = () => {
               <PostManagementMenu
                 onCreatePost={handleCreatePost}
                 onManageTags={handleTagsManager}
+                onViewPublished={handlePublishedPostsList}
               />
             )}
 
