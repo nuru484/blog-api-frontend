@@ -1,4 +1,4 @@
-import { ChevronDown } from 'lucide-react';
+import { ChevronDown, Flag } from 'lucide-react';
 import BlogCard from '../components/BlogCard';
 import { useState, useEffect } from 'react';
 import Loading from '@/components/ui/loading';
@@ -12,31 +12,26 @@ import useAuth from '@/hooks/useAuth';
 import UserProfileMenu from '@/components/UserProfile';
 import PostManagementMenu from '@/components/PostManagementMenu';
 import useCreatePost from '@/hooks/useCreatePost';
+import TagManager from '@/components/TagManager';
 
 const Home = () => {
   const [viewBlogDetail, setViewBlogDetail] = useState(false);
   const [selectedPost, setSelectedPost] = useState(null);
   const [aboutBlog, setAboutBlog] = useState(false);
   const [postCreationMode, setPostCreationMode] = useState(false);
+  const [tagManagerMode, setTagManagerMode] = useState(false);
 
   const { posts, loading, error } = usePostContext();
   const createPost = useCreatePost();
   const { isAuth, authUser, logout } = useAuth();
 
-  const handleAboutBlog = () => {
-    setAboutBlog(true);
-    setViewBlogDetail(false);
-    setPostCreationMode(false);
-    setSelectedPost(null);
-    localStorage.removeItem('selectedPost');
-  };
-
   const handleCreatePost = () => {
     setPostCreationMode(!postCreationMode);
-    setAboutBlog(false);
-    setViewBlogDetail(false);
-    setSelectedPost(null);
-    localStorage.removeItem('selectedPost');
+  };
+
+  const handleTagsManager = () => {
+    setTagManagerMode(!tagManagerMode);
+    setPostCreationMode(false);
   };
 
   useEffect(() => {
@@ -55,6 +50,15 @@ const Home = () => {
     }
   }, [posts, aboutBlog]);
 
+  const handleAboutBlog = () => {
+    setAboutBlog(true);
+    setViewBlogDetail(false);
+    setPostCreationMode(false);
+    setTagManagerMode(false);
+    setSelectedPost(null);
+    localStorage.removeItem('selectedPost');
+  };
+
   const handleViewBlogDetail = (post) => {
     setSelectedPost(post);
     setViewBlogDetail(true);
@@ -67,16 +71,21 @@ const Home = () => {
     setSelectedPost(null);
     setAboutBlog(false);
     setPostCreationMode(false);
+    setTagManagerMode(false);
     localStorage.removeItem('selectedPost');
   };
 
   const renderContent = () => {
-    if (aboutBlog) {
-      return <About />;
-    }
-
     if (postCreationMode) {
       return <>{createPost}</>;
+    }
+
+    if (tagManagerMode) {
+      return <TagManager />;
+    }
+
+    if (aboutBlog) {
+      return <About />;
     }
 
     if (loading) {
@@ -171,7 +180,10 @@ const Home = () => {
         <div className="hidden lg:flex justify-between items-center sticky top-0 pr-6 bg-white shadow-sm">
           <div className="flex justify-center items-center pl-6 ">
             {isAuth && authUser.user.role !== 'USER' && (
-              <PostManagementMenu onCreatePost={handleCreatePost} />
+              <PostManagementMenu
+                onCreatePost={handleCreatePost}
+                onManageTags={handleTagsManager}
+              />
             )}
 
             <Header handleViewBlogCard={handleViewBlogCard} />

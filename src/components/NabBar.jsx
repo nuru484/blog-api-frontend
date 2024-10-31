@@ -10,8 +10,6 @@ const NavBar = ({ handleViewBlogCard, showBlogAbout }) => {
 
   const { tags } = useTagContext();
 
-  console.log(tags);
-
   const handleNavigation = (section) => {
     setActiveItem(section);
     switch (section) {
@@ -100,7 +98,7 @@ const NavBar = ({ handleViewBlogCard, showBlogAbout }) => {
                   <button
                     key={tag.id}
                     onClick={() => handleNavigation(tag)}
-                    className="px-4 py-2 my-1 text-sm font-medium rounded-lg
+                    className="px-4 py-2 m-1 text-sm font-medium rounded-lg
                              bg-blue-50 text-blue-600 hover:bg-blue-100
                              transition-colors duration-200"
                   >
