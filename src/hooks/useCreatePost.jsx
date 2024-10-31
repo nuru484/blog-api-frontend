@@ -4,6 +4,7 @@ import { createPost } from '@/api/postsFetch';
 import { useState, useCallback, useEffect } from 'react';
 import useTagContext from './useTagsContext';
 import { handleAPIError } from '@/lib/errorHandler';
+import usePostContext from './usePostContext';
 
 const useCreatePost = () => {
   const [post, setPost] = useState({
@@ -19,6 +20,7 @@ const useCreatePost = () => {
 
   const { tags } = useTagContext();
   const { accessToken } = useAuth();
+  const { posts, setPosts } = usePostContext();
 
   const handleSubmit = useCallback(
     async (e) => {
@@ -28,8 +30,10 @@ const useCreatePost = () => {
       setSuccess(false);
 
       try {
-        await createPost(post, accessToken);
+        const response = await createPost(post, accessToken);
         setSuccess(true);
+
+        setPosts((prevPosts) => [...prevPosts, response.post]);
 
         setPost({
           title: '',
@@ -37,6 +41,7 @@ const useCreatePost = () => {
           published: false,
           tagIDs: [],
         });
+
         setSelectedTags([]);
 
         setTimeout(() => {
