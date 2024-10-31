@@ -23,6 +23,28 @@ export const fetchPosts = async (apiRoute) => {
   });
 };
 
+export const fetchUnpublishedPosts = async (accessToken) => {
+  return await backendFetch(`/api/v1/posts/unpublished`, {
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: accessToken ? `Bearer ${accessToken}` : '',
+      'Cache-Control': 'no-cache',
+      Pragma: 'no-cache',
+    },
+  });
+};
+
+export const updatePostRequest = async (postId, accessToken) => {
+  return await backendFetch(`/api/v1/posts/${postId}/publish`, {
+    method: 'PATCH',
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: accessToken ? `Bearer ${accessToken}` : '',
+    },
+  });
+};
+
 export const deletePostRequest = async (postId, accessToken) => {
   return await backendFetch(`/api/v1/posts/${postId}`, {
     method: 'DELETE',

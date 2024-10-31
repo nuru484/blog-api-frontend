@@ -33,7 +33,9 @@ const useCreatePost = () => {
         const response = await createPost(post, accessToken);
         setSuccess(true);
 
-        setPosts((prevPosts) => [...prevPosts, response.post]);
+        if (response && response.post.published === true) {
+          setPosts((prevPosts) => [...prevPosts, response.post]);
+        }
 
         setPost({
           title: '',
@@ -41,7 +43,6 @@ const useCreatePost = () => {
           published: false,
           tagIDs: [],
         });
-
         setSelectedTags([]);
 
         setTimeout(() => {

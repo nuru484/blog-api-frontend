@@ -1,12 +1,10 @@
 import { Trash2, Edit, Eye, EyeOff } from 'lucide-react';
 import { useState } from 'react';
-import usePostContext from '@/hooks/usePostContext';
-import { deletePostRequest } from '@/api/postsFetch';
+import { deletePostRequest, updatePostRequest } from '@/api/postsFetch';
 import useAuth from '@/hooks/useAuth';
 import { SuccessAlert } from './SuccessAlert';
 
-const PostsList = () => {
-  const { posts, setPosts } = usePostContext();
+const PostsList = ({ posts, setPosts }) => {
   const [displayPostContent, setDisplayPostContent] = useState({});
   const [alert, setAlert] = useState({ show: false, message: '' });
 
@@ -15,7 +13,7 @@ const PostsList = () => {
   const handleDisplayPostContent = (postId) => {
     setDisplayPostContent((prevState) => ({
       ...prevState,
-      [postId]: !prevState[postId], // Toggle the display state for the specific post
+      [postId]: !prevState[postId],
     }));
   };
 
@@ -32,6 +30,12 @@ const PostsList = () => {
     });
   };
 
+  const handlePostUpdate = async (postId) => {
+    console.log('Update Post');
+    const response = await updatePostRequest(postId, accessToken);
+    console.log(response);
+  };
+
   return (
     <>
       <SuccessAlert
@@ -45,14 +49,6 @@ const PostsList = () => {
           posts.length > 0 &&
           posts.map((post) => (
             <div key={post.id} className="my-6 p-4 rounded-lg bg-blue-100">
-              <h2 className="text-xl font-semibold mb-2">{post.title}</h2>
-
-              {displayPostContent[post.id] && (
-                <div className="mt-4 p-4 bg-gray-50 rounded">
-                  <p className="text-gray-700 mb-2">{post.content}</p>
-                </div>
-              )}
-
               <div className="flex justify-between items-center text-sm text-gray-500 mt-2">
                 <div className="flex space-x-2">
                   <button
@@ -86,22 +82,37 @@ const PostsList = () => {
                   )}
 
                   {post.published === false && (
-                    <button className="bg-green-500 text-white px-2 py-1 rounded text-xs hover:bg-green-600">
+                    <button
+                      className="bg-green-500 text-white px-2 py-1 rounded text-xs hover:bg-green-600"
+                      onClick={() => {
+                        handlePostUpdate(post.id);
+                      }}
+                    >
                       Publish
                     </button>
                   )}
                 </div>
               </div>
+
+              <h2 className="text-xl font-semibold mb-2">{post.title}</h2>
+
+              {displayPostContent[post.id] && (
+                <div className="mt-4 p-4 bg-gray-50 rounded">
+                  <p className="text-gray-700 mb-2">{post.content}</p>
+                </div>
+              )}
             </div>
           ))}
 
-        {posts && posts.length === 0 && (
-          <div className="flex justify-center items-center">
-            <p className="text-xl text-center">
-              There are no published articles at the moment!
-            </p>
-          </div>
-        )}
+        {(posts && posts.length === 0) ||
+          posts === null ||
+          (posts === undefined && (
+            <div className="flex justify-center items-center">
+              <p className="text-xl text-center">
+                There are no articles at the moment!
+              </p>
+            </div>
+          ))}
       </div>
     </>
   );

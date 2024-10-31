@@ -14,6 +14,7 @@ import PostManagementMenu from '@/components/PostManagementMenu';
 import useCreatePost from '@/hooks/useCreatePost';
 import TagManager from '@/components/TagManager';
 import PostsList from '@/components/PostsList';
+import { fetchUnpublishedPosts } from '@/api/postsFetch';
 
 const Home = () => {
   const [viewBlogDetail, setViewBlogDetail] = useState(false);
@@ -22,10 +23,12 @@ const Home = () => {
   const [postCreationMode, setPostCreationMode] = useState(false);
   const [tagManagerMode, setTagManagerMode] = useState(false);
   const [displayPublishedPost, setDisplayPublishedPost] = useState(false);
+  const [unpublishedPosts, setUnpublishedPosts] = useState([]);
+  const [displayUnpublishedPosts, setDisplayUnPublishedPosts] = useState(false);
 
-  const { posts, loading, error } = usePostContext();
+  const { posts, setPosts, loading, error } = usePostContext();
   const createPost = useCreatePost();
-  const { isAuth, authUser, logout } = useAuth();
+  const { isAuth, authUser, accessToken, logout } = useAuth();
 
   const handleCreatePost = () => {
     setPostCreationMode(!postCreationMode);
@@ -35,12 +38,23 @@ const Home = () => {
     setDisplayPublishedPost(!displayPublishedPost);
     setPostCreationMode(false);
     setTagManagerMode(false);
+    setDisplayUnPublishedPosts(false);
+  };
+
+  const handleUnpublishedPostList = async () => {
+    const response = await fetchUnpublishedPosts(accessToken);
+    console.log(response);
+    setUnpublishedPosts(response.posts);
+    setDisplayUnPublishedPosts(!displayUnpublishedPosts);
+    setDisplayPublishedPost(false);
+    setPostCreationMode(false);
   };
 
   const handleTagsManager = () => {
     setTagManagerMode(!tagManagerMode);
     setPostCreationMode(false);
     setDisplayPublishedPost(false);
+    setDisplayUnPublishedPosts(false);
   };
 
   useEffect(() => {
@@ -65,6 +79,7 @@ const Home = () => {
     setPostCreationMode(false);
     setDisplayPublishedPost(false);
     setTagManagerMode(false);
+    setDisplayUnPublishedPosts(false);
     setSelectedPost(null);
     localStorage.removeItem('selectedPost');
   };
@@ -83,6 +98,7 @@ const Home = () => {
     setPostCreationMode(false);
     setDisplayPublishedPost(false);
     setTagManagerMode(false);
+    setDisplayUnPublishedPosts(false);
     localStorage.removeItem('selectedPost');
   };
 
@@ -92,7 +108,13 @@ const Home = () => {
     }
 
     if (displayPublishedPost) {
-      return <PostsList />;
+      return <PostsList posts={posts} setPosts={setPosts} />;
+    }
+
+    if (displayUnpublishedPosts) {
+      return (
+        <PostsList posts={unpublishedPosts} setPosts={setUnpublishedPosts} />
+      );
     }
 
     if (tagManagerMode) {
@@ -199,6 +221,7 @@ const Home = () => {
                 onCreatePost={handleCreatePost}
                 onManageTags={handleTagsManager}
                 onViewPublished={handlePublishedPostsList}
+                onViewUnpublished={handleUnpublishedPostList}
               />
             )}
 

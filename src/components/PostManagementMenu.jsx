@@ -42,6 +42,7 @@ const PostManagementMenu = ({
           className="flex items-center gap-2 cursor-pointer hover:bg-gray-200"
         >
           <FileText className="h-4 w-4" />
+
           <span>Published Posts</span>
         </DropdownMenuItem>
 
