@@ -58,13 +58,17 @@ const Header = ({ handleViewBlogCard }) => {
     <>
       <header className="w-full bg-white shadow-sm p-4 md:p-6 lg:p-8 lg:flex items-center gap-4  lg:w-auto">
         <div className="flex justify-between gap-5 lg:hidden">
-          {isAuth && authUser.user.role !== 'ADMIN' && (
+          {/* {isAuth && authUser.user.role !== 'ADMIN' && (
             <h1 className="text-2xl font-bold text-center text-blue-600 ">
               Afatech Blog
             </h1>
-          )}
+          )} */}
 
-          {isAuth && authUser.user.role !== 'USER' && <PostManagementMenu />}
+          <h1 className="text-2xl font-bold text-center text-blue-600 ">
+            Afatech Blog
+          </h1>
+
+          {/* {isAuth && authUser.user.role !== 'USER' && <PostManagementMenu />} */}
 
           {isAuth && <UserProfileMenu onLogout={logout} />}
         </div>

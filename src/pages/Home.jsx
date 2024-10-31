@@ -32,6 +32,9 @@ const Home = () => {
 
   const handleCreatePost = () => {
     setPostCreationMode(!postCreationMode);
+    setDisplayUnPublishedPosts(false);
+    setDisplayPublishedPost(false);
+    setTagManagerMode(false);
   };
 
   const handlePublishedPostsList = () => {
@@ -43,7 +46,6 @@ const Home = () => {
 
   const handleUnpublishedPostList = async () => {
     const response = await fetchUnpublishedPosts(accessToken);
-    console.log(response);
     setUnpublishedPosts(response.posts);
     setDisplayUnPublishedPosts(!displayUnpublishedPosts);
     setDisplayPublishedPost(false);
@@ -210,6 +212,17 @@ const Home = () => {
 
         <div className="lg:hidden flex justify-center items-center bg-white shadow-sm">
           <Header handleViewBlogCard={handleViewBlogCard} />
+        </div>
+
+        <div className="flex justify-end mr-3 mt-3">
+          {isAuth && authUser.user.role !== 'USER' && (
+            <PostManagementMenu
+              onCreatePost={handleCreatePost}
+              onManageTags={handleTagsManager}
+              onViewPublished={handlePublishedPostsList}
+              onViewUnpublished={handleUnpublishedPostList}
+            />
+          )}
         </div>
       </div>
 

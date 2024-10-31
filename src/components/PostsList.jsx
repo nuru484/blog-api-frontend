@@ -48,7 +48,7 @@ const PostsList = ({ posts, setPosts }) => {
         {posts &&
           posts.length > 0 &&
           posts.map((post) => (
-            <div key={post.id} className="my-6 p-4 rounded-lg bg-blue-100">
+            <div key={post.id} className="my-2 p-4 rounded-lg bg-blue-100">
               <div className="flex justify-between items-center text-sm text-gray-500 mt-2">
                 <div className="flex space-x-2">
                   <button
