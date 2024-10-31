@@ -16,7 +16,7 @@ import {
   deleteTagFetch,
   updateTagFetch,
 } from '@/api/tagsFetch';
-import { SuccessAlert } from './ReusableAlert';
+import { SuccessAlert } from './SuccessAlert';
 
 const TagManager = () => {
   const { tags, setTags } = useTagContext();
