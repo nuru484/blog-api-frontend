@@ -3,6 +3,7 @@ import CreatePostForm from '@/components/CreatePostForm';
 import { createPost } from '@/api/postsFetch';
 import { useState, useCallback, useEffect } from 'react';
 import useTagContext from './useTagsContext';
+import { handleAPIError } from '@/lib/errorHandler';
 
 const useCreatePost = () => {
   const [post, setPost] = useState({
@@ -13,6 +14,7 @@ const useCreatePost = () => {
   });
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
+  const [success, setSuccess] = useState(false);
   const [selectedTags, setSelectedTags] = useState([]);
 
   const { tags } = useTagContext();
@@ -23,9 +25,23 @@ const useCreatePost = () => {
       e.preventDefault();
       setLoading(true);
       setError('');
+      setSuccess(false);
 
       try {
         await createPost(post, accessToken);
+        setSuccess(true);
+
+        setPost({
+          title: '',
+          content: '',
+          published: false,
+          tagIDs: [],
+        });
+        setSelectedTags([]);
+
+        setTimeout(() => {
+          setSuccess(false);
+        }, 5000);
       } catch (error) {
         handleAPIError(error, setError);
       } finally {
@@ -61,6 +77,7 @@ const useCreatePost = () => {
     <CreatePostForm
       loading={loading}
       error={error}
+      success={success}
       handleSubmit={handleSubmit}
       handleChange={handleChange}
       handleTagSelection={handleTagSelection}

@@ -1,10 +1,11 @@
-import { AlertCircle, Tag, FileText, Send } from 'lucide-react';
+import { Tag, FileText, Send, CircleCheckBig } from 'lucide-react';
 import { Alert, AlertDescription } from '@/components/ui/alert';
 import Loading from '@/components/ui/loading';
 
 const CreatePostForm = ({
   loading,
   error,
+  success,
   handleSubmit,
   handleChange,
   handleTagSelection,
@@ -14,10 +15,19 @@ const CreatePostForm = ({
 }) => {
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-100">
-      <div className="bg-white p-8  w-11/12 rounded-lg">
+      <div className="bg-white p-8 w-11/12 rounded-lg">
         <h2 className="text-2xl font-semibold text-center text-gray-700 mb-6">
           Create New Post
         </h2>
+
+        {success && (
+          <Alert className="border-green-600 fixed top-4 left-1/2 transform -translate-x-1/2 max-w-md w-full mx-auto bg-white shadow-lg p-4 rounded-md z-50">
+            <CircleCheckBig className="h-4 w-4 text-green-600" />
+            <AlertDescription className="text-green-600">
+              Post created successfully!
+            </AlertDescription>
+          </Alert>
+        )}
 
         <form onSubmit={handleSubmit}>
           <div className="mb-4">
@@ -90,7 +100,7 @@ const CreatePostForm = ({
               multiple
               name="tagIDs"
               onChange={handleTagSelection}
-              value={post.tags}
+              value={post.tagIDs}
               className="w-full pl-10 pr-3 py-2 rounded-md border border-gray-300 focus:outline-none focus:ring-1 focus:ring-indigo-500"
             >
               {availableTags.map((tag) => (
@@ -124,7 +134,6 @@ const CreatePostForm = ({
 
           {error && (
             <Alert className="border-red-600 mt-4">
-              <AlertCircle className="h-4 w-4" />
               <AlertDescription className="text-red-600">
                 {error}
               </AlertDescription>
