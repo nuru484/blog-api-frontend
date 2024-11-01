@@ -3,6 +3,7 @@ import encryptStorage from '../lib/encryptedStorage';
 import Loading from '@/components/ui/loading';
 import { backendFetch } from '../api';
 import { handleAPIError } from '@/lib/errorHandler';
+import { jwtDecode } from 'jwt-decode';
 
 const AuthContext = createContext({
   accessToken: null,
@@ -55,8 +56,6 @@ export const AuthContextProvider = ({ children }) => {
     setError(null);
 
     try {
-      console.log('Access token expired, attempting to refresh token...');
-
       const refreshResponse = await backendFetch(`/api/v1/refreshToken`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -73,13 +72,32 @@ export const AuthContextProvider = ({ children }) => {
   };
 
   useEffect(() => {
+    if (accessToken) {
+      try {
+        const decodedToken = jwtDecode(accessToken);
+        const expiryTime = decodedToken.exp * 1000;
+
+        const timeUntilExpiry = expiryTime - Date.now() - 60000;
+
+        if (timeUntilExpiry > 0) {
+          const timeoutId = setTimeout(() => {
+            tokenRefresh();
+          }, timeUntilExpiry);
+
+          return () => clearTimeout(timeoutId);
+        }
+      } catch (error) {
+        console.error('Error decoding token:', error);
+      }
+    }
+  }, [accessToken, tokenRefresh]);
+
+  useEffect(() => {
     const getUserFromToken = async () => {
       setLoading(true);
       setError(null);
 
       try {
-        console.log('Attempting to retrieve user data with access token:');
-
         const response = await backendFetch(`/api/v1/user-token`, {
           method: 'POST',
           headers: {
@@ -94,7 +112,6 @@ export const AuthContextProvider = ({ children }) => {
         }
       } catch (error) {
         handleAPIError(error, setError);
-        tokenRefresh();
       } finally {
         setLoading(false);
       }
