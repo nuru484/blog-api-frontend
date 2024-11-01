@@ -95,30 +95,36 @@ const TagManager = () => {
       />
 
       <div className="space-y-3">
-        {tags.map((tag) => (
-          <div
-            key={tag.id}
-            className="flex items-center justify-between p-3 bg-gray-50 rounded-md hover:bg-gray-100 transition-colors group"
-          >
-            <span className="text-gray-700">{tag.name}</span>
-            <div className="flex items-center gap-2">
-              <button
-                onClick={() => handleOpenDialog(tag)}
-                className="p-1 text-gray-500 hover:text-blue-600 transition-colors"
-                aria-label="Edit tag"
-              >
-                <Pencil size={16} />
-              </button>
-              <button
-                onClick={() => handleDelete(tag.id)}
-                className="p-1 text-gray-500 hover:text-red-600 transition-colors"
-                aria-label="Delete tag"
-              >
-                <X size={16} />
-              </button>
+        {tags && tags.length > 0 ? (
+          tags.map((tag) => (
+            <div
+              key={tag.id}
+              className="flex items-center justify-between p-3 bg-gray-50 rounded-md hover:bg-gray-100 transition-colors group"
+            >
+              <span className="text-gray-700">{tag.name}</span>
+              <div className="flex items-center gap-2">
+                <button
+                  onClick={() => handleOpenDialog(tag)}
+                  className="p-1 text-gray-500 hover:text-blue-600 transition-colors"
+                  aria-label="Edit tag"
+                >
+                  <Pencil size={16} />
+                </button>
+                <button
+                  onClick={() => handleDelete(tag.id)}
+                  className="p-1 text-gray-500 hover:text-red-600 transition-colors"
+                  aria-label="Delete tag"
+                >
+                  <X size={16} />
+                </button>
+              </div>
             </div>
+          ))
+        ) : (
+          <div>
+            <p>There are no tags at the moment.</p>
           </div>
-        ))}
+        )}
       </div>
 
       <Dialog open={isOpen} onOpenChange={setIsOpen}>
