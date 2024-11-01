@@ -135,7 +135,7 @@ const Home = () => {
     }
 
     if (error) {
-      return <p className="text-red-500">{error.message}</p>;
+      return <p className="text-red-500 text-center">{error}</p>;
     }
 
     if (viewBlogDetail && selectedPost) {
@@ -191,7 +191,6 @@ const Home = () => {
         </div>
       );
     }
-
     return (
       <div className="flex items-center justify-center">
         <p>No articles available.</p>
