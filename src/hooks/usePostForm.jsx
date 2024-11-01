@@ -56,8 +56,9 @@ const usePostForm = (initialPost = null, onClose = null) => {
         } else {
           // Create new post
           response = await createPost(post, accessToken);
+
           if (response && response.post.published === true) {
-            setPosts((prevPosts) => [...prevPosts, response.post]);
+            setPosts((prevPosts) => [...(prevPosts || []), response.post]);
           }
         }
 
