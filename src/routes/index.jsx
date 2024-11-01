@@ -4,7 +4,6 @@ import ProtectedRoute from './ProtectedRoute';
 import Home from '../pages/Home';
 import LoginPage from '../pages/LoginPage';
 import SignUpPage from '@/pages/SignUpPage';
-import ErrorPage from '@/pages/ErrorPage';
 
 const Routes = () => {
   const { token } = useAuth();

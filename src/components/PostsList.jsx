@@ -12,7 +12,7 @@ const PostsList = ({ posts, setPosts, postType }) => {
   const [alert, setAlert] = useState({ show: false, message: '' });
   const [editingPost, setEditingPost] = useState(null);
 
-  const { accessToken } = useAuth();
+  const { accessToken, isAuth } = useAuth();
 
   // Initialize the form hook for editing
   const formProps = usePostForm(editingPost, () => setEditingPost(null));
@@ -74,7 +74,7 @@ const PostsList = ({ posts, setPosts, postType }) => {
         onClose={() => setAlert({ show: false, message: '' })}
       />
 
-      {editingPost && (
+      {editingPost && isAuth && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
           <div className="bg-white rounded-lg w-11/12 max-w-3xl max-h-[90vh] overflow-y-auto">
             <PostForm
@@ -89,6 +89,7 @@ const PostsList = ({ posts, setPosts, postType }) => {
       <div>
         {posts &&
           posts.length > 0 &&
+          isAuth &&
           posts.map((post) => (
             <div key={post.id} className="my-2 p-4 rounded-lg bg-blue-100">
               <div className="flex justify-between items-center text-sm text-gray-500 mt-2">
@@ -145,7 +146,7 @@ const PostsList = ({ posts, setPosts, postType }) => {
             </div>
           ))}
 
-        {(!posts || posts.length === 0) && (
+        {(!posts || posts.length === 0) && isAuth && (
           <div className="flex justify-center items-center">
             <p className="text-xl text-center">
               {`There are no ${postType} articles at the moment!`}
