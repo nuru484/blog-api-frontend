@@ -1,6 +1,5 @@
 import { useState, useCallback, useEffect } from 'react';
 import useAuth from './useAuth';
-// import { createPost, updatePost } from '@/api/postsFetch';
 import { createPost, updatePostRequest } from '@/api/postsFetch';
 import useTagContext from './useTagsContext';
 import { handleAPIError } from '@/lib/errorHandler';
@@ -20,7 +19,7 @@ const usePostForm = (initialPost = null, onClose = null) => {
 
   const { tags } = useTagContext();
   const { accessToken } = useAuth();
-  const { setPosts } = usePostContext();
+  const { posts, setPosts } = usePostContext();
 
   // Update form when initialPost changes (for editing mode)
   useEffect(() => {
@@ -46,11 +45,12 @@ const usePostForm = (initialPost = null, onClose = null) => {
         let response;
 
         if (initialPost) {
-          // Update existing post
           response = await updatePostRequest(initialPost.id, post, accessToken);
+          console.log(response);
+
           setPosts((prevPosts) =>
-            prevPosts.map((p) =>
-              p.id === response.post.id ? response.post : p
+            prevPosts.map((post) =>
+              post.id === response.post.id ? response.post : post
             )
           );
         } else {

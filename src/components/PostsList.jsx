@@ -25,28 +25,45 @@ const PostsList = ({ posts, setPosts }) => {
   };
 
   const handleDeletePost = async (postId) => {
-    const response = await deletePostRequest(postId, accessToken);
+    try {
+      const response = await deletePostRequest(postId, accessToken);
 
-    setPosts((prevPosts) =>
-      prevPosts.filter((post) => post.id !== response.post.id)
-    );
+      setPosts((prevPosts) =>
+        prevPosts.filter((post) => post.id !== response.post.id)
+      );
 
-    setAlert({
-      show: true,
-      message: response.message,
-    });
+      setAlert({
+        show: true,
+        message: response.message,
+      });
+    } catch (error) {
+      setAlert({
+        show: true,
+        message: 'Error deleting post',
+      });
+    }
   };
 
   const handlePostPublish = async (postId) => {
-    const response = await publishPostRequest(postId, accessToken);
-    setPosts((prevPosts) =>
-      prevPosts.filter((post) => post.id !== response.post.id)
-    );
+    try {
+      const response = await publishPostRequest(postId, accessToken);
 
-    setAlert({
-      show: true,
-      message: response.message,
-    });
+      setPosts((prevPosts) =>
+        prevPosts.map((post) =>
+          post.id === response.post.id ? response.post : post
+        )
+      );
+
+      setAlert({
+        show: true,
+        message: response.message,
+      });
+    } catch (error) {
+      setAlert({
+        show: true,
+        message: 'Error publishing post',
+      });
+    }
   };
 
   return (
