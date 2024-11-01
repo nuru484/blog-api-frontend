@@ -7,7 +7,7 @@ import { SuccessAlert } from './SuccessAlert';
 import PostForm from './PostForm';
 import usePostForm from '@/hooks/usePostForm';
 
-const PostsList = ({ posts, setPosts }) => {
+const PostsList = ({ posts, setPosts, postType }) => {
   const [displayPostContent, setDisplayPostContent] = useState({});
   const [alert, setAlert] = useState({ show: false, message: '' });
   const [editingPost, setEditingPost] = useState(null);
@@ -148,7 +148,7 @@ const PostsList = ({ posts, setPosts }) => {
         {(!posts || posts.length === 0) && (
           <div className="flex justify-center items-center">
             <p className="text-xl text-center">
-              There are no articles at the moment!
+              {`There are no ${postType} articles at the moment!`}
             </p>
           </div>
         )}

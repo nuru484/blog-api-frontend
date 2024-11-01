@@ -109,12 +109,18 @@ const Home = () => {
     }
 
     if (displayPublishedPost) {
-      return <PostsList posts={posts} setPosts={setPosts} />;
+      return (
+        <PostsList posts={posts} setPosts={setPosts} postType={'published'} />
+      );
     }
 
     if (displayUnpublishedPosts) {
       return (
-        <PostsList posts={unpublishedPosts} setPosts={setUnpublishedPosts} />
+        <PostsList
+          posts={unpublishedPosts}
+          setPosts={setUnpublishedPosts}
+          postType={'pnpublished'}
+        />
       );
     }
 
