@@ -12,6 +12,17 @@ export const createPost = async (credentials, accessToken) => {
   });
 };
 
+export const updatePostRequest = async (postId, credentials, accessToken) => {
+  return await backendFetch(`/api/v1/posts/${postId}`, {
+    method: 'PATCH',
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: accessToken ? `Bearer ${accessToken}` : '',
+    },
+    body: JSON.stringify(credentials),
+  });
+};
+
 export const fetchPosts = async (apiRoute) => {
   return await backendFetch(`/api/v1/${apiRoute}`, {
     method: 'GET',

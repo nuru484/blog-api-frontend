@@ -78,6 +78,7 @@ const TagManager = () => {
     <div className="bg-white rounded-lg shadow-sm p-6">
       <div className="flex items-center justify-between mb-6">
         <h2 className="text-xl font-semibold text-gray-800">Tags</h2>
+
         <Button
           onClick={() => handleOpenDialog()}
           className="flex items-center gap-2 bg-blue-600 hover:bg-blue-700 text-white"

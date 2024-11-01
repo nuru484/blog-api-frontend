@@ -11,7 +11,7 @@ import LoginButton from '@/components/LoginButton';
 import useAuth from '@/hooks/useAuth';
 import UserProfileMenu from '@/components/UserProfile';
 import PostManagementMenu from '@/components/PostManagementMenu';
-import useCreatePost from '@/hooks/useCreatePost';
+import CreatePostPage from './CreatePostPage';
 import TagManager from '@/components/TagManager';
 import PostsList from '@/components/PostsList';
 import { fetchUnpublishedPosts } from '@/api/postsFetch';
@@ -27,7 +27,6 @@ const Home = () => {
   const [displayUnpublishedPosts, setDisplayUnPublishedPosts] = useState(false);
 
   const { posts, setPosts, loading, error } = usePostContext();
-  const createPost = useCreatePost();
   const { isAuth, authUser, accessToken, logout } = useAuth();
 
   const handleCreatePost = () => {
@@ -73,7 +72,7 @@ const Home = () => {
         setViewBlogDetail(true);
       }
     }
-  }, [posts, aboutBlog]);
+  }, [posts, aboutBlog, displayPublishedPost]);
 
   const handleAboutBlog = () => {
     setAboutBlog(true);
@@ -106,7 +105,7 @@ const Home = () => {
 
   const renderContent = () => {
     if (postCreationMode) {
-      return <>{createPost}</>;
+      return <CreatePostPage />;
     }
 
     if (displayPublishedPost) {

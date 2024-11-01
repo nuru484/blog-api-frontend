@@ -2,7 +2,7 @@ import { Tag, FileText, Send, CircleCheckBig } from 'lucide-react';
 import { Alert, AlertDescription } from '@/components/ui/alert';
 import Loading from '@/components/ui/loading';
 
-const CreatePostForm = ({
+const PostForm = ({
   loading,
   error,
   success,
@@ -12,19 +12,23 @@ const CreatePostForm = ({
   post,
   setPost,
   availableTags,
+  isEditing,
+  onCancel,
 }) => {
   return (
     <div className=" flex items-center justify-center bg-gray-100">
       <div className="bg-white p-8 w-11/12 rounded-lg">
         <h2 className="text-2xl font-semibold text-center text-gray-700 mb-6">
-          Create New Post
+          {isEditing ? 'Update Post' : 'Create New Post'}
         </h2>
 
         {success && (
           <Alert className="border-green-600 fixed top-4 left-1/2 transform -translate-x-1/2 max-w-md w-full mx-auto bg-white shadow-lg p-4 rounded-md z-50">
             <CircleCheckBig className="h-4 w-4 text-green-600" />
             <AlertDescription className="text-green-600">
-              Post created successfully!
+              {isEditing
+                ? 'Post updated successfully!'
+                : 'Post created successfully!'}
             </AlertDescription>
           </Alert>
         )}
@@ -114,23 +118,36 @@ const CreatePostForm = ({
             </p>
           </div>
 
-          <button
-            type="submit"
-            disabled={loading}
-            className="w-full bg-blue-600 text-white text-center py-2 rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 flex justify-center items-center"
-          >
-            {loading ? (
-              <>
-                <span className="inline-block mr-2">Creating Post</span>
-                <Loading height={24} width={24} />
-              </>
-            ) : (
-              <>
-                Create Post
-                <Send className="inline-block ml-2" size={18} />
-              </>
+          <div className="flex space-x-4">
+            <button
+              type="submit"
+              disabled={loading}
+              className="flex-1 bg-blue-600 text-white text-center py-2 rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 flex justify-center items-center"
+            >
+              {loading ? (
+                <>
+                  <span className="inline-block mr-2">
+                    {isEditing ? 'Updating Post' : 'Creating Post'}
+                  </span>
+                  <Loading height={24} width={24} />
+                </>
+              ) : (
+                <>
+                  {isEditing ? 'Update Post' : 'Create Post'}
+                  <Send className="inline-block ml-2" size={18} />
+                </>
+              )}
+            </button>
+            {isEditing && onCancel && (
+              <button
+                type="button"
+                onClick={onCancel}
+                className="flex-1 bg-gray-200 text-gray-700 text-center py-2 rounded-md hover:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-opacity-50"
+              >
+                Cancel
+              </button>
             )}
-          </button>
+          </div>
 
           {error && (
             <Alert className="border-red-600 mt-4">
@@ -145,4 +162,4 @@ const CreatePostForm = ({
   );
 };
 
-export default CreatePostForm;
+export default PostForm;
