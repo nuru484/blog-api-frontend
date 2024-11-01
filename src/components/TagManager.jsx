@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Pencil, X, Plus } from 'lucide-react';
+import { Pencil, X, Plus, FileX } from 'lucide-react';
 import {
   Dialog,
   DialogContent,
@@ -122,7 +122,7 @@ const TagManager = () => {
       </div>
 
       <Dialog open={isOpen} onOpenChange={setIsOpen}>
-        <DialogContent>
+        <DialogContent className="bg-white">
           <DialogHeader>
             <DialogTitle>
               {editingTag ? 'Edit Tag' : 'Create New Tag'}
@@ -133,14 +133,18 @@ const TagManager = () => {
               value={tagName}
               onChange={(e) => setTagName(e.target.value)}
               placeholder="Enter tag name"
-              className="w-full"
+              className="w-full border-2"
             />
           </div>
-          <DialogFooter>
-            <Button variant="outline" onClick={() => setIsOpen(false)}>
+          <DialogFooter className="flex gap-2">
+            <Button
+              variant="outline"
+              onClick={() => setIsOpen(false)}
+              className="bg-red-600 text-white"
+            >
               Cancel
             </Button>
-            <Button onClick={handleSubmit}>
+            <Button onClick={handleSubmit} className="bg-green-600 text-white">
               {editingTag ? 'Update' : 'Create'}
             </Button>
           </DialogFooter>
