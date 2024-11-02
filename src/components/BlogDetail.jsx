@@ -86,6 +86,7 @@ const BlogDetail = ({
             </span>
           ))}
         </div>
+
         <div className="flex flex-col items-end">
           <span className="text-xs text-gray-500 mb-2">{date}</span>
           <span className="text-xs text-gray-500">By {author}</span>
@@ -94,7 +95,10 @@ const BlogDetail = ({
       <h2 className="text-2xl font-bold mb-2 leading-tight text-gray-800">
         {title}
       </h2>
-      <p className="text-sm mb-4 text-gray-600 leading-relaxed">{content}</p>
+
+      <div className="text-sm mb-4 text-gray-600 leading-relaxed">
+        {content}
+      </div>
       <div className="flex justify-between items-center">
         <button
           onClick={handleViewBlogCard}

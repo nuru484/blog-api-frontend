@@ -10,62 +10,95 @@ const useLikes = () => {
   const { posts, setPosts } = usePostContext();
 
   const unlikePost = async (postId, userId) => {
+    setError('');
+    setLoading(true);
+    const originalPosts = [...posts];
+
     try {
-      const post = posts.find((p) => p.id === postId);
+      const identifier = userId || getCookie('guestName');
 
-      if (
-        post &&
-        post.likes.some((like) =>
-          like.userId === userId ? userId : getCookie('guestName')
-        )
-      ) {
-        const response = await unlikePostRequest(postId, userId);
+      setPosts((prevPosts) =>
+        prevPosts.map((post) => {
+          if (post.id === postId) {
+            const updatedLikes = post.likes.filter(
+              (like) =>
+                like.userId !== identifier && like.guestName !== identifier
+            );
+            return { ...post, likes: updatedLikes };
+          }
+          return post;
+        })
+      );
 
-        if (response) {
-          setPosts((prevPosts) =>
-            prevPosts.map((post) => {
-              if (post.id === postId) {
-                const updatedLikes = post.likes.filter(
-                  (like) => like.id !== response.like.id
-                );
+      const response = await unlikePostRequest(postId, userId);
 
-                return { ...post, likes: updatedLikes };
-              }
-              return post;
-            })
-          );
-        }
-
-        return;
+      if (!response) {
+        throw new Error('Failed to unlike the post.');
       }
     } catch (error) {
+      setPosts(originalPosts);
       handleAPIError(error, setError);
+    } finally {
+      setLoading(false);
     }
   };
 
   const likePost = async (postId, userId) => {
     setError('');
     setLoading(true);
+    const originalPosts = [...posts];
+
     try {
+      const guestName = userId ? null : getCookie('guestName');
+
+      if (!userId && !guestName) {
+        throw new Error('User identifier not found');
+      }
+
+      const newLike = {
+        id: Date.now(),
+        userId: userId || null,
+        guestName: guestName || null,
+        createdAt: new Date().toISOString(),
+      };
+
+      setPosts((prevPosts) =>
+        prevPosts.map((post) => {
+          if (post.id === postId) {
+            const alreadyLiked = post.likes.some(
+              (like) =>
+                (userId && like.userId === userId) ||
+                (!userId && like.guestName === guestName)
+            );
+            if (!alreadyLiked) {
+              return { ...post, likes: [...post.likes, newLike] };
+            }
+          }
+          return post;
+        })
+      );
+
       const response = await likePostRequest(postId, userId);
 
       if (response && response.like) {
         setPosts((prevPosts) =>
           prevPosts.map((post) => {
             if (post.id === postId) {
-              const alreadyLiked = post.likes.some(
-                (like) => like.id === response.like.id
-              );
-
-              if (!alreadyLiked) {
-                return { ...post, likes: [...post.likes, response.like] };
-              }
+              return {
+                ...post,
+                likes: post.likes.map((like) =>
+                  like.id === newLike.id ? response.like : like
+                ),
+              };
             }
             return post;
           })
         );
+      } else {
+        throw new Error('Failed to like the post.');
       }
     } catch (error) {
+      setPosts(originalPosts);
       handleAPIError(error, setError);
     } finally {
       setLoading(false);
