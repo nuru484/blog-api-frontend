@@ -1,7 +1,7 @@
 import { handleAPIError } from '@/lib/errorHandler';
 import { likePostRequest, unlikePostRequest } from '@/api/likesFetch';
 import usePostContext from './usePostContext';
-import { getCookie } from '@/lib/cookies';
+import { getCookie, setCookie } from '@/lib/cookies';
 import { useState } from 'react';
 
 const useLikes = () => {
@@ -48,8 +48,15 @@ const useLikes = () => {
     setLoading(true);
     const originalPosts = [...posts];
 
+    const randomNumber = Math.floor(Math.random() * 100000);
+    const nameForGuest = `guest${randomNumber}`;
+
     try {
-      const guestName = userId ? null : getCookie('guestName');
+      let guestName = userId
+        ? null
+        : getCookie('guestName') === null
+        ? (setCookie('guestName', nameForGuest, 365), nameForGuest)
+        : getCookie('guestName');
 
       if (!userId && !guestName) {
         throw new Error('User identifier not found');
