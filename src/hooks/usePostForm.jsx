@@ -98,6 +98,13 @@ const usePostForm = (initialPost = null, onClose = null) => {
     }));
   }, []);
 
+  const handleEditorChange = (content) => {
+    setPost((prevPost) => ({
+      ...prevPost,
+      content,
+    }));
+  };
+
   useEffect(() => {
     setPost((prevPost) => ({
       ...prevPost,
@@ -120,6 +127,7 @@ const usePostForm = (initialPost = null, onClose = null) => {
     success,
     handleSubmit,
     handleChange,
+    handleEditorChange,
     handleTagSelection,
     availableTags: tags,
   };

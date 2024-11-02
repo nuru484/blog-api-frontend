@@ -27,9 +27,9 @@ const BlogCard = ({
         <h2 className="text-xl font-bold mb-2 leading-tight text-gray-800">
           {title}
         </h2>
-        <p className="text-sm mb-4 text-gray-600 leading-relaxed">
+        <div className="text-sm mb-4 text-gray-600 leading-relaxed">
           {excerpt}...
-        </p>
+        </div>
       </div>
       <div className="flex justify-between items-center flex-wrap gap-3">
         <button className="text-blue-600 text-sm font-medium flex items-center">

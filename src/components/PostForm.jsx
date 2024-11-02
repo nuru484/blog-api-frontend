@@ -1,6 +1,7 @@
 import { Tag, FileText, Send, CircleCheckBig } from 'lucide-react';
 import { Alert, AlertDescription } from '@/components/ui/alert';
 import Loading from '@/components/ui/loading';
+import { Editor } from '@tinymce/tinymce-react';
 
 const PostForm = ({
   loading,
@@ -8,6 +9,7 @@ const PostForm = ({
   success,
   handleSubmit,
   handleChange,
+  handleEditorChange,
   handleTagSelection,
   post,
   setPost,
@@ -50,15 +52,25 @@ const PostForm = ({
           </div>
 
           <div className="mb-4">
-            <textarea
-              type="text"
-              name="content"
-              placeholder="Post Content"
+            <Editor
+              apiKey={import.meta.env.VITE_TINY_MCE_API_KEY}
+              init={{
+                height: 500,
+                menubar: true,
+                plugins:
+                  'advlist autolink lists link image charmap preview anchor ' +
+                  'searchreplace visualblocks code fullscreen ' +
+                  'insertdatetime media table code help wordcount',
+                toolbar:
+                  'undo redo | formatselect | ' +
+                  'bold italic backcolor | alignleft aligncenter ' +
+                  'alignright alignjustify | bullist numlist outdent indent | ' +
+                  'removeformat | help',
+                content_style:
+                  'body { font-family:Helvetica,Arial,sans-serif; font-size:14px }',
+              }}
               value={post.content}
-              onChange={handleChange}
-              required
-              rows={5}
-              className="w-full p-3 rounded-md border border-gray-300 focus:outline-none focus:ring-1 focus:ring-indigo-500"
+              onEditorChange={handleEditorChange}
             />
           </div>
 

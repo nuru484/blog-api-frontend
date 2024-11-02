@@ -6,6 +6,7 @@ import useAuth from '@/hooks/useAuth';
 import { SuccessAlert } from './SuccessAlert';
 import PostForm from './PostForm';
 import usePostForm from '@/hooks/usePostForm';
+import parse from 'html-react-parser';
 
 const PostsList = ({ posts, setPosts, postType }) => {
   const [displayPostContent, setDisplayPostContent] = useState({});
@@ -140,7 +141,9 @@ const PostsList = ({ posts, setPosts, postType }) => {
 
               {displayPostContent[post.id] && (
                 <div className="mt-4 p-4 bg-gray-50 rounded">
-                  <p className="text-gray-700 mb-2">{post.content}</p>
+                  <div className="text-gray-700 mb-2">
+                    {parse(post.content)}
+                  </div>
                 </div>
               )}
             </div>

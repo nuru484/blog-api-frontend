@@ -15,6 +15,7 @@ import CreatePostPage from './CreatePostPage';
 import TagManager from '@/components/TagManager';
 import PostsList from '@/components/PostsList';
 import { fetchUnpublishedPosts } from '@/api/postsFetch';
+import parse from 'html-react-parser';
 
 const Home = () => {
   const [viewBlogDetail, setViewBlogDetail] = useState(false);
@@ -119,7 +120,7 @@ const Home = () => {
         <PostsList
           posts={unpublishedPosts}
           setPosts={setUnpublishedPosts}
-          postType={'pnpublished'}
+          postType={'Unpublished'}
         />
       );
     }
@@ -151,7 +152,7 @@ const Home = () => {
             date={new Date(selectedPost.createdAt).toLocaleString('en-US')}
             handleViewBlogCard={handleViewBlogCard}
             title={selectedPost.title}
-            content={selectedPost.content}
+            content={parse(selectedPost.content)}
             author={
               selectedPost.author
                 ? `${selectedPost.author.firstname} ${selectedPost.author.lastname}`
@@ -178,7 +179,7 @@ const Home = () => {
                 date={new Date(post.createdAt).toLocaleString('en-US')}
                 title={post.title}
                 post={post}
-                excerpt={post.content.slice(0, 250)}
+                excerpt={parse(post.content.slice(0, 250))}
                 tag={post.tags.length === 0 ? 'Default' : post.tags[0].name}
                 handleViewBlogDetail={() => handleViewBlogDetail(post)}
               />
