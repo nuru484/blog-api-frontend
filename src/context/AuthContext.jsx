@@ -112,6 +112,7 @@ export const AuthContextProvider = ({ children }) => {
         }
       } catch (error) {
         handleAPIError(error, setError);
+        tokenRefresh();
       } finally {
         setLoading(false);
       }
