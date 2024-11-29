@@ -70,56 +70,6 @@ npm run build
 ## Project Structure
 
 ```
-📦blog-api
- ┣
- ┃ ┃ ┃ ┗ 📜migration.sql
- ┃ ┃ ┣ 📂20241031162415_init
- ┃ ┃ ┃ ┗ 📜migration.sql
- ┃ ┃ ┗ 📜migration_lock.toml
- ┃ ┗ 📜schema.prisma
- ┣ 📂src
- ┃ ┣ 📂authentication
- ┃ ┃ ┣ 📜jwtAuthentication.js
- ┃ ┃ ┗ 📜refreshToken.js
- ┃ ┣ 📂controllers
- ┃ ┃ ┣ 📂validators
- ┃ ┃ ┃ ┣ 📜commentValidator.js
- ┃ ┃ ┃ ┣ 📜loginValidators.js
- ┃ ┃ ┃ ┣ 📜signupValidators.js
- ┃ ┃ ┃ ┗ 📜tagValidator.js
- ┃ ┃ ┣ 📜adminController.js
- ┃ ┃ ┣ 📜commentsController.js
- ┃ ┃ ┣ 📜likesController.js
- ┃ ┃ ┣ 📜loginController.js
- ┃ ┃ ┣ 📜postsController.js
- ┃ ┃ ┣ 📜signupController.js
- ┃ ┃ ┣ 📜tagsController.js
- ┃ ┃ ┣ 📜userController.js
- ┃ ┃ ┗ 📜viewsController.js
- ┃ ┣ 📂middleware
- ┃ ┃ ┣ 📂auth
- ┃ ┃ ┃ ┗ 📜authorizeRole.js
- ┃ ┃ ┣ 📜error-handler.js
- ┃ ┃ ┗ 📜rateLimit.js
- ┃ ┣ 📂public
- ┃ ┗ 📂routes
- ┃ ┃ ┣ 📜admin.js
- ┃ ┃ ┣ 📜comments.js
- ┃ ┃ ┣ 📜index.js
- ┃ ┃ ┣ 📜likes.js
- ┃ ┃ ┣ 📜login.js
- ┃ ┃ ┣ 📜posts.js
- ┃ ┃ ┣ 📜refreshToken.js
- ┃ ┃ ┣ 📜signup.js
- ┃ ┃ ┣ 📜tags.js
- ┃ ┃ ┣ 📜user.js
- ┃ ┃ ┗ 📜views.js
- ┣ 📜.env
- ┣ 📜.gitignore
- ┣ 📜README.md
- ┣ 📜package-lock.json
- ┣ 📜package.json
- ┗ 📜server.js📦blog-api-frontend
  ┣
  ┣ 📂public
  ┃ ┗ 📜vite.svg
