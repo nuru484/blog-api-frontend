@@ -119,7 +119,90 @@ npm run build
  ┣ 📜README.md
  ┣ 📜package-lock.json
  ┣ 📜package.json
- ┗ 📜server.js
+ ┗ 📜server.js📦blog-api-frontend
+ ┣
+ ┣ 📂public
+ ┃ ┗ 📜vite.svg
+ ┣ 📂src
+ ┃ ┣ 📂api
+ ┃ ┃ ┣ 📜commentFetch.jsx
+ ┃ ┃ ┣ 📜index.jsx
+ ┃ ┃ ┣ 📜likesFetch.jsx
+ ┃ ┃ ┣ 📜loginFetch.jsx
+ ┃ ┃ ┣ 📜postsFetch.jsx
+ ┃ ┃ ┣ 📜signupFetch.jsx
+ ┃ ┃ ┗ 📜tagsFetch.jsx
+ ┃ ┣ 📂assets
+ ┃ ┃ ┗ 📜blog-logo.webp
+ ┃ ┣ 📂components
+ ┃ ┃ ┣ 📂ui
+ ┃ ┃ ┃ ┣ 📜alert-dialog.jsx
+ ┃ ┃ ┃ ┣ 📜alert.jsx
+ ┃ ┃ ┃ ┣ 📜button.jsx
+ ┃ ┃ ┃ ┣ 📜dialog.jsx
+ ┃ ┃ ┃ ┣ 📜dropdown-menu.jsx
+ ┃ ┃ ┃ ┣ 📜input.jsx
+ ┃ ┃ ┃ ┗ 📜loading.jsx
+ ┃ ┃ ┣ 📜About.jsx
+ ┃ ┃ ┣ 📜BlogCard.jsx
+ ┃ ┃ ┣ 📜BlogDetail.jsx
+ ┃ ┃ ┣ 📜CommentIcon.jsx
+ ┃ ┃ ┣ 📜Comments.jsx
+ ┃ ┃ ┣ 📜CreateCommentForm.jsx
+ ┃ ┃ ┣ 📜Header.jsx
+ ┃ ┃ ┣ 📜LikeIcon.jsx
+ ┃ ┃ ┣ 📜LoginButton.jsx
+ ┃ ┃ ┣ 📜LoginForm.jsx
+ ┃ ┃ ┣ 📜NabBar.jsx
+ ┃ ┃ ┣ 📜PostForm.jsx
+ ┃ ┃ ┣ 📜PostManagementMenu.jsx
+ ┃ ┃ ┣ 📜PostsList.jsx
+ ┃ ┃ ┣ 📜SignUpForm.jsx
+ ┃ ┃ ┣ 📜SuccessAlert.jsx
+ ┃ ┃ ┣ 📜TagManager.jsx
+ ┃ ┃ ┗ 📜UserProfile.jsx
+ ┃ ┣ 📂context
+ ┃ ┃ ┣ 📜AuthContext.jsx
+ ┃ ┃ ┣ 📜PostContext.jsx
+ ┃ ┃ ┗ 📜TagsContext.jsx
+ ┃ ┣ 📂hooks
+ ┃ ┃ ┣ 📜useAuth.jsx
+ ┃ ┃ ┣ 📜useCreateComment.jsx
+ ┃ ┃ ┣ 📜useLikes.jsx
+ ┃ ┃ ┣ 📜useLoginAfterSignup.jsx
+ ┃ ┃ ┣ 📜usePostContext.jsx
+ ┃ ┃ ┣ 📜usePostForm.jsx
+ ┃ ┃ ┗ 📜useTagsContext.jsx
+ ┃ ┣ 📂lib
+ ┃ ┃ ┣ 📜cookies.js
+ ┃ ┃ ┣ 📜encryptedStorage.js
+ ┃ ┃ ┣ 📜errorHandler.js
+ ┃ ┃ ┗ 📜utils.js
+ ┃ ┣ 📂pages
+ ┃ ┃ ┣ 📜CreatePostPage.jsx
+ ┃ ┃ ┣ 📜ErrorPage.jsx
+ ┃ ┃ ┣ 📜Home.jsx
+ ┃ ┃ ┣ 📜LoginPage.jsx
+ ┃ ┃ ┗ 📜SignUpPage.jsx
+ ┃ ┣ 📂routes
+ ┃ ┃ ┣ 📜ProtectedRoute.jsx
+ ┃ ┃ ┗ 📜index.jsx
+ ┃ ┣ 📜App.jsx
+ ┃ ┣ 📜index.css
+ ┃ ┗ 📜main.jsx
+ ┣ 📜.env
+ ┣ 📜.gitignore
+ ┣ 📜README.md
+ ┣ 📜components.json
+ ┣ 📜eslint.config.js
+ ┣ 📜index.html
+ ┣ 📜jsconfig.json
+ ┣ 📜package-lock.json
+ ┣ 📜package.json
+ ┣ 📜postcss.config.js
+ ┣ 📜tailwind.config.js
+ ┣ 📜vercel.json
+ ┗ 📜vite.config.js
 ```
 
 ## Authentication Flow
