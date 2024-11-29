@@ -69,90 +69,80 @@ npm run build
 
 ## Project Structure
 
+Here’s the structure of the project along with a brief explanation of each directory and its contents.
+
 ```
- ┣
- ┣ 📂public
- ┃ ┗ 📜vite.svg
- ┣ 📂src
- ┃ ┣ 📂api
- ┃ ┃ ┣ 📜commentFetch.jsx
- ┃ ┃ ┣ 📜index.jsx
- ┃ ┃ ┣ 📜likesFetch.jsx
- ┃ ┃ ┣ 📜loginFetch.jsx
- ┃ ┃ ┣ 📜postsFetch.jsx
- ┃ ┃ ┣ 📜signupFetch.jsx
- ┃ ┃ ┗ 📜tagsFetch.jsx
- ┃ ┣ 📂assets
- ┃ ┃ ┗ 📜blog-logo.webp
- ┃ ┣ 📂components
- ┃ ┃ ┣ 📂ui
- ┃ ┃ ┃ ┣ 📜alert-dialog.jsx
- ┃ ┃ ┃ ┣ 📜alert.jsx
- ┃ ┃ ┃ ┣ 📜button.jsx
- ┃ ┃ ┃ ┣ 📜dialog.jsx
- ┃ ┃ ┃ ┣ 📜dropdown-menu.jsx
- ┃ ┃ ┃ ┣ 📜input.jsx
- ┃ ┃ ┃ ┗ 📜loading.jsx
- ┃ ┃ ┣ 📜About.jsx
- ┃ ┃ ┣ 📜BlogCard.jsx
- ┃ ┃ ┣ 📜BlogDetail.jsx
- ┃ ┃ ┣ 📜CommentIcon.jsx
- ┃ ┃ ┣ 📜Comments.jsx
- ┃ ┃ ┣ 📜CreateCommentForm.jsx
- ┃ ┃ ┣ 📜Header.jsx
- ┃ ┃ ┣ 📜LikeIcon.jsx
- ┃ ┃ ┣ 📜LoginButton.jsx
- ┃ ┃ ┣ 📜LoginForm.jsx
- ┃ ┃ ┣ 📜NabBar.jsx
- ┃ ┃ ┣ 📜PostForm.jsx
- ┃ ┃ ┣ 📜PostManagementMenu.jsx
- ┃ ┃ ┣ 📜PostsList.jsx
- ┃ ┃ ┣ 📜SignUpForm.jsx
- ┃ ┃ ┣ 📜SuccessAlert.jsx
- ┃ ┃ ┣ 📜TagManager.jsx
- ┃ ┃ ┗ 📜UserProfile.jsx
- ┃ ┣ 📂context
- ┃ ┃ ┣ 📜AuthContext.jsx
- ┃ ┃ ┣ 📜PostContext.jsx
- ┃ ┃ ┗ 📜TagsContext.jsx
- ┃ ┣ 📂hooks
- ┃ ┃ ┣ 📜useAuth.jsx
- ┃ ┃ ┣ 📜useCreateComment.jsx
- ┃ ┃ ┣ 📜useLikes.jsx
- ┃ ┃ ┣ 📜useLoginAfterSignup.jsx
- ┃ ┃ ┣ 📜usePostContext.jsx
- ┃ ┃ ┣ 📜usePostForm.jsx
- ┃ ┃ ┗ 📜useTagsContext.jsx
- ┃ ┣ 📂lib
- ┃ ┃ ┣ 📜cookies.js
- ┃ ┃ ┣ 📜encryptedStorage.js
- ┃ ┃ ┣ 📜errorHandler.js
- ┃ ┃ ┗ 📜utils.js
- ┃ ┣ 📂pages
- ┃ ┃ ┣ 📜CreatePostPage.jsx
- ┃ ┃ ┣ 📜ErrorPage.jsx
- ┃ ┃ ┣ 📜Home.jsx
- ┃ ┃ ┣ 📜LoginPage.jsx
- ┃ ┃ ┗ 📜SignUpPage.jsx
- ┃ ┣ 📂routes
- ┃ ┃ ┣ 📜ProtectedRoute.jsx
- ┃ ┃ ┗ 📜index.jsx
- ┃ ┣ 📜App.jsx
- ┃ ┣ 📜index.css
- ┃ ┗ 📜main.jsx
- ┣ 📜.env
- ┣ 📜.gitignore
- ┣ 📜README.md
- ┣ 📜components.json
- ┣ 📜eslint.config.js
- ┣ 📜index.html
- ┣ 📜jsconfig.json
- ┣ 📜package-lock.json
- ┣ 📜package.json
- ┣ 📜postcss.config.js
- ┣ 📜tailwind.config.js
- ┣ 📜vercel.json
- ┗ 📜vite.config.js
+
+┣ 📂public
+┃ ┗ 📜vite.svg <!-- Static assets like images, fonts, and other public files -->
+┣ 📂src
+┃ ┣ 📂api
+┃ ┃ ┣ 📜commentFetch.jsx <!-- API calls related to comments -->
+┃ ┃ ┣ 📜index.jsx <!-- Entry point for API requests -->
+┃ ┃ ┣ 📜likesFetch.jsx <!-- API call to manage likes -->
+┃ ┃ ┣ 📜loginFetch.jsx <!-- API call for login -->
+┃ ┃ ┣ 📜postsFetch.jsx <!-- API call to fetch posts -->
+┃ ┃ ┣ 📜signupFetch.jsx <!-- API call for signup -->
+┃ ┃ ┗ 📜tagsFetch.jsx <!-- API call for tags -->
+┃ ┣ 📂assets
+┃ ┃ ┗ 📜blog-logo.webp <!-- Image and media files for the app -->
+┃ ┣ 📂components
+┃ ┃ ┣ 📂ui
+┃ ┃ ┃ ┣ 📜alert-dialog.jsx <!-- UI component for alert dialog -->
+┃ ┃ ┃ ┣ 📜alert.jsx <!-- UI component for general alerts -->
+┃ ┃ ┃ ┣ 📜button.jsx <!-- UI component for button -->
+┃ ┃ ┃ ┣ 📜dialog.jsx <!-- UI component for dialog box -->
+┃ ┃ ┃ ┣ 📜dropdown-menu.jsx <!-- UI component for dropdown menus -->
+┃ ┃ ┃ ┣ 📜input.jsx <!-- UI component for input fields -->
+┃ ┃ ┃ ┗ 📜loading.jsx <!-- UI component for loading state -->
+┃ ┃ ┣ 📜About.jsx <!-- About page component -->
+┃ ┃ ┣ 📜BlogCard.jsx <!-- Component for displaying individual blog cards -->
+┃ ┃ ┣ 📜BlogDetail.jsx <!-- Component for displaying detailed blog -->
+┃ ┃ ┣ 📜CommentIcon.jsx <!-- Icon component for comments -->
+┃ ┃ ┣ 📜Comments.jsx <!-- Comments section component -->
+┃ ┃ ┣ 📜CreateCommentForm.jsx <!-- Component for creating a comment -->
+┃ ┃ ┣ 📜Header.jsx <!-- Header component -->
+┃ ┃ ┣ 📜LikeIcon.jsx <!-- Icon component for likes -->
+┃ ┃ ┣ 📜LoginButton.jsx <!-- Button component for login -->
+┃ ┃ ┣ 📜LoginForm.jsx <!-- Login form component -->
+┃ ┃ ┣ 📜NabBar.jsx <!-- Navigation bar component -->
+┃ ┃ ┣ 📜PostForm.jsx <!-- Form component for creating posts -->
+┃ ┃ ┣ 📜PostManagementMenu.jsx <!-- Menu for managing posts -->
+┃ ┃ ┣ 📜PostsList.jsx <!-- List of posts component -->
+┃ ┃ ┣ 📜SignUpForm.jsx <!-- Signup form component -->
+┃ ┃ ┣ 📜SuccessAlert.jsx <!-- Success message alert component -->
+┃ ┃ ┣ 📜TagManager.jsx <!-- Component for managing tags -->
+┃ ┃ ┗ 📜UserProfile.jsx <!-- Component for displaying user profile -->
+┃ ┣ 📂context
+┃ ┃ ┣ 📜AuthContext.jsx <!-- Context for managing authentication state -->
+┃ ┃ ┣ 📜PostContext.jsx <!-- Context for managing post-related state -->
+┃ ┃ ┗ 📜TagsContext.jsx <!-- Context for managing tags-related state -->
+┃ ┣ 📂hooks
+┃ ┃ ┣ 📜useAuth.jsx <!-- Custom hook for handling authentication -->
+┃ ┃ ┣ 📜useCreateComment.jsx <!-- Custom hook for creating comments -->
+┃ ┃ ┣ 📜useLikes.jsx <!-- Custom hook for managing likes -->
+┃ ┃ ┣ 📜useLoginAfterSignup.jsx <!-- Custom hook to handle login post-signup -->
+┃ ┃ ┣ 📜usePostContext.jsx <!-- Custom hook for using PostContext -->
+┃ ┃ ┣ 📜usePostForm.jsx <!-- Custom hook for handling post form logic -->
+┃ ┃ ┗ 📜useTagsContext.jsx <!-- Custom hook for using TagsContext -->
+┃ ┣ 📂lib
+┃ ┃ ┣ 📜cookies.js <!-- Utility functions for handling cookies -->
+┃ ┃ ┣ 📜encryptedStorage.js <!-- Utilities for encrypted storage -->
+┃ ┃ ┣ 📜errorHandler.js <!-- Error handling utilities -->
+┃ ┃ ┗ 📜utils.js <!-- General utility functions -->
+┃ ┣ 📂pages
+┃ ┃ ┣ 📜CreatePostPage.jsx <!-- Page for creating posts -->
+┃ ┃ ┣ 📜ErrorPage.jsx <!-- Error page to handle errors -->
+┃ ┃ ┣ 📜Home.jsx <!-- Home page component -->
+┃ ┃ ┣ 📜LoginPage.jsx <!-- Login page component -->
+┃ ┃ ┗ 📜SignUpPage.jsx <!-- Signup page component -->
+┃ ┣ 📂routes
+┃ ┃ ┣ 📜ProtectedRoute.jsx <!-- Protected route component -->
+┃ ┃ ┗ 📜index.jsx <!-- Routing logic -->
+┃ ┣ 📜App.jsx <!-- Main app component -->
+┃ ┣ 📜index.css <!-- Global styles -->
+┃ ┗ 📜main.jsx <!-- Entry point for React app -->
+
 ```
 
 ## Authentication Flow
@@ -201,6 +191,9 @@ Although this project is private, contributions may be allowed on a case-by-case
    ```bash
    git checkout -b feature/AmazingFeature
    ```
+
+````
+
 3. Commit your changes:
    ```bash
    git commit -m 'Add some AmazingFeature'
@@ -229,3 +222,4 @@ Although this project is private, contributions may be allowed on a case-by-case
 ## Contact
 
 Nurudeen Abdul-Majeed - abdulmajeednurudeen48@gmail.com
+````
