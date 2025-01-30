@@ -1,10 +1,11 @@
 // src/pages/LoginPage.jsx
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import loginFetch from '../api/loginFetch';
 import useAuth from '../hooks/useAuth';
 import LoginForm from '../components/LoginForm';
 import { handleAPIError } from '@/lib/errorHandler';
+import encryptStorage from '@/lib/encryptedStorage';
 
 const LoginPage = () => {
   const { setAccessToken, setRefreshToken, isAuth, setIsAuth } = useAuth();
@@ -17,7 +18,7 @@ const LoginPage = () => {
     if (isAuth) {
       navigate('/');
     }
-  }, [setIsAuth]);
+  }, [setIsAuth, isAuth, navigate]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -31,6 +32,11 @@ const LoginPage = () => {
       // Set tokens using useAuth hook
       setAccessToken(response.accessToken);
       setRefreshToken(response.refreshToken);
+
+      console.log(response);
+
+      encryptStorage.setItem('jwtAccessToken', response.accessToken);
+      encryptStorage.setItem('jwtRefreshToken', response.refreshToken);
 
       setIsAuth(true);
     } catch (error) {

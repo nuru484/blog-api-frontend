@@ -1,9 +1,11 @@
-import React, { createContext, useEffect, useState } from 'react';
+import { createContext, useEffect, useState } from 'react';
+import PropTypes from 'prop-types';
 import encryptStorage from '../lib/encryptedStorage';
 import Loading from '@/components/ui/loading';
 import { backendFetch } from '../api';
 import { handleAPIError } from '@/lib/errorHandler';
 import { jwtDecode } from 'jwt-decode';
+import retrieveTokenFromEncryptedStorage from '@/lib/retrieveTokenFromEncryptedStorage';
 
 const AuthContext = createContext({
   accessToken: null,
@@ -17,15 +19,23 @@ const AuthContext = createContext({
   logout: () => null,
 });
 
-// Helper function to retrieve tokens from encrypted storage
-const retrieveTokenFromEncryptedStorage = () => {
+const tokenRefresh = async () => {
+  setLoading(true);
+  setError(null);
+
   try {
-    const accessToken = encryptStorage.getItem('jwtAccessToken') || null;
-    const refreshToken = encryptStorage.getItem('jwtRefreshToken') || null;
-    return { accessToken, refreshToken };
+    const refreshResponse = await backendFetch(`/api/v1/refreshToken`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ refreshToken }),
+    });
+
+    setAccessToken(refreshResponse.newAccessToken);
   } catch (error) {
-    console.error('Error retrieving tokens:', error);
-    return { accessToken: null, refreshToken: null };
+    handleAPIError(error, setError);
+    logout();
+  } finally {
+    setLoading(false);
   }
 };
 
@@ -39,37 +49,6 @@ export const AuthContextProvider = ({ children }) => {
   const [isAuth, setIsAuth] = useState(!!initialAccessToken);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-
-  // Effect to store tokens in encrypted storage
-  useEffect(() => {
-    if (accessToken && refreshToken) {
-      encryptStorage.setItem('jwtAccessToken', accessToken);
-      encryptStorage.setItem('jwtRefreshToken', refreshToken);
-    } else {
-      encryptStorage.removeItem('jwtAccessToken');
-      encryptStorage.removeItem('jwtRefreshToken');
-    }
-  }, [accessToken, refreshToken]);
-
-  const tokenRefresh = async () => {
-    setLoading(true);
-    setError(null);
-
-    try {
-      const refreshResponse = await backendFetch(`/api/v1/refreshToken`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ refreshToken }),
-      });
-
-      setAccessToken(refreshResponse.newAccessToken);
-    } catch (error) {
-      handleAPIError(error, setError);
-      logout();
-    } finally {
-      setLoading(false);
-    }
-  };
 
   useEffect(() => {
     if (accessToken) {
@@ -90,7 +69,7 @@ export const AuthContextProvider = ({ children }) => {
         console.error('Error decoding token:', error);
       }
     }
-  }, [accessToken, tokenRefresh]);
+  });
 
   useEffect(() => {
     const getUserFromToken = async () => {
@@ -125,17 +104,6 @@ export const AuthContextProvider = ({ children }) => {
     }
   }, [accessToken, refreshToken]);
 
-  const logout = () => {
-    setAccessToken(null);
-    setRefreshToken(null);
-    setAuthUser(null);
-    setIsAuth(false);
-
-    // Remove tokens from encrypted storage
-    encryptStorage.removeItem('jwtAccessToken');
-    encryptStorage.removeItem('jwtRefreshToken');
-  };
-
   return (
     <AuthContext.Provider
       value={{
@@ -147,7 +115,6 @@ export const AuthContextProvider = ({ children }) => {
         setRefreshToken,
         setAuthUser,
         setIsAuth,
-        logout,
       }}
     >
       {loading ? (
@@ -159,6 +126,9 @@ export const AuthContextProvider = ({ children }) => {
       )}
     </AuthContext.Provider>
   );
+};
+AuthContextProvider.propTypes = {
+  children: PropTypes.node.isRequired,
 };
 
 export default AuthContext;
