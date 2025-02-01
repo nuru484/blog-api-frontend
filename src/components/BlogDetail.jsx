@@ -36,30 +36,28 @@ const BlogDetail = ({
   const [postLiked, setPostLiked] = useState(false);
 
   const { likePost, unlikePost } = useLikes();
-  const { isAuth, authUser } = useAuth();
+  const { authUser } = useAuth();
   const navigate = useNavigate();
 
   useEffect(() => {
-    if (isAuth) {
-      const hasLiked = post.likes.some(
-        (like) => like.userId === authUser.user.id
-      );
+    if (authUser) {
+      const hasLiked = post.likes.some((like) => like.userId === authUser.id);
       setPostLiked(hasLiked);
     } else {
       const guestName = getCookie('guestName');
       const hasLiked = post.likes.some((like) => like.guestName === guestName);
       setPostLiked(hasLiked);
     }
-  }, [post.likes, isAuth, authUser]);
+  }, [post.likes, authUser]);
 
   const handlePostLike = () => {
-    const userId = isAuth && authUser.user.id;
+    const userId = authUser && authUser.id;
 
     if (postLiked) {
-      isAuth ? unlikePost(post.id, userId) : unlikePost(post.id);
+      authUser ? unlikePost(post.id, userId) : unlikePost(post.id);
       setPostLiked(false);
     } else {
-      isAuth ? likePost(post.id, userId) : likePost(post.id);
+      authUser ? likePost(post.id, userId) : likePost(post.id);
       setPostLiked(true);
     }
   };
@@ -70,7 +68,9 @@ const BlogDetail = ({
   };
 
   const handleDisplayCommentForm = () => {
-    isAuth ? setDisplayCommentForm(!displayCommentForm) : setIsDialogOpen(true);
+    authUser
+      ? setDisplayCommentForm(!displayCommentForm)
+      : setIsDialogOpen(true);
   };
 
   return (

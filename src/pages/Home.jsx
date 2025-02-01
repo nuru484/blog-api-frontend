@@ -16,6 +16,7 @@ import TagManager from '@/components/TagManager';
 import PostsList from '@/components/PostsList';
 import { fetchUnpublishedPosts } from '@/api/postsFetch';
 import parse from 'html-react-parser';
+import retrieveTokenFromEncryptedStorage from '@/lib/retrieveTokenFromEncryptedStorage';
 
 const Home = () => {
   const [viewBlogDetail, setViewBlogDetail] = useState(false);
@@ -28,7 +29,9 @@ const Home = () => {
   const [displayUnpublishedPosts, setDisplayUnPublishedPosts] = useState(false);
 
   const { posts, setPosts, loading, error } = usePostContext();
-  const { isAuth, authUser, accessToken, logout } = useAuth();
+  const { authUser, logout } = useAuth();
+
+  const { accessToken } = retrieveTokenFromEncryptedStorage();
 
   const handleCreatePost = () => {
     setPostCreationMode(!postCreationMode);
@@ -220,7 +223,7 @@ const Home = () => {
         </div>
 
         <div className="flex justify-end mr-3 mt-3">
-          {isAuth && authUser?.user?.role !== 'USER' && (
+          {authUser && authUser?.role !== 'USER' && (
             <PostManagementMenu
               onCreatePost={handleCreatePost}
               onManageTags={handleTagsManager}
@@ -234,7 +237,7 @@ const Home = () => {
       <div className="flex-1">
         <div className="hidden lg:flex justify-between items-center sticky top-0 pr-6 bg-white shadow-sm">
           <div className="flex justify-center items-center pl-6 ">
-            {isAuth && authUser?.user?.role !== 'USER' && (
+            {authUser && authUser?.role !== 'USER' && (
               <PostManagementMenu
                 onCreatePost={handleCreatePost}
                 onManageTags={handleTagsManager}
@@ -246,19 +249,19 @@ const Home = () => {
             <Header handleViewBlogCard={handleViewBlogCard} />
           </div>
 
-          {!isAuth && (
+          {!authUser && (
             <div className="hidden lg:block">
               <LoginButton />
             </div>
           )}
 
-          {isAuth && authUser?.user && <UserProfileMenu onLogout={logout} />}
+          {authUser && <UserProfileMenu logout={logout} />}
         </div>
 
         <main className="p-4 lg:px-8">{renderContent()}</main>
       </div>
 
-      {!isAuth && (
+      {!authUser && (
         <div className="fixed right-5 bottom-20 lg:hidden">
           <LoginButton />
         </div>

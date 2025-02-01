@@ -5,9 +5,9 @@ import useAuth from '@/hooks/useAuth';
 
 const CreatePostPage = () => {
   const formProps = usePostForm();
-  const { isAuth } = useAuth();
+  const { authUser } = useAuth();
 
-  return isAuth && <PostForm {...formProps} isEditing={false} />;
+  return authUser && <PostForm {...formProps} isEditing={false} />;
 };
 
 export default CreatePostPage;

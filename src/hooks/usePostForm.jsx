@@ -4,6 +4,7 @@ import { createPost, updatePostRequest } from '@/api/postsFetch';
 import useTagContext from './useTagsContext';
 import { handleAPIError } from '@/lib/errorHandler';
 import usePostContext from './usePostContext';
+import retrieveTokenFromEncryptedStorage from '@/lib/retrieveTokenFromEncryptedStorage';
 
 const usePostForm = (initialPost = null, onClose = null) => {
   const [post, setPost] = useState({
@@ -18,7 +19,8 @@ const usePostForm = (initialPost = null, onClose = null) => {
   const [selectedTags, setSelectedTags] = useState(initialPost?.tagIDs || []);
 
   const { tags } = useTagContext();
-  const { accessToken } = useAuth();
+
+  const { accessToken } = retrieveTokenFromEncryptedStorage();
   const { posts, setPosts } = usePostContext();
 
   // Update form when initialPost changes (for editing mode)

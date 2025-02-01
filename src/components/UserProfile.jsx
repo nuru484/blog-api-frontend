@@ -1,6 +1,4 @@
-import React from 'react';
 import { Camera, LogOut, Lock, UserCog } from 'lucide-react';
-
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -9,7 +7,7 @@ import {
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
 
-const UserProfileMenu = ({ onLogout, onUpdatePhoto, onUpdatePassword }) => {
+const UserProfileMenu = ({ logout, onUpdatePhoto, onUpdatePassword }) => {
   return (
     <DropdownMenu>
       <div className="flex flex-col items-center justify-center">
@@ -42,7 +40,7 @@ const UserProfileMenu = ({ onLogout, onUpdatePhoto, onUpdatePassword }) => {
 
         <DropdownMenuItem
           className="flex items-center py-2 cursor-pointer text-red-600 hover:text-red-700 hover:bg-red-50"
-          onClick={onLogout}
+          onClick={logout}
         >
           <LogOut className="mr-2 h-4 w-4" />
           <span>Logout</span>

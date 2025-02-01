@@ -19,7 +19,7 @@ const useCreateComment = (postId) => {
       setLoading(true);
       setError('');
 
-      const userId = authUser.user.id || null;
+      const userId = authUser.id || null;
 
       try {
         const response = await createComment(postId, commentContent, userId);

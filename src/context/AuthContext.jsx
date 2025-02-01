@@ -1,132 +1,119 @@
-import { createContext, useEffect, useState } from 'react';
+import { createContext, useEffect, useState, useCallback } from 'react';
 import PropTypes from 'prop-types';
-import encryptStorage from '../lib/encryptedStorage';
-import Loading from '@/components/ui/loading';
 import { backendFetch } from '../api';
 import { handleAPIError } from '@/lib/errorHandler';
-import { jwtDecode } from 'jwt-decode';
 import retrieveTokenFromEncryptedStorage from '@/lib/retrieveTokenFromEncryptedStorage';
+import encryptStorage from '@/lib/encryptedStorage';
 
 const AuthContext = createContext({
-  accessToken: null,
-  refreshToken: null,
   authUser: null,
-  isAuth: false,
-  setAccessToken: () => null,
-  setRefreshToken: () => null,
-  setAuthUser: () => null,
-  setIsAuth: () => false,
-  logout: () => null,
+  logout: () => {},
+  loading: true,
+  error: null,
 });
 
-const tokenRefresh = async () => {
-  setLoading(true);
-  setError(null);
-
-  try {
-    const refreshResponse = await backendFetch(`/api/v1/refreshToken`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ refreshToken }),
-    });
-
-    setAccessToken(refreshResponse.newAccessToken);
-  } catch (error) {
-    handleAPIError(error, setError);
-    logout();
-  } finally {
-    setLoading(false);
-  }
-};
-
 export const AuthContextProvider = ({ children }) => {
-  const { accessToken: initialAccessToken, refreshToken: initialRefreshToken } =
-    retrieveTokenFromEncryptedStorage();
-
-  const [accessToken, setAccessToken] = useState(initialAccessToken);
-  const [refreshToken, setRefreshToken] = useState(initialRefreshToken);
   const [authUser, setAuthUser] = useState(null);
-  const [isAuth, setIsAuth] = useState(!!initialAccessToken);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [accessToken, setAccessToken] = useState(null);
+  const [refreshToken, setRefreshToken] = useState(null);
 
   useEffect(() => {
-    if (accessToken) {
-      try {
-        const decodedToken = jwtDecode(accessToken);
-        const expiryTime = decodedToken.exp * 1000;
+    const { accessToken: storedAccessToken, refreshToken: storedRefreshToken } =
+      retrieveTokenFromEncryptedStorage();
 
-        const timeUntilExpiry = expiryTime - Date.now() - 60000;
+    setAccessToken(storedAccessToken);
+    setRefreshToken(storedRefreshToken);
+  }, []);
 
-        if (timeUntilExpiry > 0) {
-          const timeoutId = setTimeout(() => {
-            tokenRefresh();
-          }, timeUntilExpiry);
+  const logout = () => {
+    setAuthUser(null);
+    setAccessToken(null);
+    setRefreshToken(null);
+    encryptStorage.setItem('jwtAccessToken', null);
+    encryptStorage.setItem('jwtRefreshToken', null);
+  };
 
-          return () => clearTimeout(timeoutId);
-        }
-      } catch (error) {
-        console.error('Error decoding token:', error);
+  const tokenRefresh = useCallback(async () => {
+    try {
+      const refreshResponse = await backendFetch(`/api/v1/refreshToken`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ refreshToken }),
+      });
+
+      if (refreshResponse?.newAccessToken) {
+        setAccessToken(refreshResponse.newAccessToken);
+        return refreshResponse.newAccessToken;
+      } else {
+        logout();
       }
+    } catch (error) {
+      handleAPIError(error, setError);
+      logout();
     }
-  });
+  }, [refreshToken]);
 
   useEffect(() => {
     const getUserFromToken = async () => {
+      if (!accessToken) {
+        setLoading(false);
+        return;
+      }
+
       setLoading(true);
       setError(null);
 
       try {
+        let tokenToUse = accessToken;
+
         const response = await backendFetch(`/api/v1/user-token`, {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
-            Authorization: accessToken ? `Bearer ${accessToken}` : '',
+            Authorization: `Bearer ${tokenToUse}`,
           },
         });
 
-        if (response && response.user) {
-          setAuthUser(response);
-          setIsAuth(true);
+        if (response?.user) {
+          setAuthUser(response.user);
         }
       } catch (error) {
-        handleAPIError(error, setError);
-        tokenRefresh();
+        if (error.response?.status === 401 && refreshToken) {
+          // If token is expired, refresh it
+          const newToken = await tokenRefresh();
+          if (newToken) {
+            getUserFromToken();
+          }
+        } else {
+          handleAPIError(error, setError);
+          logout();
+        }
       } finally {
         setLoading(false);
       }
     };
 
-    if (accessToken) {
-      getUserFromToken();
-    } else {
-      setLoading(false);
-    }
-  }, [accessToken, refreshToken]);
+    getUserFromToken();
+  }, [accessToken, refreshToken, tokenRefresh]);
 
   return (
     <AuthContext.Provider
       value={{
-        accessToken,
-        refreshToken,
         authUser,
-        isAuth,
+        logout,
+        loading,
+        error,
         setAccessToken,
         setRefreshToken,
-        setAuthUser,
-        setIsAuth,
       }}
     >
-      {loading ? (
-        <div className="flex items-center justify-center my-5">
-          <Loading height={24} width={24} color="#1D4ED8" />
-        </div>
-      ) : (
-        children
-      )}
+      {children}
     </AuthContext.Provider>
   );
 };
+
 AuthContextProvider.propTypes = {
   children: PropTypes.node.isRequired,
 };

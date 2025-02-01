@@ -8,17 +8,17 @@ import { handleAPIError } from '@/lib/errorHandler';
 import encryptStorage from '@/lib/encryptedStorage';
 
 const LoginPage = () => {
-  const { setAccessToken, setRefreshToken, isAuth, setIsAuth } = useAuth();
+  const { authUser, setAccessToken, setRefreshToken } = useAuth();
   const [credentials, setCredentials] = useState({ email: '', password: '' });
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
   useEffect(() => {
-    if (isAuth) {
+    if (authUser) {
       navigate('/');
     }
-  }, [setIsAuth, isAuth, navigate]);
+  }, [authUser, navigate]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -27,18 +27,18 @@ const LoginPage = () => {
     setError(null);
     try {
       const response = await loginFetch(credentials);
-      // ... handle successful login
-
-      // Set tokens using useAuth hook
-      setAccessToken(response.accessToken);
-      setRefreshToken(response.refreshToken);
 
       console.log(response);
+
+      setAccessToken(response.accessToken);
+      setRefreshToken(response.refreshToken);
 
       encryptStorage.setItem('jwtAccessToken', response.accessToken);
       encryptStorage.setItem('jwtRefreshToken', response.refreshToken);
 
-      setIsAuth(true);
+      if (response) {
+        navigate('/');
+      }
     } catch (error) {
       handleAPIError(error, setError);
     } finally {
