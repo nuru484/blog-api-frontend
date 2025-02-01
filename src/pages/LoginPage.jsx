@@ -8,7 +8,7 @@ import { handleAPIError } from '@/lib/errorHandler';
 import encryptStorage from '@/lib/encryptedStorage';
 
 const LoginPage = () => {
-  const { authUser, setAccessToken, setRefreshToken } = useAuth();
+  const { authUser } = useAuth();
   const [credentials, setCredentials] = useState({ email: '', password: '' });
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(false);
@@ -29,9 +29,6 @@ const LoginPage = () => {
       const response = await loginFetch(credentials);
 
       console.log(response);
-
-      setAccessToken(response.accessToken);
-      setRefreshToken(response.refreshToken);
 
       encryptStorage.setItem('jwtAccessToken', response.accessToken);
       encryptStorage.setItem('jwtRefreshToken', response.refreshToken);

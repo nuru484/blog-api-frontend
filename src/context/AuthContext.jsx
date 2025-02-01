@@ -2,7 +2,6 @@ import { createContext, useEffect, useState, useCallback } from 'react';
 import PropTypes from 'prop-types';
 import { backendFetch } from '../api';
 import { handleAPIError } from '@/lib/errorHandler';
-import retrieveTokenFromEncryptedStorage from '@/lib/retrieveTokenFromEncryptedStorage';
 import encryptStorage from '@/lib/encryptedStorage';
 
 const AuthContext = createContext({
@@ -16,21 +15,12 @@ export const AuthContextProvider = ({ children }) => {
   const [authUser, setAuthUser] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  const [accessToken, setAccessToken] = useState(null);
-  const [refreshToken, setRefreshToken] = useState(null);
 
-  useEffect(() => {
-    const { accessToken: storedAccessToken, refreshToken: storedRefreshToken } =
-      retrieveTokenFromEncryptedStorage();
-
-    setAccessToken(storedAccessToken);
-    setRefreshToken(storedRefreshToken);
-  }, []);
+  const accessToken = encryptStorage.getItem('jwtAccessToken');
+  const refreshToken = encryptStorage.getItem('jwtRefreshToken');
 
   const logout = () => {
     setAuthUser(null);
-    setAccessToken(null);
-    setRefreshToken(null);
     encryptStorage.setItem('jwtAccessToken', null);
     encryptStorage.setItem('jwtRefreshToken', null);
   };
@@ -44,7 +34,7 @@ export const AuthContextProvider = ({ children }) => {
       });
 
       if (refreshResponse?.newAccessToken) {
-        setAccessToken(refreshResponse.newAccessToken);
+        encryptStorage.getItem(refreshResponse.newAccessToken);
         return refreshResponse.newAccessToken;
       } else {
         logout();
@@ -105,8 +95,6 @@ export const AuthContextProvider = ({ children }) => {
         logout,
         loading,
         error,
-        setAccessToken,
-        setRefreshToken,
       }}
     >
       {children}
