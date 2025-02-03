@@ -34,7 +34,7 @@ export const AuthContextProvider = ({ children }) => {
       });
 
       if (refreshResponse?.newAccessToken) {
-        encryptStorage.getItem(refreshResponse.newAccessToken);
+        encryptStorage.setItem(refreshResponse.newAccessToken);
         return refreshResponse.newAccessToken;
       } else {
         logout();
