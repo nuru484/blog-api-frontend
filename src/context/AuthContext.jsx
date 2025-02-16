@@ -66,20 +66,25 @@ export const AuthContextProvider = ({ children }) => {
           },
         });
 
+        console.log(`The response: ${response}`);
+
         if (response?.user) {
           setAuthUser(response.user);
         }
       } catch (error) {
-        if (error.response?.status === 401 && refreshToken) {
-          // If token is expired, refresh it
-          const newToken = await tokenRefresh();
-          if (newToken) {
-            getUserFromToken();
-          }
-        } else {
-          handleAPIError(error, setError);
-          logout();
-        }
+        console.log(`The error: ${error}`);
+        // if (error.response?.status === 401 && refreshToken) {
+        //   console.log(`Failed Auth: ${error}`);
+        //   // If token is expired, refresh it
+        //   const newToken = await tokenRefresh();
+        //   console.log(`The new token: ${newToken}`);
+        //   if (newToken) {
+        //     getUserFromToken();
+        //   }
+        // } else {
+        //   handleAPIError(error, setError);
+        //   logout();
+        // }
       } finally {
         setLoading(false);
       }
