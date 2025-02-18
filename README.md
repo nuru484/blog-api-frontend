@@ -32,7 +32,7 @@ A modern, responsive blog frontend built with React, providing a seamless user e
 ## Prerequisites
 
 - Node.js (v16 or higher)
-- npm or yarn
+- npm
 
 ## Installation
 
