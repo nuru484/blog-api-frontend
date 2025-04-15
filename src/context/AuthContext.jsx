@@ -11,8 +11,6 @@ const AuthContext = createContext({
   error: null,
 });
 
-// update
-
 export const AuthContextProvider = ({ children }) => {
   const [authUser, setAuthUser] = useState(null);
   const [loading, setLoading] = useState(true);
